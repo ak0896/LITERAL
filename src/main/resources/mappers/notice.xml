@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice">
+    <select id="notice_list" parameterType="map" resultType="kr.co.literal.notice.NoticeDTO">
+        SELECT notice_code, notice_title, board_writer, notice_date, view_count
+        FROM notice
+        ORDER BY notice_code DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    
+    <select id="notice_count" resultType="int">
+        SELECT COUNT(*) FROM notice
+    </select>
+    
+    <update id="increaseViewCount" parameterType="int">
+    	UPDATE notice SET view_count = view_count + 1 
+    	WHERE notice_code = #{notice_code}
+	</update>
+
+	<select id="selectNoticeById" parameterType="int" resultType="kr.co.literal.notice.NoticeDTO">
+    	SELECT notice_code,notice_title, notice_content,view_count 
+    	FROM notice 
+    	WHERE notice_code = #{notice_code}
+	</select>
+    
+	
+	<insert id="notice_insert" parameterType="kr.co.literal.notice.NoticeDTO">
+		INSERT INTO notice(notice_title,board_writer,notice_content)
+		VALUES(#{notice_title},#{board_writer},#{notice_content})
+	</insert>
+	
+	<select id="notice_detail" parameterType="int" resultType="kr.co.literal.notice.NoticeDTO">
+		SELECT notice_code,notice_title,board_writer,notice_content,notice_date
+		FROM notice
+		WHERE notice_code= #{notice_code}
+	</select>
+	
+	 <select id="notice_update" parameterType="int" resultType="kr.co.literal.notice.NoticeDTO">
+        SELECT notice_code, notice_title, board_writer, notice_content
+        FROM notice
+        WHERE notice_code = #{notice_code}
+    </select>
+	
+	<update id="notice_updateproc" parameterType="kr.co.literal.notice.NoticeDTO" >
+		UPDATE notice
+		SET notice_title=#{notice_title},
+			board_writer=#{board_writer},
+			notice_content=#{notice_content}
+		WHERE notice_code = #{notice_code}
+	</update>
+	
+	<delete id="notice_delete" parameterType="int">
+		DELETE FROM notice
+		WHERE notice_code = #{notice_code}
+	</delete>
+</mapper>

@@ -1,0 +1,31 @@
+-- notice_sql
+
+--1:1문의 테이블
+
+create table inquiry(
+ 	inquiry_code int auto_increment primary key,
+ 	inquiry_title varchar(100) not null,
+ 	inquiry_content text not null,
+ 	inquiry_email varchar(30) not null,
+ 	inquiry_date timestamp default current_timestamp 
+ );
+ 
+ --notice
+
+create table notice( 
+	notice_code int auto_increment primary key, 
+	notice_title varchar(100) not null, 
+	notice_content text not null, 
+	board_writer varchar(20) not null , 
+	notice_date timestamp default current_timestamp
+	view_count INT DEFAULT 0;
+);
+
+
+-- 자주 묻는 질문
+create table faq(
+ 	faq_code int auto_increment primary key,
+ 	faq_title varchar(100) not null,
+ 	faq_answer text not null
+ );
+--만약에 칼럼 추가 하려 ALTER TABLE notice ADD COLUMN view_count INT DEFAULT 0;

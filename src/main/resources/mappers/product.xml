@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- product.xml -->
+
+<mapper namespace="kr.co.literal.product.ProductMapper">
+
+	<!-- 상품 등록 -->
+    <insert id="insert" parameterType="java.util.Map">
+        INSERT INTO product (genre_code, book_code, book_number, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code)
+        VALUES (#{genre_code}, #{book_code}, #{book_number}, #{book_title}, #{author}, #{book_detail}, #{img}, #{img_size}, #{grade_code}, #{original_price}, #{sale_price}, now(), #{email}, '2', #{branch_code})
+    </insert>
+
+	<!-- 상품 전체 리스트 -->
+ 	<select id="list" resultType="java.util.Map">
+		SELECT  book_number, book_title, original_price, sale_price, img, img_size, registration_date
+        FROM product
+        ORDER BY registration_date DESC
+	</select>
+ 	
+ 	<!-- 상품 장르별 리스트 시작 -->
+ 	<select id="list_G" resultType="java.util.Map">
+        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        FROM product
+	    WHERE genre_code = 'G'
+	    ORDER BY registration_date DESC
+	</select>
+	
+	
+     <select id="list_M" resultType="java.util.Map">
+        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        FROM product
+	    WHERE genre_code = 'M'
+	    ORDER BY registration_date DESC
+	</select>
+	
+     <select id="list_H" resultType="java.util.Map">
+        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        FROM product
+	    WHERE genre_code = 'H'
+	    ORDER BY registration_date DESC
+	</select>
+	
+     <select id="list_S" resultType="java.util.Map">
+        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        FROM product
+	    WHERE genre_code = 'S'
+	    ORDER BY registration_date DESC
+	</select>
+	
+     <select id="list_R" resultType="java.util.Map">
+        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        FROM product
+	    WHERE genre_code = 'R'
+	    ORDER BY registration_date DESC
+	</select>
+	
+     <select id="list_P" resultType="java.util.Map">
+        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        FROM product
+	    WHERE genre_code = 'P'
+	    ORDER BY registration_date DESC
+	</select>
+	
+     <select id="list_T" resultType="java.util.Map">
+        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        FROM product
+	    WHERE genre_code = 'T'
+	    ORDER BY registration_date DESC
+	</select>
+	
+     <select id="list_W" resultType="java.util.Map">
+        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        FROM product
+	    WHERE genre_code = 'W'
+	    ORDER BY registration_date DESC
+	</select>
+	<!-- 상품 장르별 리스트 끝 -->
+	
+ 	
+    <!-- 장르 코드로 새로운 책 코드 생성 -->
+    <select id="genreBookCode" resultType="int">
+        SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(book_code, '-', -1) AS UNSIGNED)), 0) + 1
+        FROM product
+        WHERE genre_code = #{genre_code}
+    </select>
+
+    <!-- 주어진 장르 코드와 책 코드로 다음 책 번호 가져오기 -->
+    <select id="getNextBookNumber" resultType="int">
+        SELECT COALESCE(MAX(CAST(RIGHT(book_number, 3) AS UNSIGNED)), 0) + 1
+        FROM product
+        WHERE genre_code = #{genre_code} AND book_code = #{book_code}
+    </select>
+
+    <!-- 주어진 책 코드가 존재하는지 확인 -->
+    <select id="bookCodeExists" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM product WHERE book_code = #{book_code}
+    </select>
+
+    <!-- 주어진 책 번호가 존재하는지 확인 -->
+    <select id="bookNumberExists" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM product WHERE book_number = #{book_number}
+    </select>
+
+    <!-- 주어진 책 제목이 존재하는지 확인 -->
+    <select id="bookTitleExists" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM product WHERE book_title = #{book_title}
+    </select>
+
+    <!-- 주어진 책 제목으로 책 코드 가져오기 -->
+    <select id="getBookCodeByTitle" parameterType="string" resultType="string">
+        SELECT book_code FROM product WHERE book_title = #{book_title}
+    </select>
+    
+    <!-- 상품 상세 -->
+    <select id="detail" resultType="java.util.Map" parameterType="String">
+        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        FROM product
+        WHERE book_number = #{book_number}
+    </select>
+    
+    <!-- 상단바 검색 -->
+    <select id="search" resultType="java.util.Map" parameterType="String">
+		SELECT book_number, book_title, original_price, sale_price, img, img_size
+        FROM product
+        WHERE book_title LIKE #{keyword}
+        ORDER BY book_title
+	</select>
+
+	<!-- 등록된 책 -->
+	<select id="selectTop3" resultType="java.util.Map" parameterType="String">
+		SELECT book_number, book_code, book_title, original_price, sale_price, img, img_size
+		FROM product
+		WHERE book_code = #{book_code}
+		ORDER BY sale_price ASC
+		LIMIT 3
+	</select> 
+	
+	<!-- 등록된 책에서 더보기 -->
+    <select id="selectAll" resultType="java.util.Map" parameterType="String">
+	    SELECT book_number, book_code, book_title, original_price, sale_price, img, img_size
+	    FROM product
+	    WHERE book_code = #{book_code}
+	    ORDER BY sale_price ASC
+	</select>
+	
+	
+ </mapper>

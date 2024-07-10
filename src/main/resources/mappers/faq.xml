@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="faq">
+	
+	<select id="faq_list" resultType="kr.co.literal.notice.FaqDTO">
+		SELECT faq_code,faq_title,faq_answer
+		FROM faq
+	</select>
+	
+	<insert id="faq_insert" parameterType="kr.co.literal.notice.FaqDTO">
+		INSERT INTO faq(faq_title,faq_answer)
+		VALUES(#{faq_title},#{faq_answer})
+	</insert>
+	
+	<delete id="faq_delete" parameterType="int">
+		 DELETE FROM faq 
+		 WHERE faq_code = #{faq_code}
+	</delete>
+	
+	<select id="faq_update"  parameterType="int" resultType="kr.co.literal.notice.FaqDTO">
+		SELECT faq_code,faq_title,faq_answer
+		FROM faq
+		WHERE faq_code=#{faq_code}
+	</select>
+	
+	<update id="faq_updateproc" parameterType="kr.co.literal.notice.FaqDTO">
+		UPDATE faq
+		SET faq_title = #{faq_title},
+			faq_answer = #{faq_answer}
+		WHERE faq_code = #{faq_code}
+	</update>
+</mapper>

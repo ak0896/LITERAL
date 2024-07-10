@@ -1,0 +1,427 @@
+
+/* index css 시작 --------------------------------------------------------------------------------- */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+    li { list-style: none; }
+    header, nav { display: block; }    
+
+/* body */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    height: 100%;
+}
+
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+/* header */
+header {
+    background-color: white;
+    color: black;
+    padding: 20px 0;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* 부모 컨테이너의 너비에 맞게 크기 조정 */
+    max-width: 500px; /* 최대 너비 설정 (원하는 값으로 조정 가능) */
+    min-width: 35px; /* 최소 너비 설정 */
+}
+
+.search-bar input {
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 15px; /* 둥근 모서리 */
+    border: 1px solid #ccc;
+    width: 100%; /* 원하는 너비로 조정 */
+    padding-right: 40px; /* 돋보기 아이콘을 위한 여유 공간 */
+    box-sizing: border-box; /* 패딩 포함하여 너비 계산 */
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 20px;
+    color: #888;
+	top: 50%;
+    transform: translateY(-50%);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.header-container .logo h1 {
+    margin: 0;
+    margin-right: 20px; /* 문자 옆에 여백 추가 */
+    color: #000;
+}
+
+.header-container .search-bar input {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.header-container .header-links {
+    display: flex;
+    align-items: center;
+}
+
+.header-container .header-links a {
+    color: black;
+    margin-left: 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.header-container .header-links i {
+    margin-right: 5px;
+    font-size: 15px; /* 아이콘 크기를 글씨 크기와 맞추기 */
+}
+
+.logo a{
+	    text-decoration: none;
+	
+}
+
+.logo-title{
+    color: #000;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+  }
+
+  .container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  .carousel-inner {
+    width: 100%;
+    height: 500px; /* 변경된 height */
+  }
+
+  .carousel-item {
+      width:100%;
+    height: 500px; /* 변경된 height */
+  }
+
+
+/* nav */
+.home-icon {
+    font-size: 20px; /* 아이콘 크기 조정 */
+    color: #888;
+    margin-right: 10px;
+}
+nav {
+    background-color: #444;
+    padding: 10px 0;
+    margin-bottom: 0; /* nav 아래의 빈틈 없애기 */
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    align-items:center;
+}
+
+.navbar-nav .nav-item {
+    margin: 0 40px;
+}
+
+.navbar-nav .nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold !important;
+    text-align: center;
+}
+
+
+/* main  */
+main {
+    width: 90%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 각 섹션 사이의 간격 */
+}
+
+/*.banner {
+    text-align: center;
+    padding: 20px;
+    background-color: rgb(233, 234, 172); 
+    border-radius: 10px; 
+}
+*/
+
+.banner img {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+/* BEST SLIDE */
+/* 슬라이드 css */
+.section input[id*="slide"] {display:none;}
+.section .slidewrap {max-width:1200px;margin:0 auto;}
+.section .slidelist {white-space:nowrap;font-size:0;overflow:hidden;position:relative;}
+.section .slidelist > li {display:inline-block;vertical-align:middle;width:100%;transition:all .5s;}
+.section .slidelist > li > a {display:block;position:relative;}
+.section .slidelist > li > a img {width:100%;}
+.section .slidelist label {position:absolute;z-index:10;top:50%;transform:translateY(-50%);padding:50px;cursor:pointer;}
+.section .slidelist .textbox {position:absolute;z-index:1;top:50%;left:50%;transform:translate(-50%,-50%);line-height:1.6;text-align:center;}
+.section .slidelist .textbox h3 {font-size:36px;color:#fff;;transform:translateY(30px);transition:all .5s;}
+.section .slidelist .textbox p {fonslideitemslideitemt-size:16px;color:#fff;opacity:0;transform:translateY(30px);transition:all .5s;}
+
+/* input에 체크되면 슬라이드 효과 */
+.section input[id="slide1"]:checked ~ .slidewrap .slidelist > li {transform:translateX(0%);}
+.section input[id="slide2"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-100%);}
+.section input[id="slide3"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-200%);}
+
+/* input에 체크되면 텍스트 효과 */
+.section input[id="slide1"]:checked ~ .slidewrap li:nth-child(1) .textbox h3 {opacity:1;transform:translateY(0);transition-delay:.2s;}
+.section input[id="slide1"]:checked ~ .slidewrap li:nth-child(1) .textbox p {opacity:1;transform:translateY(0);transition-delay:.4s;}
+.section input[id="slide2"]:checked ~ .slidewrap li:nth-child(2) .textbox h3 {opacity:1;transform:translateY(0);transition-delay:.2s;}
+.section input[id="slide2"]:checked ~ .slidewrap li:nth-child(2) .textbox p {opacity:1;transform:translateY(0);transition-delay:.4s;}
+.section input[id="slide3"]:checked ~ .slidewrap li:nth-child(3) .textbox h3 {opacity:1;transform:translateY(0);transition-delay:.2s;}
+.section input[id="slide3"]:checked ~ .slidewrap li:nth-child(3) .textbox p {opacity:1;transform:translateY(0);transition-delay:.4s;}
+
+/* 좌,우 슬라이드 버튼 */
+.slide-control > div {display:none;}
+.section .left {left:-10px;background:url('../images/left.png') center center / 100% no-repeat;}
+.section .right {right:-10px;background:url('../images/right.png') center center / 100% no-repeat;}
+.section input[id="slide1"]:checked ~ .slidewrap .slide-control > div:nth-child(1) {display:block;}
+.section input[id="slide2"]:checked ~ .slidewrap .slide-control > div:nth-child(2) {display:block;}
+.section input[id="slide3"]:checked ~ .slidewrap .slide-control > div:nth-child(3) {display:block;}
+
+
+/* 오늘의 추천 도서 SLIDE */
+/* 슬라이드 css */
+.section2 input[id*="slide2"] {display:none;}
+.section2 .slidewrap {max-width:1200px;margin:0 auto;}
+.section2 .slidelist {white-space:nowrap;font-size:0;overflow:hidden;position:relative;}
+.section2 .slidelist > li {display:inline-block;vertical-align:middle;width:100%;transition:all .5s;}
+.section2 .slidelist > li > a {display:block;position:relative;}
+.section2 .slidelist > li > a img {width:100%;}
+.section2 .slidelist label {position:absolute;z-index:10;top:50%;transform:translateY(-50%);padding:50px;cursor:pointer;}
+.section2 .slidelist .textbox {position:absolute;z-index:1;top:50%;left:50%;transform:translate(-50%,-50%);line-height:1.6;text-align:center;}
+.section2 .slidelist .textbox h3 {font-size:36px;color:#fff;;transform:translateY(30px);transition:all .5s;}
+.section2 .slidelist .textbox p {fonslideitemslideitemt-size:16px;color:#fff;opacity:0;transform:translateY(30px);transition:all .5s;}
+
+/* input에 체크되면 슬라이드 효과 */
+.section2 input[id="slide2-1"]:checked ~ .slidewrap .slidelist > li {transform:translateX(0%);}
+.section2 input[id="slide2-2"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-100%);}
+.section2 input[id="slide2-3"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-200%);}
+
+/* input에 체크되면 텍스트 효과 */
+.section2 input[id="slide2-1"]:checked ~ .slidewrap li:nth-child(1) .textbox h3 {opacity:1;transform:translateY(0);transition-delay:.2s;}
+.section2 input[id="slide2-1"]:checked ~ .slidewrap li:nth-child(1) .textbox p {opacity:1;transform:translateY(0);transition-delay:.4s;}
+.section2 input[id="slide2-2"]:checked ~ .slidewrap li:nth-child(2) .textbox h3 {opacity:1;transform:translateY(0);transition-delay:.2s;}
+.section2 input[id="slide2-2"]:checked ~ .slidewrap li:nth-child(2) .textbox p {opacity:1;transform:translateY(0);transition-delay:.4s;}
+.section2 input[id="slide2-3"]:checked ~ .slidewrap li:nth-child(3) .textbox p {opacity:1;transform:translateY(0);transition-delay:.4s;}
+.section2 input[id="slide2-3"]:checked ~ .slidewrap li:nth-child(3) .textbox h3 {opacity:1;transform:translateY(0);transition-delay:.2s;}
+
+/* 좌,우 슬라이드 버튼 */
+.slide-control2 > div {display:none;}
+.section2 .left {left:-10px;background:url('../images/left.png') center center / 100% no-repeat;}
+.section2 .right {right:-10px;background:url('../images/right.png') center center / 100% no-repeat;}
+.section2 input[id="slide2-1"]:checked ~ .slidewrap .slide-control2 > div:nth-child(1) {display:block;}
+.section2 input[id="slide2-2"]:checked ~ .slidewrap .slide-control2 > div:nth-child(2) {display:block;}
+.section2 input[id="slide2-3"]:checked ~ .slidewrap .slide-control2 > div:nth-child(3) {display:block;}
+
+.best-books, .today-book {
+    padding: 20px;
+    background-color: rgb(233, 234, 172); /* 배경색 설정 */
+    margin: 30px 0;
+    border-radius: 20px
+}
+
+.best-books h2, .today-book h2 {
+    margin-bottom: 20px;
+}
+
+.books {
+    /* display: flex;
+    justify-content: space-evenly; */
+}
+
+.slide_flex{
+	display: flex;
+	justify-content: space-around;
+}
+
+.book {
+    text-align: center;
+}
+
+.book img {
+    width: 120px;
+    height: auto;
+}
+
+.book p {
+    margin: 10px 0 5px;
+    font-size: 15px; /* 제목 글자 크기 */
+}
+
+.book span {
+    font-size: 10px; /* 가격 글자 크기 */
+}
+
+button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/*  content */
+.content {
+    width:90%;
+    margin:0 auto;
+}
+
+.carousel-item img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+/* footer */
+footer {
+	/* 고정 test 3줄~ */
+	/* position: fixed;
+    bottom: 0;
+    width: 100%; */
+    background-color: #f9e36e; /* 배경색 설정 */
+    padding: 10px 0;  /* padding을 줄여서 높이 조정 */
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    margin-top: auto; 
+}
+
+.footer-container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* 위쪽 정렬 */
+    margin-top: 10px; /* 위쪽 여백 추가 */
+}
+
+.footer-logo h1 {
+    margin: 5px;
+    font-size: 30px; /* 로고 글씨 크기 */
+}
+
+.footer-logo p {
+    margin: 5px;
+    font-weight: normal; /* 보통 글씨 */
+    line-height: 1.2; /* 줄 간격 조정 */
+    font-size: 12px; /* 글씨 크기 조정 */
+}
+
+.footer-info {
+    text-align: left;
+    font-weight: normal; /* 보통 글씨 */
+    line-height: 1; /* 줄 간격 조정 */
+    font-size: 12px; /* 글씨 크기 조정 */
+}
+
+.footer-links {
+    text-align: right;
+    font-size: 15px;
+    margin-left: 500px; /* 더 왼쪽으로 이동 */
+    margin-top: 10px; /* 위쪽 여백 추가 */
+}
+
+.footer-links a {
+    display: block;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.footer-bottom {
+    margin-top: 5px;
+    color: black;
+    font-size: 10px; /* 글씨 크기 조정 */
+}
+
+/* ---------------------------------------------------------------------------------------------- */
+
+/* 상품 css 시작 ---------------------------------------------------------------------------------- */
+
+/* Custom button style */
+.btn-newproduct {
+    background-color: #FA8072;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-newproduct:hover {
+    background-color: #FF4500;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---------------------------------------------------------------------------------------------- */
+
+/*  css 시작 ---------------------------------------------------------------------------------- */
+
+

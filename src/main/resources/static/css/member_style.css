@@ -1,0 +1,439 @@
+
+/* 공통사항 */
+.center-div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh; /* 화면의 세로 가운데 정렬을 위해 높이 설정 */
+    }
+
+.alert {
+	text-align: center;
+	margin-top: 10px;
+	padding: 10px;
+	border-radius: 6px;
+}
+
+.alert-danger {
+	color: #721c24;
+	background-color: #f8d7da;
+	border-color: #f5c6cb;
+}
+
+.alert-success {
+	color: #155724;
+	background-color: #d4edda;
+	border-color: #c3e6cb;
+}
+
+
+
+/* login.jsp */
+.login-form-wrapper {
+  	width: 100%;
+    max-width: 600px;
+	width: 400px;
+	padding: 40px;
+	box-sizing: border-box;
+	margin: 0 auto;
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form-wrapper>h3 {
+	font-size: 24px;
+	color: #6A24FE;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#loginfrm input[type="email"], #loginfrm input[type="password"],
+	#loginfrm input[type="submit"] {
+	width: 100%;
+	height: 48px;
+	padding: 0 10px;
+	box-sizing: border-box;
+	margin-bottom: 16px;
+	border-radius: 6px;
+	background-color: #F8F8F8;
+	border: 1px solid #ccc;
+}
+
+#loginfrm input::placeholder {
+	color: #D2D2D2;
+}
+
+#loginfrm input[type="submit"] {
+	color: #fff;
+	font-size: 16px;
+	background-color: #6A24FE;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+#loginfrm input[type="checkbox"] {
+	margin-right: 8px;
+}
+
+.login-links {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.login-links a {
+	color: #6A24FE;
+	text-decoration: none;
+	margin: 0 5px;
+}
+
+.login-links a:hover {
+	text-decoration: underline;
+}
+
+
+
+/* memberForm.jsp */
+.member-form-wrapper {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+    box-sizing: border-box;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.member-form-wrapper > h3 {
+    font-size: 24px;
+    color: #6A24FE;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#memberForm input[type="text"],
+#memberForm input[type="email"],
+#memberForm input[type="password"],
+#memberForm input[type="date"],
+#memberForm input[type="submit"],
+#memberForm input[type="button"],
+#memberForm select {
+    width: 100%;
+    height: 48px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    background-color: #F8F8F8;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#memberForm input::placeholder {
+    color: #D2D2D2;
+}
+
+#memberForm input[type="submit"],
+#memberForm input[type="button"] {
+    color: #fff;
+    font-size: 16px;
+    background-color: #6A24FE;
+    cursor: pointer;
+    width: auto; /* 버튼 너비 자동 조정 */
+    padding: 10px 20px; /* 버튼 안쪽 여백 조정 */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#memberForm input[type="button"] {
+    background-color: #ccc;
+}
+
+#memberForm input[type="button"]:hover {
+    background-color: #4A18CE; /* 호버 시 배경색 변경 */
+    color: #fff; /* 호버 시 텍스트 색상 변경 */
+}
+
+.button-wrapper {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 버튼 사이의 간격 조정 */
+}
+
+#wrap {
+    width: 100%;
+    max-width: 600px; /* form의 최대 너비에 맞추기 */
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    display: none;
+    position: relative;
+    z-index: 1000;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#memberForm input[type="radio"] {
+    margin-right: 10px;
+}
+
+#memberForm label {
+    margin-right: 20px;
+}
+
+
+/* welcome.jsp */
+.welcome-wrapper {
+    width: 600px;
+    padding: 40px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-wrapper > h3 {
+    font-size: 24px;
+    color: #6A24FE;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-info, .next-steps {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.button-wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button-wrapper input {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #6A24FE;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.button-wrapper input:hover {
+    background-color: #4A18CE;
+}
+
+
+
+/* agreement.jsp */
+    .agreement-form-wrapper {
+        width: 600px; /* 폼의 너비 설정 */
+        padding: 40px;
+        box-sizing: border-box;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .agreement-form-wrapper > h3 {
+        font-size: 24px;
+        color: #6A24FE;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .agreement-form textarea {
+        width: 100%;
+        height: 300px;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 6px;
+        background-color: #F8F8F8;
+        border: 1px solid #ccc;
+        resize: none;
+    }
+
+    .agreement-form input[type="checkbox"] {
+        margin-right: 8px;
+    }
+
+    .agreement-form .form-actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .agreement-form .form-actions input[type="submit"],
+    .agreement-form .form-actions input[type="button"] {
+        color: #fff;
+        font-size: 16px;
+        background-color: #6A24FE;
+        margin: 0 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .agreement-form .form-actions input[type="button"] {
+        background-color: #ccc;
+    }
+    
+    .agreement-form .form-actions input[type="button"]:hover {
+    background-color: #4A18CE; /* 호버 시 배경색 변경 */
+    color: #fff; /* 호버 시 텍스트 색상 변경 */
+}
+
+
+
+/* findIDProc.jsp / findPWProc.jsp */
+
+.message-box {
+	width: 400px;
+	padding: 40px;
+	box-sizing: border-box;
+	margin: 0 auto;
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.message-box > h3 {
+	font-size: 24px;
+	color: #6A24FE;
+	margin-bottom: 20px;
+}
+
+.message-box > p {
+	font-size: 18px;
+	color: #333;
+	margin-bottom: 20px;
+}
+
+.message-box .account-info {
+	padding: 20px;
+	background-color: #f8f8f8;
+	border-radius: 6px;
+	margin-bottom: 20px;
+}
+
+.message-box .account-info p {
+	margin: 5px 0;
+	font-size: 16px;
+	color: #555;
+}
+
+.message-box .button-wrapper {
+	display: flex;
+	justify-content: center;
+	gap: 10px; /* 버튼 사이의 간격 조정 */
+    padding: 10px 20px;
+}
+
+.message-box .button {
+	padding: 10px 20px;
+	font-size: 16px;
+	color: #fff;
+	background-color: #6A24FE;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-block;
+}
+
+.message-box .button.secondary {
+	background-color: #ccc;
+	color: #333;
+}
+
+.message-box .button:hover {
+	background-color: #4A18CE;
+}
+
+.message-box .button.secondary:hover {
+	background-color: #999;
+}
+
+
+/* findID.jsp / findPW.jsp */
+  .find-id-form-wrapper {
+        width: 400px;
+        padding: 40px;
+        box-sizing: border-box;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .find-id-form-wrapper > h3 {
+        font-size: 24px;
+        color: #6A24FE;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #findIDfrm input[type="text"],
+    #findIDfrm input[type="email"],
+    #findIDfrm input[type="submit"],
+    #findIDfrm input[type="button"] {
+        width: 100%;
+        height: 48px;
+        padding: 0 10px;
+        box-sizing: border-box;
+        margin-bottom: 16px;
+        border-radius: 6px;
+        background-color: #F8F8F8;
+        border: 1px solid #ccc;
+    }
+
+    #findIDfrm input::placeholder {
+        color: #D2D2D2;
+    }
+
+    #findIDfrm input[type="submit"],
+    #findIDfrm input[type="button"] {
+        color: #fff;
+        font-size: 16px;
+        background-color: #6A24FE;
+        margin-top: 20px;
+        cursor: pointer;
+        width: auto; /* 버튼 너비 자동 조정 */
+        padding: 10px 20px; /* 버튼 안쪽 여백 조정 */
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    #findIDfrm input[type="button"] {
+        background-color: #ccc;
+    }
+
+    #findIDfrm input[type="button"]:hover {
+        background-color: #999; /* 호버 시 배경색 변경 */
+    }
+
+    .button-wrapper {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* 버튼 사이의 간격 조정 */
+    }
+
+    .find-id-links {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .find-id-links a {
+        color: #6A24FE;
+        text-decoration: none;
+        margin: 0 5px;
+    }
+
+    .find-id-links a:hover {
+        text-decoration: underline;
+    }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.literal.member.MemberMapper">
+	
+	<!-- member 등록 -->
+    <insert id="insertMember" parameterType="kr.co.literal.member.MemberDTO">
+        INSERT INTO member (name, email, password, phone_number, zipcode, address1, address2, birth_date, type_code, bank, account_number)
+        VALUES (#{name}, #{email}, #{password}, #{phone_number}, #{zipcode}, #{address1}, #{address2}, #{birth_date}, #{type_code}, #{bank}, #{account_number})
+    </insert>
+    
+    <!-- 회원가입시 이매일 중복확인 -->
+    <select id="duplicateEmail" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM member WHERE email = #{email}
+    </select>
+    
+    <!-- 로그인 회원정보조회 -->
+    <select id="getMemberByEmail" parameterType="String" resultType="kr.co.literal.member.MemberDTO">
+        SELECT * FROM member WHERE email = #{email}
+    </select>
+
+	<!-- 전체 회원 목록  -->
+    <select id="getAllMembers" resultType="kr.co.literal.member.MemberDTO">
+        SELECT * FROM member
+    </select>
+
+	<!-- 회원정보수정 -->
+    <update id="updateMember" parameterType="kr.co.literal.member.MemberDTO">
+        UPDATE member
+        SET name = #{name},
+        	password = #{password},
+            phone_number = #{phone_number},
+            zipcode = #{zipcode},
+            address1 = #{address1},
+            address2 = #{address2},
+            birth_date = #{birth_date},
+            type_code = #{type_code},
+            bank = #{bank},
+            account_number = #{account_number}
+        WHERE email = #{email}
+    </update>
+
+	<!-- 회원삭제 -->
+    <delete id="deleteMember" parameterType="String">
+        DELETE FROM member WHERE email = #{email}
+    </delete>
+    
+    
+    <!-- 회원 type_code 수정 -->
+    <update id="updateMemberType" parameterType="map">
+        UPDATE member
+        SET type_code = #{type_code}
+        WHERE email = #{email}
+    </update>
+    
+    <!-- 이메일 찾기 -->
+    <select id="findByNameAndPhone" parameterType="map" resultType="kr.co.literal.member.MemberDTO">
+        SELECT * FROM member WHERE name = #{name} AND phone_number = #{phone_number}
+    </select>
+    
+    
+    <!-- 비밀번호 찾기 -->
+    <select id="findByNameAndEmail" parameterType="map" resultType="kr.co.literal.member.MemberDTO">
+        SELECT * FROM member WHERE name = #{name} AND email = #{email}
+    </select>
+    
+    
+    <!-- 비밀번호를 업데이트 -->
+    <update id="updatePassword" parameterType="kr.co.literal.member.MemberDTO">
+	    UPDATE member
+	    SET password = #{password}
+	    WHERE email = #{email}
+	</update>
+
+</mapper>

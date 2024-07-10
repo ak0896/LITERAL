@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+table{
+	width:100%;
+}
+
+thead {
+	background-color: #f3f2d5;
+	border-bottom: 1px solid #000
+}
+
+th{
+	padding: 10px 0;
+}
+
+tbody{
+	border-bottom: 1px solid #000
+}
+
+tr{
+	border-bottom: 1px solid #000
+}
+
+td{
+	padding: 10px 0;	
+}
+
+td a{
+	text-decoration: none;
+	color: #000;
+}
+
+.pagination{
+	padding-top: 30px;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+}
+
+.pagination li {
+	width: 30px;
+	background-color: #f3f2d5;
+	border-radius: 5px;
+}
+
+.pagination li a{	
+	color: #000;
+	text-decoration: none;
+}
+
+.faq-title {
+        cursor: pointer;
+        padding: 10px;
+        background-color: #f1f1f1;
+        border: 1px solid #ddd;
+    }
+
+.faq-answer {
+        display: none;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-top: none;
+    }

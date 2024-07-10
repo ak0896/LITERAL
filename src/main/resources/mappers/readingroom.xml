@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.literal.readingroom.ReadingRoomMapper">
+
+	<!-- branch 테이블 -->
+    <!-- Create -->
+    <insert id="insertBranch" parameterType="kr.co.literal.readingroom.dto.BranchDTO">
+        INSERT INTO branch (branch_code, branch_name, branch_detail, branch_address, latitude, longitude)
+        VALUES (#{branch_code}, #{branch_name}, #{branch_detail}, #{branch_address}, #{latitude}, #{longitude})
+    </insert>
+    
+    <!-- Read -->
+    <select id="selectAllBranches" resultType="kr.co.literal.readingroom.dto.BranchDTO">
+        SELECT * FROM branch
+    </select>
+
+    <select id="selectBranchByCode" parameterType="String" resultType="kr.co.literal.readingroom.dto.BranchDTO">
+        SELECT * FROM branch WHERE branch_code = #{branch_code}
+    </select>
+
+    <!-- Update -->
+    <update id="updateBranch" parameterType="kr.co.literal.readingroom.dto.BranchDTO">
+        UPDATE branch
+        SET branch_name = #{branch_name},
+            branch_detail = #{branch_detail},
+            branch_address = #{branch_address},
+            latitude = #{latitude},
+            longitude = #{longitude}
+        WHERE branch_code = #{branch_code}
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteBranch" parameterType="String">
+        DELETE FROM branch WHERE branch_code = #{branch_code}
+    </delete>
+
+
+
+
+
+	 <!-- reading_room 테이블 -->
+    <!-- Create -->
+    <insert id="insertReadingRoom" parameterType="kr.co.literal.readingroom.dto.ReadingRoomDTO">
+        INSERT INTO reading_room (room_code, duration, room_amount)
+        VALUES (#{room_code}, #{duration}, #{room_amount})
+    </insert>
+
+    <!-- Read -->
+    <select id="selectAllReadingRooms" resultType="kr.co.literal.readingroom.dto.ReadingRoomDTO">
+        SELECT * FROM reading_room
+    </select>
+
+    <select id="selectReadingRoomByCode" parameterType="String" resultType="kr.co.literal.readingroom.dto.ReadingRoomDTO">
+        SELECT * FROM reading_room WHERE room_code = #{room_code}
+    </select>
+
+    <!-- Update -->
+    <update id="updateReadingRoom" parameterType="kr.co.literal.readingroom.dto.ReadingRoomDTO">
+        UPDATE reading_room
+        SET duration = #{duration},
+            room_amount = #{room_amount}
+        WHERE room_code = #{room_code}
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteReadingRoom" parameterType="String">
+        DELETE FROM reading_room WHERE room_code = #{room_code}
+    </delete>
+	
+	
+	<select id="getNextReservationCodeNumber" parameterType="string" resultType="int">
+    SELECT IFNULL(MAX(CAST(SUBSTRING(reservation_code, LENGTH(#{prefix}) + 1) AS UNSIGNED)), 0) + 1
+    FROM reservation
+    WHERE reservation_code LIKE CONCAT(#{prefix}, '%')
+</select>
+	
+
+    
+    
+    
+     <!-- use_time 테이블 -->
+    <!-- Create -->
+    <insert id="insertUseTime" parameterType="kr.co.literal.readingroom.dto.UseTimeDTO">
+        INSERT INTO use_time (time_code, start_time)
+        VALUES (#{time_code}, #{start_time})
+    </insert>
+
+    <!-- Read -->
+    <select id="selectAllUseTimes" resultType="kr.co.literal.readingroom.dto.UseTimeDTO">
+        SELECT * FROM use_time
+    </select>
+
+    <select id="selectUseTimeByCode" parameterType="String" resultType="kr.co.literal.readingroom.dto.UseTimeDTO">
+        SELECT * FROM use_time WHERE time_code = #{time_code}
+    </select>
+
+    <!-- Update -->
+    <update id="updateUseTime" parameterType="kr.co.literal.readingroom.dto.UseTimeDTO">
+        UPDATE use_time
+        SET start_time = #{start_time}
+        WHERE time_code = #{time_code}
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteUseTime" parameterType="String">
+        DELETE FROM use_time WHERE time_code = #{time_code}
+    </delete>
+    
+    
+    
+    
+    
+    
+     <!-- seat 테이블 -->
+    <!-- Create -->
+    <insert id="insertSeat" parameterType="kr.co.literal.readingroom.dto.SeatDTO">
+        INSERT INTO seat (seat_code, branch_code)
+        VALUES (#{seat_code}, #{branch_code})
+    </insert>
+
+    <!-- Read -->
+    <select id="selectAllSeats" resultType="kr.co.literal.readingroom.dto.SeatDTO">
+        SELECT * FROM seat
+    </select>
+
+    <select id="selectSeatByCode" parameterType="String" resultType="kr.co.literal.readingroom.dto.SeatDTO">
+        SELECT * FROM seat WHERE seat_code = #{seat_code}
+    </select>
+
+    <!-- Update -->
+    <update id="updateSeat" parameterType="kr.co.literal.readingroom.dto.SeatDTO">
+        UPDATE seat
+        SET branch_code = #{branch_code}
+        WHERE seat_code = #{seat_code}
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteSeat" parameterType="String">
+        DELETE FROM seat WHERE seat_code = #{seat_code}
+    </delete>
+
+
+
+
+    <!-- my_coupon 테이블 -->
+    <!-- Create -->
+    <insert id="insertMyCoupon" parameterType="kr.co.literal.readingroom.dto.MyCouponDTO">
+        INSERT INTO my_coupon (email, mycoupon_number, room_code, issue_date, expiry_date, usage_date)
+        VALUES (#{email}, #{mycoupon_number}, #{room_code}, #{issue_date}, #{expiry_date}, #{usage_date})
+    </insert>
+
+    <!-- Read -->
+    <select id="selectAllMyCoupons" resultType="kr.co.literal.readingroom.dto.MyCouponDTO">
+        SELECT * FROM my_coupon
+    </select>
+
+    <select id="selectMyCouponByNumber" parameterType="String" resultType="kr.co.literal.readingroom.dto.MyCouponDTO">
+        SELECT * FROM my_coupon WHERE mycoupon_number = #{mycoupon_number}
+    </select>
+
+    <!-- Update -->
+    <update id="updateMyCoupon" parameterType="kr.co.literal.readingroom.dto.MyCouponDTO">
+        UPDATE my_coupon
+        SET email = #{email},
+            room_code = #{room_code},
+            issue_date = #{issue_date},
+            expiry_date = #{expiry_date},
+            usage_date = #{usage_date}
+        WHERE mycoupon_number = #{mycoupon_number}
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteMyCoupon" parameterType="String">
+        DELETE FROM my_coupon WHERE mycoupon_number = #{mycoupon_number}
+    </delete>
+    
+    
+    
+    
+    
+     <!-- reservation 테이블 -->
+    <!-- Create -->
+    <insert id="insertReservation" parameterType="kr.co.literal.readingroom.dto.ReservationDTO">
+        INSERT INTO reservation (reservation_code, room_code, mycoupon_number, reservation_total, seat_code, reservation_payment, time_code, end_time, reservation_date, using_seat, re_name, re_phone)
+        VALUES (#{reservation_code}, #{room_code}, #{mycoupon_number}, #{reservation_total}, #{seat_code}, #{reservation_payment}, #{time_code}, #{end_time}, #{reservation_date}, #{using_seat}, #{re_name}, #{re_phone})
+    </insert>
+
+    <!-- Read -->
+    <select id="selectAllReservations" resultType="kr.co.literal.readingroom.dto.ReservationDTO">
+        SELECT * FROM reservation
+    </select>
+
+    <select id="selectReservationByCode" parameterType="String" resultType="kr.co.literal.readingroom.dto.ReservationDTO">
+        SELECT * FROM reservation WHERE reservation_code = #{reservation_code}
+    </select>
+
+    <!-- Update -->
+    <update id="updateReservation" parameterType="kr.co.literal.readingroom.dto.ReservationDTO">
+        UPDATE reservation
+        SET room_code = #{room_code},
+            mycoupon_number = #{mycoupon_number},
+            reservation_total = #{reservation_total},
+            seat_code = #{seat_code},
+            reservation_payment = #{reservation_payment},
+            time_code = #{time_code},
+            end_time = #{end_time},
+            reservation_date = #{reservation_date},
+            using_seat = #{using_seat},
+            re_name = #{re_name},
+            re_phone = #{re_phone}
+        WHERE reservation_code = #{reservation_code}
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteReservation" parameterType="String">
+        DELETE FROM reservation WHERE reservation_code = #{reservation_code}
+    </delete>
+
+
+
+
+
+    <!-- non_member 테이블 -->
+    <!-- Create -->
+    <insert id="insertNonMember" parameterType="kr.co.literal.readingroom.dto.NonMemberDTO">
+        INSERT INTO non_member (nonmember_code, reservation_code, non_name, non_phone)
+        VALUES (#{nonmember_code}, #{reservation_code}, #{non_name}, #{non_phone})
+    </insert>
+
+    <!-- Read -->
+    <select id="selectAllNonMembers" resultType="kr.co.literal.readingroom.dto.NonMemberDTO">
+        SELECT * FROM non_member
+    </select>
+
+    <select id="selectNonMemberByCode" parameterType="String" resultType="kr.co.literal.readingroom.dto.NonMemberDTO">
+        SELECT * FROM non_member WHERE nonmember_code = #{nonmember_code}
+    </select>
+
+    <!-- Update -->
+    <update id="updateNonMember" parameterType="kr.co.literal.readingroom.dto.NonMemberDTO">
+        UPDATE non_member
+        SET reservation_code = #{reservation_code},
+            non_name = #{non_name},
+            non_phone = #{non_phone}
+        WHERE nonmember_code = #{nonmember_code}
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteNonMember" parameterType="String">
+        DELETE FROM non_member WHERE nonmember_code = #{nonmember_code}
+    </delete>
+    
+    
+</mapper>

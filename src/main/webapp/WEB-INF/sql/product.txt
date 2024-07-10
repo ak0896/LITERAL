@@ -1,0 +1,29 @@
+-- prouduct_sql
+
+-- 상품 테이블 생성
+
+CREATE TABLE product (
+    genre_code VARCHAR(5) NOT NULL,
+    book_code VARCHAR(20) NOT NULL,
+    book_number VARCHAR(20) NOT NULL PRIMARY KEY,
+    book_title VARCHAR(200) NOT NULL,
+    author VARCHAR(30) NOT NULL,
+    book_detail VARCHAR(200) NOT NULL,
+    img VARCHAR(100) NOT NULL,
+    img_size INT NOT NULL DEFAULT 0,
+    preview VARCHAR(100) NOT NULL,
+    preview_size INT NOT NULL DEFAULT 0,
+    grade_code INT NOT NULL,
+    original_price INT NOT NULL,
+    sale_price INT NOT NULL,
+    email VARCHAR(30) NOT NULL,
+    availability INT NOT NULL DEFAULT 2,
+    registration_date DATE NOT NULL,
+    branch_code VARCHAR(10) NOT NULL,
+    FOREIGN KEY (genre_code) REFERENCES genre(genre_code),
+    FOREIGN KEY (grade_code) REFERENCES product_grade(grade_code),
+    FOREIGN KEY (email) REFERENCES member(email),
+    FOREIGN KEY (branch_code) REFERENCES branch(branch_code)
+);
+
+

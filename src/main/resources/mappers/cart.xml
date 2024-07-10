@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cart">
+
+    <insert id="insert" parameterType="kr.co.literal.cart.CartDTO" useGeneratedKeys="true" keyProperty="cart_code">
+        INSERT INTO cart (email, book_number, book_title, sale_price, cart_amount, select_yn)
+        VALUES (#{email}, #{book_number}, #{book_title}, #{sale_price}, #{cart_amount}, #{select_yn})
+    </insert>
+
+    <select id="list" resultType="kr.co.literal.cart.CartDTO" parameterType="String">
+        SELECT cart.cart_code, cart.email, cart.book_number, cart.book_title, cart.sale_price, cart.cart_amount, cart.select_yn
+        FROM cart
+        WHERE cart.email = #{email}
+    </select>
+
+    <select id="getProductByBookNumber" resultType="kr.co.literal.product.ProductDTO" parameterType="String">
+        SELECT book_number, book_title, sale_price
+        FROM product
+        WHERE book_number = #{book_number}
+    </select>
+
+   <delete id="deleteSelected" parameterType="map">
+	    DELETE FROM cart
+	    WHERE email = #{email}
+	    AND cart_code IN
+	    <foreach item="cart_code" collection="cart_codes" open="(" separator="," close=")">
+	        #{cart_code}
+	    </foreach>
+	</delete>
+</mapper>
