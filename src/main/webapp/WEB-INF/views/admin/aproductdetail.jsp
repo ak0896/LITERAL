@@ -41,11 +41,19 @@
 					</td>															
 				<tr>
 				<tr>
-					<td> 상세 정보 </td> <!-- 써머 노트 / 출판사, 출판일, 판매자 책소개 -->
+					<td> 출판사 </td>
+                	<td><input type="text" value="${product.press}" name="press" id="press" class="form-control"></td>
+				</tr>
+				<tr>
+					<td> 출판일 </td>
+                	<td><input type="text" value="${product.publishing_date}" name="publishing_date" id="publishing_date" class="form-control"></td>
+				</tr>
+				<tr>
+					<td> 판매자 책 소개 </td>
 					<td>
-						<textarea rows="8" name="book_detail" id="book_detail" class="form-control"> ${product.book_detail} </textarea>					
+						<textarea rows="8" value="${product.intro_book}" name="intro_book" id="intro_book" class="form-control"></textarea>					
 					</td>
-				</tr>		
+				</tr>	
 				<tr>
 					<td> 상품 등급 코드 </td>
 					<td>

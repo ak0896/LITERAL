@@ -6,6 +6,7 @@ public class SeatDTO {
 
     private String branch_code;
     private String seat_code;
+    
 	public String getBranch_code() {
 		return branch_code;
 	}

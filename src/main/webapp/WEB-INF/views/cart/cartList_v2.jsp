@@ -15,6 +15,7 @@
         <table class="cart-table">
             <thead>
                 <tr>
+                    <td>번호</td>
                     <td>책 제목</td>
                     <td>판매가</td>
                     <td><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></td>
@@ -22,23 +23,14 @@
             </thead>
             <tbody>
                 <c:forEach items="${list}" var="row">
-                  <tr>
-                    
-                    <td class="book-image">
-                       <img src="storage/images/${row.img}" alt="${row.book_title}">
-                    </td>
-                    </td>
-                    <td>
-                        <div class="title">${row.book_title}</div>
-                        <div>
-                            <span class="price">${row.sale_price}원</span>
-                            <span class="original-price">${row.original_price}원</span>
-                        </div>
-                   	</td>
-                   	  <td>
+                   <tr>
+                        <td>${row.cart_code}</td>
+                        <td>${row.book_title}</td>
+                        <td>${row.sale_price}</td>
+                        <td>
                             <input type="checkbox" name="selected" value="${row.cart_code}-${row.sale_price}" class="checkbox" <c:if test="${row.select_yn}">checked</c:if> onclick="calculateTotal()">
                         </td>
-               		 </tr>
+                    </tr>
                 </c:forEach>
             </tbody>
         </table>
@@ -56,7 +48,7 @@
         <div class="btn-area">
             <input type="submit" class="btn btn-primary" value="삭제">
             <input type="button" class="btn btn-success" onclick="location.href='/product/productlist'" value="쇼핑계속하기">
-            <input type="button" class="btn btn-warning" onclick="location.href='/order/orderDetail'" value="주문하기">
+            <input type="submit" class="btn btn-warning" value="주문하기">
         </div>
     </form>
 </div> <!-- <div class="container text-center"> -->
@@ -116,17 +108,11 @@
         text-align: center;
     }
     .cart-table img {
-        max-width: 100px; /* 이미지 크기 설정 */
-        max-height: 150px; /* 이미지 높이 설정 */
-    }
-    /*.cart-table img {
         max-width: 100px;
-    }*/
+    }
     .btn-area {
         margin-top: 20px;
     }
-    
-    
 </style>
 
 <!-- 본문 끝 -->

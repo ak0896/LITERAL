@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pcomment">
+
+	<insert id="insert" parameterType="kr.co.literal.pcomment.PcommentDTO">
+		INSERT INTO pcomment(book_number, pcontent, email)
+		VALUES (#{book_number}, #{pcontent}, #{email})
+	</insert>
+
+
+	<select id="list" parameterType="String" resultType="kr.co.literal.pcomment.PcommentDTO">
+        SELECT pno, book_number, pcontent, email, pdate 
+        FROM pcomment 
+        WHERE book_number = #{book_number}
+        ORDER BY pdate DESC
+	</select>
+
+
+
+</mapper>

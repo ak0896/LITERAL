@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp"%>
 
+<link rel="stylesheet" href="/css/notice.css">
+
 <!-- faq_write.jsp -->
 
 <!--사이드 메뉴 시작  -->

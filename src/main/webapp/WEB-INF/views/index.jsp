@@ -27,7 +27,7 @@
 	<link rel="stylesheet" href="/css/style.css">
 	<link rel="stylesheet" href="/css/side_menu.css">
 	<link rel="stylesheet" href="/css/member_style.css">
-	<link rel="stylesheet" href="/css/notice.css">
+
 
     <title> LITERAL </title>
 </head>
@@ -110,7 +110,7 @@
 		                    <a class="nav-link font-weight-bold" href="#">지점안내</a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link font-weight-bold" href="#">이벤트</a>
+		                    <a class="nav-link font-weight-bold" href="/event/eventlist">이벤트</a>
 		                </li>
 		            </ul>
 		        </div>

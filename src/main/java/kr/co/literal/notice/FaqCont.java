@@ -66,6 +66,13 @@ public class FaqCont {
 		 int cnt=faqDao.faq_updateproc(faqDto);
 		 return "redirect:/notice/faq_list";
 	 }
+	 
+	 @GetMapping("/faq_list2")
+	    public String showFaqs2(Model model) {
+	        List<FaqDTO> faqList = faqDao.faq_list();
+	        model.addAttribute("faq_list", faqList);
+	        return "notice/faq_list2";
+	    }
 	
 	
 }//class

@@ -20,14 +20,14 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">  <!-- 구글이모티콘 -->
  
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<link rel="stylesheet" href="/css/style.css">
 	<link rel="stylesheet" href="/css/side_menu.css">
 	<link rel="stylesheet" href="/css/member_style.css">
-	<link rel="stylesheet" href="/css/notice.css">
 	
     <title> LITERAL </title>
     
@@ -110,7 +110,7 @@
 	                       <a class="nav-link font-weight-bold" href="#">지점안내</a>
 	                   </li>
 	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="#">이벤트</a>
+	                       <a class="nav-link font-weight-bold" href="/event/eventlist">이벤트</a>
 	                   </li>
 	               </ul>
 	           </div>

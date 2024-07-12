@@ -19,7 +19,7 @@
 	
 	<!-- 상품 상세 -->
 	<select id="detail" resultType="java.util.Map" parameterType="String">
-        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
         FROM product
         WHERE book_number = #{book_number}
     </select>
@@ -80,7 +80,9 @@
         	grade_code=#{grade_code},
         	original_price=#{original_price},
             sale_price=#{sale_price},
-            book_detail=#{book_detail},
+            press=#{press},
+            publishing_date=#{publishing_date},
+            intro_book=#{intro_book},
             img=#{img},
             img_size=#{img_size},
             branch_code = #{branch_code}           

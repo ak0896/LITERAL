@@ -7,6 +7,7 @@ public class ReadingRoomDTO {
     private String room_code;
     private String duration;
     private int room_amount;
+    
 	public String getRoom_code() {
 		return room_code;
 	}

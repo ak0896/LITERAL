@@ -55,9 +55,17 @@
 					</td>															
 				<tr>
 				<tr>
-					<td> 상세 정보 </td> <!-- 써머 노트 / 출판사, 출판일, 판매자 책소개 -->
+					<td> 출판사 </td>
+                	<td><input type="text" name="press" id="press" class="form-control"></td>
+				</tr>
+				<tr>
+					<td> 출판일 </td>
+                	<td><input type="text" name="publishing_date" id="publishing_date" class="form-control"></td>
+				</tr>
+				<tr>
+					<td> 판매자 책 소개 </td>
 					<td>
-						<textarea rows="8" name="book_detail" id="book_detail" class="form-control">출판사 : &#10;출판일 : &#10;책 소개 : </textarea>					
+						<textarea rows="8" name="intro_book" id="intro_book" class="form-control"></textarea>					
 					</td>
 				</tr>		
 				<tr>
@@ -81,12 +89,8 @@
 				<tr>
 					<td> 이미지 </td> <!-- 필수 -->
 					<td><input type="file" name="img" id="img" class="form-control"></td>
-				</tr>
-<!-- 	        <tr>
-	                <td> 미리보기 (PDF) </td>
-	                <td><input type="file" name="preview" id="preview" class="form-control" accept="application/pdf"></td>
-	            </tr>  
--->	
+				</tr>				
+				
 				 <tr>
 					<td colspan="2" align="center">
 					    <input type="submit" value="상품 등록" class="btn btn-newproduct"> 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,12 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.literal.member.MemberDAO;
 import kr.co.literal.member.MemberDTO;
+import kr.co.literal.mypage.InquiryDAO;
+import kr.co.literal.mypage.InquiryDTO;
 import kr.co.literal.product.ProductDAO;
 import net.utility.Utility;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -32,6 +37,7 @@ public class AdminCont {
 		
 		@Autowired
 		private AdminDAO adminDao;
+		
 		
 		// 관리자 메인 페이지
 	    @GetMapping("")
@@ -149,5 +155,29 @@ public class AdminCont {
 	        
 	     }//update() end
 		 
-		 
+	    //1:1문의
+	    @GetMapping("/ad_inquiry_list")
+	    public String showInquiryList(Model model) {
+	    	List<InquiryDTO> inquiryList = adminDao.ad_inquiry_list();
+	    	model.addAttribute("ad_inquiry",inquiryList);
+	    	return "admin/ad_inquiry_list";
+	    			
+	    }
+	    
+	    @GetMapping("/ad_inquiry_detail")
+	    public ModelAndView showInquiryDetail(@RequestParam("inquiry_code") int inquiry_code) {
+	    	ModelAndView mav = new ModelAndView();
+	    	mav.setViewName("admin/ad_inquiry_detail");
+	    	mav.addObject("inquiry",adminDao.ad_inquiry_detail(inquiry_code));
+	    	return mav;
+	    }
+	    
+	    @PostMapping("/ad_inquiry_update")
+	    public String adInquiryUpdate(@ModelAttribute InquiryDTO inquiryDto) {
+	    	 
+	    	int cnt=adminDao.ad_inquiry_update(inquiryDto);
+	    	return "redirect:/admit/inquiry_detail?inquiry_code="+ inquiryDto.getInquiry_code();
+	    }
+	    
+	    
 }//AdminCont() end

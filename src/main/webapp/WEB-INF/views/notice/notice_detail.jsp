@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp"%>
 
+<link rel="stylesheet" href="/css/notice.css">
+
 <!-- notice_detail.jsp -->
 
 <!--사이드 메뉴 시작  -->
@@ -10,7 +12,7 @@
          <h2>공지사항</h2>
 	        <ul>
 	            <li><a href="/notice/notice_list">공지사항</a></li>
-	            <li><a href="/notice/ask_list">자주 묻는 질문</a></li>
+	            <li><a href="/notice/faq_list">자주 묻는 질문</a></li>
 	        </ul>
     </div> <!-- <div class="sidebar"> end -->
  <!--사이드 메뉴 끝  -->

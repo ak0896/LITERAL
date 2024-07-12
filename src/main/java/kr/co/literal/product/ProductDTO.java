@@ -1,19 +1,26 @@
 package kr.co.literal.product;
 
+import java.sql.Timestamp;
+
 public class ProductDTO {
-    private String genre_code;
-    private String book_code;
-    private String book_number;
-    private String book_title;
-    private String author;
-    private String book_detail;
-    private String img;
-    private int img_size;
-    private int grade_code;
-    private int original_price;
-    private int sale_price;
-    private String email;
-    private int availability;
+	
+    private String genre_code;         // 장르 코드
+    private String book_code;          // 책 코드
+    private String book_number;        // 책 번호
+    private String book_title;         // 책 제목
+    private String author;             // 작가
+    private String press;              // 출판사
+    private String publishing_date;    // 출판일
+    private String intro_book;         // 판매자 책 소개
+    private String img;                // 이미지 이름
+    private int img_size;              // 이미지 사이즈
+    private int grade_code;            // 상품 등급 코드
+    private int original_price;        // 정가
+    private int sale_price;            // 판매가
+    private String email;              // 이메일
+    private int availability;          // 판매 여부
+    private Timestamp registration_date; // 등록날짜
+    private String branch_code;        // 지점코드
     
     public ProductDTO() {}
 
@@ -57,12 +64,28 @@ public class ProductDTO {
 		this.author = author;
 	}
 
-	public String getBook_detail() {
-		return book_detail;
+	public String getPress() {
+		return press;
 	}
 
-	public void setBook_detail(String book_detail) {
-		this.book_detail = book_detail;
+	public void setPress(String press) {
+		this.press = press;
+	}
+
+	public String getPublishing_date() {
+		return publishing_date;
+	}
+
+	public void setPublishing_date(String publishing_date) {
+		this.publishing_date = publishing_date;
+	}
+
+	public String getIntro_book() {
+		return intro_book;
+	}
+
+	public void setIntro_book(String intro_book) {
+		this.intro_book = intro_book;
 	}
 
 	public String getImg() {
@@ -121,12 +144,32 @@ public class ProductDTO {
 		this.availability = availability;
 	}
 
+	public Timestamp getRegistration_date() {
+		return registration_date;
+	}
+
+	public void setRegistration_date(Timestamp registration_date) {
+		this.registration_date = registration_date;
+	}
+
+	public String getBranch_code() {
+		return branch_code;
+	}
+
+	public void setBranch_code(String branch_code) {
+		this.branch_code = branch_code;
+	}
+
+	
 	@Override
 	public String toString() {
 		return "ProductDTO [genre_code=" + genre_code + ", book_code=" + book_code + ", book_number=" + book_number
-				+ ", book_title=" + book_title + ", author=" + author + ", book_detail=" + book_detail + ", img=" + img
-				+ ", img_size=" + img_size + ", grade_code=" + grade_code + ", original_price=" + original_price
-				+ ", sale_price=" + sale_price + ", email=" + email + ", availability=" + availability + "]";
+				+ ", book_title=" + book_title + ", author=" + author + ", press=" + press + ", publishing_date="
+				+ publishing_date + ", intro_book=" + intro_book + ", img=" + img + ", img_size=" + img_size
+				+ ", grade_code=" + grade_code + ", original_price=" + original_price + ", sale_price=" + sale_price
+				+ ", email=" + email + ", availability=" + availability + ", registration_date=" + registration_date
+				+ ", branch_code=" + branch_code + "]";
 	}
+
     
 } // public class ProductDTO end

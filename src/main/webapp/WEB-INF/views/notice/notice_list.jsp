@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp"%>
 
+<link rel="stylesheet" href="/css/notice.css">
+
 <!-- notice_list.jsp -->
 
 <!--사이드 메뉴 시작  -->

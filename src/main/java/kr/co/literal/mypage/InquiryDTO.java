@@ -1,11 +1,13 @@
 package kr.co.literal.mypage;
 
 public class InquiryDTO {
+	
 	private int inquiry_code;
+	private String inquiry_answer;
     private String inquiry_content;
     private String email;
     private String inquiry_date;
-    
+
     public InquiryDTO() {}
 
 	public int getInquiry_code() {
@@ -14,6 +16,14 @@ public class InquiryDTO {
 
 	public void setInquiry_code(int inquiry_code) {
 		this.inquiry_code = inquiry_code;
+	}
+
+	public String getInquiry_answer() {
+		return inquiry_answer;
+	}
+
+	public void setInquiry_answer(String inquiry_answer) {
+		this.inquiry_answer = inquiry_answer;
 	}
 
 	public String getInquiry_content() {
@@ -42,10 +52,8 @@ public class InquiryDTO {
 
 	@Override
 	public String toString() {
-		return "InquiryDTO [inquiry_code=" + inquiry_code + ", inquiry_content=" + inquiry_content + ", email=" + email
-				+ ", inquiry_date=" + inquiry_date + "]";
+		return "InquiryDTO [inquiry_code=" + inquiry_code + ", inquiry_answer=" + inquiry_answer + ", inquiry_content="
+				+ inquiry_content + ", email=" + email + ", inquiry_date=" + inquiry_date + "]";
 	}
 
-	
-    
 }//class end

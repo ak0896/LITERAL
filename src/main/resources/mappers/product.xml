@@ -9,8 +9,8 @@
 
 	<!-- 상품 등록 -->
     <insert id="insert" parameterType="java.util.Map">
-        INSERT INTO product (genre_code, book_code, book_number, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code)
-        VALUES (#{genre_code}, #{book_code}, #{book_number}, #{book_title}, #{author}, #{book_detail}, #{img}, #{img_size}, #{grade_code}, #{original_price}, #{sale_price}, now(), #{email}, '2', #{branch_code})
+        INSERT INTO product (genre_code, book_code, book_number, book_title, author, press, publishing_date, product.intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code)
+        VALUES (#{genre_code}, #{book_code}, #{book_number}, #{book_title}, #{author}, #{press}, #{publishing_date}, #{product.intro_book}, #{img}, #{img_size}, #{grade_code}, #{original_price}, #{sale_price}, #{email}, '2', #{branch_code})
     </insert>
 
 	<!-- 상품 전체 리스트 -->
@@ -22,7 +22,7 @@
  	
  	<!-- 상품 장르별 리스트 시작 -->
  	<select id="list_G" resultType="java.util.Map">
-        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
         FROM product
 	    WHERE genre_code = 'G'
 	    ORDER BY registration_date DESC
@@ -30,49 +30,49 @@
 	
 	
      <select id="list_M" resultType="java.util.Map">
-        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
         FROM product
 	    WHERE genre_code = 'M'
 	    ORDER BY registration_date DESC
 	</select>
 	
      <select id="list_H" resultType="java.util.Map">
-        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
         FROM product
 	    WHERE genre_code = 'H'
 	    ORDER BY registration_date DESC
 	</select>
 	
      <select id="list_S" resultType="java.util.Map">
-        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
         FROM product
 	    WHERE genre_code = 'S'
 	    ORDER BY registration_date DESC
 	</select>
 	
      <select id="list_R" resultType="java.util.Map">
-        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
         FROM product
 	    WHERE genre_code = 'R'
 	    ORDER BY registration_date DESC
 	</select>
 	
      <select id="list_P" resultType="java.util.Map">
-        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
         FROM product
 	    WHERE genre_code = 'P'
 	    ORDER BY registration_date DESC
 	</select>
 	
      <select id="list_T" resultType="java.util.Map">
-        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
         FROM product
 	    WHERE genre_code = 'T'
 	    ORDER BY registration_date DESC
 	</select>
 	
      <select id="list_W" resultType="java.util.Map">
-        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
         FROM product
 	    WHERE genre_code = 'W'
 	    ORDER BY registration_date DESC
@@ -116,7 +116,7 @@
     
     <!-- 상품 상세 -->
     <select id="detail" resultType="java.util.Map" parameterType="String">
-        SELECT book_number, genre_code, book_code, book_title, author, book_detail, img, img_size, grade_code, original_price, sale_price, registration_date, email, availability, branch_code
+        SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability,  registration_date, branch_code
         FROM product
         WHERE book_number = #{book_number}
     </select>

@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp"%>
  
+<link rel="stylesheet" href="/css/notice.css">
+ 
 <!-- faq_list.jsp --> 
 
 <!--사이드 메뉴 시작  -->
@@ -33,7 +35,7 @@
     </c:forEach>
     <input type="button" value="FAQ 등록" onclick="location.href='faq_write'">
 	</div> <!-- <div class="container"> end -->
-
+	
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script>
     	$(document).ready(function(){

@@ -101,6 +101,34 @@ public class NoticeCont {
     	int cnt = noticeDao.notice_delete(notice_code);
     	return "redirect:/notice/notice_list";
   }
-
+//일반회원 페이지
+    
+    @GetMapping("/notice_list2")
+	public String notice_list2(@RequestParam(defaultValue = "1") int page, Model model) {
+    int pageSize = 6; //페이지당 게시물 수
+    int offset = (page-1) * pageSize;
+    
+    Map<String, Object> params = new HashMap<>();
+    params.put(("pageSize"), pageSize);
+    params.put("offset", offset);
+    
+    List<NoticeDTO> noticeList = noticeDao.notice_list(params);
+    int totalnotice = noticeDao.notice_count();
+    int totalpage = (int) Math.ceil((double) totalnotice / pageSize);
+    
+    model.addAttribute("noticeList", noticeList);
+    model.addAttribute("totalpage", totalpage);
+    model.addAttribute("currentpage", page);
+    
+    return "notice/notice_list2";
+}
+	@GetMapping("/notice_detail2")
+	public ModelAndView detail2(@RequestParam("notice_code") int notice_code) {
+		NoticeDTO noticeDto = noticeDao.selectNoticeById(notice_code);
+		ModelAndView mav= new ModelAndView();
+		mav.setViewName("notice/notice_detail2");
+		mav.addObject("notice_detail",noticeDao.notice_detail(notice_code));
+		return mav;
+	}
 
 }

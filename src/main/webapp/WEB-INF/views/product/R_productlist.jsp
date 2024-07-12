@@ -27,7 +27,6 @@
 			<h3 class="productlist text-center"> [로 맨 스 소 설] </h3>
 			<p>
 				<button type="button" class="btn btn-newproduct" onclick="location.href='${pageContext.request.contextPath}/product/productlist'"> 전체 상품 목록 </button>
-				<button type="button" class="btn btn-newproduct" onclick="location.href='productwrite'"> 상품 등록 </button>
 			</p>
 			</div>
   		</div> <!-- row end -->

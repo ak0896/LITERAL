@@ -1,0 +1,16 @@
+-- pcomment_sql.txt
+
+-- 상품 댓글 테이블
+CREATE TABLE pcomment (
+    pno INT AUTO_INCREMENT PRIMARY KEY,
+    book_number VARCHAR(20) NOT NULL,
+    pcontent VARCHAR(300) NOT NULL,
+    email VARCHAR(30) NOT NULL,
+    pdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (book_number) REFERENCES product(book_number),
+    FOREIGN KEY (email) REFERENCES member(email)
+);
+
+
+-- 댓글 목록
+SELECT * FROM pcomment WHERE book_number = 부모글번호

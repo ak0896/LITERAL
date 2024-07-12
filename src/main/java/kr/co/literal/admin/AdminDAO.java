@@ -1,5 +1,6 @@
 package kr.co.literal.admin;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.literal.member.MemberDTO;
+import kr.co.literal.mypage.InquiryDTO;
 
 @Repository
 public class AdminDAO {
@@ -54,4 +56,18 @@ public class AdminDAO {
 	        return sqlSession.selectOne("kr.co.literal.admin.adminMapper.img", book_number);
 	    }//filename() end
 	    
+	    //1:1 문의
+	    public List<InquiryDTO> ad_inquiry_list(){
+	    	return sqlSession.selectList(NAMESPACE +".ad_inquiry_list");
+	    }
+	    
+	    public InquiryDTO ad_inquiry_detail(int inquiry_code) {
+	    	return sqlSession.selectOne(NAMESPACE+".ad_inquiry_detail",inquiry_code);
+	    }
+	    
+	    public int ad_inquiry_update(InquiryDTO inquiryDto) {
+	    	return sqlSession.update(NAMESPACE+".ad_inquiry_update",inquiryDto);
+	    }
+	    
+	   
 }//AdminDAO() end
