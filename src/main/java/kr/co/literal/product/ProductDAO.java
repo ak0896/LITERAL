@@ -1,5 +1,6 @@
 package kr.co.literal.product;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ public class ProductDAO {
 	} // public void insert end
 
 	
+	
     // 장르 코드로 새로운 책 코드를 생성하는 메서드
     public int genreBookCode(String genre_code) {
         return sqlSession.selectOne("kr.co.literal.product.ProductMapper.genreBookCode", genre_code);
@@ -32,7 +34,11 @@ public class ProductDAO {
     
     // 주어진 장르 코드와 책 코드로 다음 책 번호를 가져오는 메서드
     public int getNextBookNumber(String genre_code, String book_code) {
-        return sqlSession.selectOne("kr.co.literal.product.ProductMapper.getNextBookNumber", Map.of("genreCode", genre_code, "bookCode", book_code));
+        Map<String, Object> params = new HashMap<>();
+        params.put("genre_code", genre_code);
+        params.put("book_code", book_code);
+
+        return sqlSession.selectOne("kr.co.literal.product.ProductMapper.getNextBookNumber", params);
     } // public int getNextBookNumber() end
 
     
@@ -45,13 +51,18 @@ public class ProductDAO {
     
     // 주어진 책 번호가 데이터베이스에 존재하는지 확인하는 메서드
     public boolean bookNumberExists(String genre_code, String book_number) {
-        int count = sqlSession.selectOne("kr.co.literal.product.ProductMapper.bookNumberExists", Map.of("genreCode", genre_code, "book_number", book_number));
+      
+    	Map<String, Object> params = new HashMap<>();
+        params.put("genre_code", genre_code);
+        params.put("book_number", book_number);
+        
+    	int count = sqlSession.selectOne("kr.co.literal.product.ProductMapper.bookNumberExists", Map.of("genreCode", genre_code, "book_number", book_number));
         return count > 0;
     } // public boolean bookNumberExists() end
 
     
     //  주어진 책 제목이 데이터베이스에 존재하는지 확인하는 메서드
-    public boolean bookTitleExists(String genre_code, String book_title)  {
+    public boolean bookTitleExists(String genre_code, String book_title) {
         int count = sqlSession.selectOne("kr.co.literal.product.ProductMapper.bookTitleExists", Map.of("genreCode", genre_code, "book_title", book_title));
         return count > 0;
     } // public boolean bookTitleExists() end
@@ -59,24 +70,26 @@ public class ProductDAO {
     
     // 주어진 책 제목으로 책 코드를 가져오는 메서드
     public String getBookCodeByTitle(String genre_code, String book_title) {
-    	List<String> bookCodes = sqlSession.selectList("kr.co.literal.product.ProductMapper.getBookCodeByTitle", book_title);
-        if (bookCodes.isEmpty()) {
-            return null;
-        } else {
-            return bookCodes.get(0); // 첫 번째 결과를 반환
-        }
-    } // public String getBookCodeByTitle() end
+        Map<String, Object> params = new HashMap<>();
+        params.put("genre_code", genre_code);
+        params.put("book_title", book_title);
+
+        return sqlSession.selectOne("kr.co.literal.product.ProductMapper.getBookCodeByTitle", params);
+    }
     
     
     // 책 코드 생성
     public String generateBookCode(String genre_code, String book_title) {
-        int codeNumber;
         String book_code;
+        Map<String, Object> params = new HashMap<>();
+        params.put("genre_code", genre_code);
+        params.put("book_title", book_title);
 
         // 책 제목이 데이터베이스에 존재하지 않는 경우
-        if (!bookTitleExists(genre_code, book_title)) {
+        int bookTitleCount = sqlSession.selectOne("kr.co.literal.product.ProductMapper.bookTitleExists", params);
+        if (bookTitleCount == 0) {
             // 새로운 책 코드를 생성
-            codeNumber = genreBookCode(genre_code);
+            int codeNumber = genreBookCode(genre_code);
             book_code = genre_code + "-" + String.format("%05d", codeNumber);
         } else {
             // 책 제목이 데이터베이스에 존재하는 경우
@@ -99,10 +112,15 @@ public class ProductDAO {
             number++;
             book_number = book_code + String.format("%03d", number);
         }
+        
+        //System.out.println("Generated book_number: " + book_number); // 디버깅 로그 추가
 
         return book_number;
     } // public String generateBookNumber() end
 	    
+    
+    
+    
     
     // 상품 상세
 	public Map<String, Object> detail(String book_number)

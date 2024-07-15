@@ -104,6 +104,7 @@
 	   	</div><!-- row end -->
 	</div> 	<!-- <div class="main-content"> end -->
 	
+	
 	<!-- Modal -->
     <div class="modal fade" id="gradeGuideModal" tabindex="-1" role="dialog" aria-labelledby="gradeGuideModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
@@ -160,18 +161,8 @@
 	    </div>
 	  </div>
 	</div> <!-- 모달 끝 -->
-   
 
- 	<style>
-	.table-product {
-		 text-align: center;
-		 width: 100%;
-		 margin-top: 50px;
-		 padding: 30px;
-	}
-	</style>
-
-	<script>
+<script>
 	document.addEventListener('DOMContentLoaded', function() {
 	    // 모달 열림 상태를 추적하기 위한 변수
 	    var modalOpened = false;
@@ -256,7 +247,16 @@
 	    });
 	});
 	</script>
+
 	
+	<style>
+	.table-product {
+		 text-align: center;
+		 width: 100%;
+		 margin-top: 50px;
+		 padding: 30px;
+	}
+	</style>
 <!-- 본문 끝 -->
 </div> <!-- <div class="contents_inner"> end -->
 	

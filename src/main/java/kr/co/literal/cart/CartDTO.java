@@ -11,7 +11,8 @@ public class CartDTO {
    private int cart_amount;
    private boolean select_yn;
    private String img;
-   private int original_price;   
+   private int original_price;  
+  private int save_points;
 
    
    public CartDTO() {}
@@ -100,13 +101,13 @@ public class CartDTO {
 	public String getImg() {
 		return img;
 	}
-
-
+	
+	
 	public void setImg(String img) {
 		this.img = img;
 	}
-
-
+	
+	
 	public int getOriginal_price() {
 		return original_price;
 	}
@@ -115,17 +116,27 @@ public class CartDTO {
 	public void setOriginal_price(int original_price) {
 		this.original_price = original_price;
 	}
-
 	
+	
+	public int getSave_points() {
+		return save_points;
+	}
+	
+	
+	public void setSave_points(int save_points) {
+		this.save_points = save_points;
+	}
+
+
 	@Override
 	public String toString() {
 		return "CartDTO [cart_code=" + cart_code + ", email=" + email + ", book_number=" + book_number + ", book_title="
 				+ book_title + ", sale_price=" + sale_price + ", event_yn=" + event_yn + ", cart_amount=" + cart_amount
-				+ ", select_yn=" + select_yn + ", img=" + img + ", original_price=" + original_price + "]";
+				+ ", select_yn=" + select_yn + ", img=" + img + ", original_price=" + original_price + ", save_points="
+				+ save_points + "]";
 	}
 	
-	
-	
+	   
 	
 	   
 	

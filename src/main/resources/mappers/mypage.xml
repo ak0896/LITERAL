@@ -3,9 +3,39 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.co.literal.mypage.mypageMapper">
+<mapper namespace="mypage">
 
+	<!-- wishlist -->
+	<insert id="addWishlist" parameterType="map">
+        INSERT INTO wishlist (email, book_number) 
+        VALUES (#{email}, #{bookNumber})
+    </insert>
 
+    <delete id="removeWishlist" parameterType="map">
+        DELETE FROM wishlist WHERE email = #{email} AND book_number = #{bookNumber}
+    </delete>
+    
+    
+    
+    
+
+	
+	<!-- 1:1문의 -->
+	<select id="inquiry_list" resultType="kr.co.literal.mypage.InquiryDTO" parameterType="String">
+		SELECT inquiry_code, email, inquiry_content,inquiry_answer,inquiry_date
+		FROM inquiry
+		WHERE email=#{email}
+	</select>
+	
+	<insert id="inquiry_insert" parameterType="kr.co.literal.mypage.InquiryDTO">
+		INSERT INTO inquiry(inquiry_content,email)
+		VALUES (#{inquiry_content},#{email})	
+	</insert>	
+
+	<delete id="inquiry_delete" parameterType="kr.co.literal.mypage.InquiryDTO">
+		DELETE FROM inquiry
+		WHERE inquiry_code = #{inquiry_code} AND email = #{email}
+	</delete>
 
 
 

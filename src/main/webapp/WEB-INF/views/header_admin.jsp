@@ -19,7 +19,7 @@
 	
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 	
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
@@ -83,13 +83,13 @@
 	                       <a class="nav-link font-weight-bold" href="/admin/productlist_admin"">상품관리</a>
 	                   </li>
 	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="#">지점관리</a>
+	                       <a class="nav-link font-weight-bold" href="/admin/branchList">지점관리</a>
 	                   </li>
 	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="#">공지사항관리</a>
+	                       <a class="nav-link font-weight-bold" href="${pageContext.request.contextPath}/notice/notice_list">공지사항관리</a>
 	                   </li>
 	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="#">이벤트관리</a>
+	                       <a class="nav-link font-weight-bold" href="/admin/aeventlist">이벤트관리</a>
 	                   </li>
 	               </ul>
 	           </div>

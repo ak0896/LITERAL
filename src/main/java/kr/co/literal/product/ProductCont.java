@@ -174,31 +174,7 @@ public class ProductCont {
 		
 		map.put("img", img_name);
 		map.put("img_size", img_size);
-		
-        // 업로드 파일은 /storage 폴더에 저장
-/*        String pdf_name = "-";
-        long pdf_size  = 0;
-        if (pdf != null && !pdf.isEmpty()) {
-            pdf_size = pdf.getSize();
-            try {
-                String o_poster = pdf.getOriginalFilename();
-                pdf_name = o_poster;
-                File file = new File(pdfBasePath, o_poster);
-                int i = 1;
-                while (file.exists()) {
-                    int lastDot = o_poster.lastIndexOf(".");
-                    pdf_name = o_poster.substring(0, lastDot) + "_" + i + o_poster.substring(lastDot);
-                    file = new File(pdfBasePath, pdf_name);
-                    i++;
-                }
-                pdf.transferTo(file);  // 파일 저장
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        }
-        map.put("preview", pdf_name);
-        map.put("preview_size", pdf_size);
-*/     
+
         // 세션에서 현재 로그인한 사용자의 이메일 가져오기
         HttpSession session = req.getSession();
         MemberDTO member = (MemberDTO) session.getAttribute("member");
@@ -216,13 +192,22 @@ public class ProductCont {
         String availability = "2"; // 판매여부 2로 설정
         map.put("availability", availability);
 		
-	    // genre_code로 book_code와 book_number 생성
+        
+        // genre_code로 book_code와 book_number 생성
         String genre_code = (String) map.get("genre_code");
         String book_title = (String) map.get("book_title");
 
+        // book_code 생성
         String book_code = productDao.generateBookCode(genre_code, book_title);
+
+        // book_number 생성 및 중복 피하기
         String book_number = productDao.generateBookNumber(genre_code, book_code);
 
+        // 중복된 book_number를 피하기 위해 검증 및 재생성 로직 추가
+        while (productDao.bookNumberExists(genre_code, book_number)) {
+            book_number = productDao.generateBookNumber(genre_code, book_code);
+        }
+        
         map.put("book_code", book_code);
         map.put("book_number", book_number);
 	    

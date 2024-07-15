@@ -31,22 +31,22 @@
         WHERE book_number=#{book_number}
     </select>
     
-        <!-- 장르 코드로 새로운 책 코드 생성 -->
-    <select id="genreBookCode" resultType="int">
-        SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(book_code, '-', -1) AS UNSIGNED)), 0) + 1
-        FROM product
-        WHERE genre_code = #{genre_code}
+     <!-- 장르 코드로 새로운 책 코드 생성 -->
+    <select id="genreBookCode" resultType="int" parameterType="string">
+	    SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(book_code, '-', -1) AS UNSIGNED)), 0) + 1
+	    FROM product
+	    WHERE genre_code = #{genre_code}
     </select>
 
     <!-- 주어진 장르 코드와 책 코드로 다음 책 번호 가져오기 -->
-    <select id="getNextBookNumber" resultType="int">
+    <select id="getNextBookNumber" parameterType="map" resultType="int">
         SELECT COALESCE(MAX(CAST(RIGHT(book_number, 3) AS UNSIGNED)), 0) + 1
         FROM product
         WHERE genre_code = #{genre_code} AND book_code = #{book_code}
     </select>
 
     <!-- 주어진 책 코드가 존재하는지 확인 -->
-    <select id="bookCodeExists" parameterType="string" resultType="int">
+    <select id="bookCodeExists" parameterType="map" resultType="int">
         SELECT COUNT(*) FROM product WHERE book_code = #{book_code}
     </select>
 
@@ -57,15 +57,16 @@
     </select>
 
     <!-- 주어진 책 제목이 존재하는지 확인 -->
-    <select id="bookTitleExists" parameterType="string" resultType="int">
+    <select id="bookTitleExists" parameterType="map" resultType="int">
         SELECT COUNT(*) FROM product 
         WHERE genre_code = #{genre_code} AND book_title = #{book_title}
     </select>
-
+	    
     <!-- 주어진 책 제목으로 책 코드 가져오기 -->
-    <select id="getBookCodeByTitle" parameterType="string" resultType="string">
+    <select id="getBookCodeByTitle" parameterType="map" resultType="string">
         SELECT book_code FROM product 
         WHERE genre_code = #{genre_code} AND book_title = #{book_title}
+        LIMIT 1
     </select>
 
 
@@ -97,4 +98,41 @@
         WHERE book_title LIKE #{keyword}
         ORDER BY book_title
 	</select>
+	
+	
+	<!-- 1:1문의 -->
+	<select id="ad_inquiry_list" parameterType="map" resultType="kr.co.literal.mypage.InquiryDTO">
+        SELECT inquiry_code,email,inquiry_date
+        FROM inquiry
+        ORDER BY inquiry_date DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    
+    <select id="inquiry_list_count" resultType="int">
+        SELECT COUNT(*) FROM inquiry
+    </select>
+    
+    <update id="increaseViewCount" parameterType="int">
+    	UPDATE notice SET view_count = view_count + 1 
+    	WHERE notice_code = #{notice_code}
+	</update>
+    
+    <select id="selectNoticeById" parameterType="int" resultType="kr.co.literal.notice.NoticeDTO">
+    	SELECT notice_code,notice_title, notice_content,view_count 
+    	FROM notice 
+    	WHERE notice_code = #{notice_code}
+	</select>
+	
+    <select id="ad_inquiry_detail" parameterType="int" resultType="kr.co.literal.mypage.InquiryDTO">
+		SELECT inquiry_code,email,inquiry_content,inquiry_date,inquiry_answer
+		FROM inquiry
+		WHERE inquiry_code= #{inquiry_code}
+	</select>
+	
+	<update id="ad_inquiry_update" parameterType="kr.co.literal.mypage.InquiryDTO">
+		UPDATE inquiry
+		SET inquiry_answer=#{inquiry_answer}
+		WHERE inquiry_code = #{inquiry_code}
+	</update>
+	
 </mapper>

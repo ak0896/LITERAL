@@ -10,7 +10,6 @@ public class MyCouponDTO {
     private String issue_date;
     private String expiry_date;
     private String usage_date;
-    
 	public String getEmail() {
 		return email;
 	}

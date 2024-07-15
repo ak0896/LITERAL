@@ -34,5 +34,6 @@ public class SeatDAO {
 	public List<SeatDTO> selectSeatByCode(String seat_code) { 
 		 return sqlSession.selectList(NAMESPACE + ".selectSeatByCode", seat_code); 
 	}
-	 
+	
+	
 }

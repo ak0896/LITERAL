@@ -1,18 +1,30 @@
 package kr.co.literal.event;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonObject;
+
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import kr.co.literal.member.MemberDTO;
+import kr.co.literal.product.ProductDAO;
 
 @Controller
 @RequestMapping("/event")
@@ -27,38 +39,35 @@ public class EventCont {
 	@Autowired
 	private EventDAO eventDao;
 	
-	
+	@Autowired
+	private ProductDAO productDao;
+
 	@RequestMapping("/eventlist")
 	public ModelAndView eventlist() {
-	   ModelAndView mav = new ModelAndView();
-	   mav.addObject("list", eventDao.list());
-	   mav.setViewName("/event/eventlist");
-	   return mav;
-	 } // eventlist() end
-	
-    @GetMapping("/NewEventCode")
-    public String NewEventCode() {
-        return eventDao.NewEventCode();
-    }
-	
-    
-    //  insert
- 	@PostMapping("/insert")
- 	public String insert (@RequestParam Map<String, Object> map, HttpServletRequest req)
- 	{
- 		// 세션에서 현재 로그인한 사용자의 이메일 가져오기
-         HttpSession session = req.getSession();
-         MemberDTO member = (MemberDTO) session.getAttribute("member");
-         if (member == null) {
-             // 사용자가 로그인하지 않은 경우에 대한 처리
-             return "redirect:/member/login";
-         }
-         map.put("email", member.getEmail());
+	    List<Map<String, Object>> events = eventDao.list();
 
-         eventDao.insert(map);
- 		
- 		return "redirect:/product/productlist";
- 	} // public String insert end
-	
+	    ModelAndView mav = new ModelAndView();
+	    mav.addObject("list", events);
+	    mav.setViewName("/event/eventlist");
+	    return mav;
+	}
 
+
+	// 상세
+ 	@GetMapping("/eventdetail/{event_code}")
+ 	public ModelAndView eventDetail(@PathVariable String event_code) {
+ 	    // event 정보를 가져옵니다: event_code를 사용하여 이벤트 정보를 조회
+ 	    Map<String, Object> event = eventDao.detail(event_code);
+ 	    
+ 	    ModelAndView mav = new ModelAndView();
+ 	    mav.setViewName("event/eventdetail");
+
+ 	    // 조회된 이벤트 정보를 ModelAndView 객체에 추가
+ 	    mav.addObject("event", event);
+ 	    mav.addObject("event_code", event_code);
+
+ 	    return mav;
+ 	} // public ModelAndView eventDetail() end
+ 	
+ 	
 } // public class EventCont end

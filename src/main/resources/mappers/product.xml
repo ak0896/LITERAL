@@ -80,39 +80,44 @@
 	<!-- 상품 장르별 리스트 끝 -->
 	
  	
-    <!-- 장르 코드로 새로운 책 코드 생성 -->
-    <select id="genreBookCode" resultType="int">
-        SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(book_code, '-', -1) AS UNSIGNED)), 0) + 1
-        FROM product
-        WHERE genre_code = #{genre_code}
+     <!-- 장르 코드로 새로운 책 코드 생성 -->
+    <select id="genreBookCode" resultType="int" parameterType="string">
+	    SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(book_code, '-', -1) AS UNSIGNED)), 0) + 1
+	    FROM product
+	    WHERE genre_code = #{genre_code}
     </select>
 
     <!-- 주어진 장르 코드와 책 코드로 다음 책 번호 가져오기 -->
-    <select id="getNextBookNumber" resultType="int">
+    <select id="getNextBookNumber" parameterType="map" resultType="int">
         SELECT COALESCE(MAX(CAST(RIGHT(book_number, 3) AS UNSIGNED)), 0) + 1
         FROM product
         WHERE genre_code = #{genre_code} AND book_code = #{book_code}
     </select>
 
     <!-- 주어진 책 코드가 존재하는지 확인 -->
-    <select id="bookCodeExists" parameterType="string" resultType="int">
+    <select id="bookCodeExists" parameterType="map" resultType="int">
         SELECT COUNT(*) FROM product WHERE book_code = #{book_code}
     </select>
 
     <!-- 주어진 책 번호가 존재하는지 확인 -->
     <select id="bookNumberExists" parameterType="string" resultType="int">
-        SELECT COUNT(*) FROM product WHERE book_number = #{book_number}
+	    SELECT COUNT(*) FROM product 
+	    WHERE genre_code = #{genreCode} AND book_number = #{bookNumber}
     </select>
 
     <!-- 주어진 책 제목이 존재하는지 확인 -->
-    <select id="bookTitleExists" parameterType="string" resultType="int">
-        SELECT COUNT(*) FROM product WHERE book_title = #{book_title}
+    <select id="bookTitleExists" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM product 
+        WHERE genre_code = #{genre_code} AND book_title = #{book_title}
     </select>
-
+	    
     <!-- 주어진 책 제목으로 책 코드 가져오기 -->
-    <select id="getBookCodeByTitle" parameterType="string" resultType="string">
-        SELECT book_code FROM product WHERE book_title = #{book_title}
+    <select id="getBookCodeByTitle" parameterType="map" resultType="string">
+        SELECT book_code FROM product 
+        WHERE genre_code = #{genre_code} AND book_title = #{book_title}
+        LIMIT 1
     </select>
+    
     
     <!-- 상품 상세 -->
     <select id="detail" resultType="java.util.Map" parameterType="String">

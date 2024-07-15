@@ -37,6 +37,21 @@ public class BranchDAO {
         return sqlSession.selectOne(NAMESPACE + ".deleteBranch", branch_code);
     }
 	
-
+    //0712 애경수정
+    //branch_code 생성
+    public String getLastBranchCode() {
+    	return sqlSession.selectOne(NAMESPACE + ".getLastBranchCode");
+    }//getLastBranchCode() end
+	
+    
+    //이름으로 지점정보 가져오기
+    public BranchDTO selectBranchByName(String branch_name) {
+    	return sqlSession.selectOne(NAMESPACE + ".selectBranchByName", branch_name);
+    }//selectBranchByName() end
+    
+    //지점수정
+    public void updateBranch(BranchDTO branchDTO) {
+        sqlSession.update(NAMESPACE + ".updateBranch", branchDTO);
+    }//updateBranch() end
 }
 

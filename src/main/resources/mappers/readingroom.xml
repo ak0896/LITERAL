@@ -31,12 +31,28 @@
             longitude = #{longitude}
         WHERE branch_code = #{branch_code}
     </update>
+    
 
     <!-- Delete -->
     <delete id="deleteBranch" parameterType="String">
         DELETE FROM branch WHERE branch_code = #{branch_code}
     </delete>
+    
 
+    <!-- 0712 애경 추가 -->
+     <!-- 지점 코드 생성 -->
+    <select id="getLastBranchCode" resultType="String">
+        SELECT branch_code
+        FROM branch
+        ORDER BY branch_code DESC
+        LIMIT 1
+    </select>
+    
+    
+	<!-- 같은 지점 이름 존재확인 -->
+    <select id="selectBranchByName" parameterType="String" resultType="kr.co.literal.readingroom.dto.BranchDTO">
+        SELECT * FROM branch WHERE branch_name = #{branch_name}
+    </select>
 
 
 
@@ -218,6 +234,58 @@
     <delete id="deleteReservation" parameterType="String">
         DELETE FROM reservation WHERE reservation_code = #{reservation_code}
     </delete>
+    
+    
+    <select id="getReservationBySeatCode" resultType="kr.co.literal.readingroom.dto.ReservationDTO">
+        SELECT *
+        FROM reservation
+        WHERE seat_code = #{seatCode}
+    </select>
+    
+    
+    
+    <!-- 0713추가 -->
+    <!-- 예약 목록 조회 -->
+    <select id="getReservationsBySeatCodeAndTime" resultType="kr.co.literal.readingroom.dto.ReservationDTO">
+        SELECT *
+        FROM reservation
+        WHERE seat_code = #{seatCode}
+          AND (
+              (#{startTime} &lt; end_time AND #{endTime} &gt; (CASE 
+                                                        WHEN time_code = 'T01' THEN '09:00'
+                                                        WHEN time_code = 'T02' THEN '10:00'
+                                                        WHEN time_code = 'T03' THEN '11:00'
+                                                        WHEN time_code = 'T04' THEN '12:00'
+                                                        WHEN time_code = 'T05' THEN '13:00'
+                                                        WHEN time_code = 'T06' THEN '14:00'
+                                                        WHEN time_code = 'T07' THEN '15:00'
+                                                        WHEN time_code = 'T08' THEN '16:00'
+                                                        WHEN time_code = 'T09' THEN '17:00'
+                                                        ELSE '00:00' END))
+              OR (#{startTime} &lt; end_time AND #{endTime} &gt; (CASE 
+                                                        WHEN time_code = 'T01' THEN '09:00'
+                                                        WHEN time_code = 'T02' THEN '10:00'
+                                                        WHEN time_code = 'T03' THEN '11:00'
+                                                        WHEN time_code = 'T04' THEN '12:00'
+                                                        WHEN time_code = 'T05' THEN '13:00'
+                                                        WHEN time_code = 'T06' THEN '14:00'
+                                                        WHEN time_code = 'T07' THEN '15:00'
+                                                        WHEN time_code = 'T08' THEN '16:00'
+                                                        WHEN time_code = 'T09' THEN '17:00'
+                                                        ELSE '00:00' END))
+          )
+    </select>
+
+	
+	<select id="getReservationsBySeatCode" resultType="kr.co.literal.readingroom.dto.ReservationDTO">
+    SELECT *
+    FROM reservation
+    WHERE seat_code = #{seatCode}
+</select>
+	
+    
+    
+    
 
 
 
@@ -252,6 +320,12 @@
     <delete id="deleteNonMember" parameterType="String">
         DELETE FROM non_member WHERE nonmember_code = #{nonmember_code}
     </delete>
+    
+    
+    <!-- 0714추가 -->
+    <select id="findNonMemberByNameAndPhone" parameterType="map" resultType="kr.co.literal.readingroom.dto.NonMemberDTO">
+        SELECT * FROM non_member WHERE non_name = #{non_name} AND non_phone = #{non_phone}
+    </select>
     
     
 </mapper>

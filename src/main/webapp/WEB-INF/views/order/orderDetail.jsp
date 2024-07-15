@@ -5,197 +5,255 @@
 
 <!-- orderDetail.jsp -->
 
-<!-- 본문 시작 -->
-
- <div class="delivery-wrap">
-	<div class="delivery-info">
-	    <h2>배송지</h2>
-	    <form>
-	        <div class="form-group">
-	            <label>배송지 선택*</label>
-	            <div class="radio-group">
-	                <input type="radio" id="new-address" name="address-type" checked>
-	                <label for="new-address">신규 배송지</label>
-	                <input type="radio" id="saved-address" name="address-type">
-	                <label for="saved-address">기존 배송지</label>
-	            </div>
-	        </div>
-	        <div class="form-group">
-	            <label>배송 방법*</label>
-	            <div class="radio-group">
-	                <input type="radio" id="domestic" name="delivery-method" checked>
-	                <label for="domestic">국내 배송</label>
-	            </div>
-	        </div>
-	        <div class="form-group">
-	            <label for="recipient">수령인*</label>
-	            <input type="text" id="recipient" placeholder="수령인 이름을 입력하세요">
-	            <label class="checkbox-label">
-	                <input type="checkbox" id="order-name">
-	                주문자와 동일
-	            </label>
-	        </div>
-	        <div class="form-group">
-	            <label>연락처1*</label>
-	            <div class="phone-input">
-	                <select><option>선택</option></select>
-	                <input type="text" placeholder="-">
-	                <input type="text" placeholder="-">
-	            </div>
-	        </div>
-	        <div class="form-group">
-	            <label>연락처2</label>
-	            <div class="phone-input">
-	                <select><option>선택</option></select>
-	                <input type="text" placeholder="-">
-	                <input type="text" placeholder="-">
-	            </div>
-	        </div>
-	        <div class="form-group">
-	            <label>배송지 주소*</label>
-	            <button type="button" class="address-search">우편번호 검색</button>
-	            <input type="text" placeholder="주소" readonly>
-	            <input type="text" placeholder="상세주소">
-	        </div>
-	        <div class="delivery-memo">
-	            <h3>배송 메모</h3>
-	            <label class="radio-label">
-	                <input type="radio" name="memo" checked>
-	                기본배송지로 설정
-	            </label>
-	            <label class="radio-label">
-	                <input type="radio" name="memo">
-	                배송지 목록에 추가
-	            </label>
-	        </div>
-	    </form>
-	    <div class="order-items">
-	        <h3>주문상품 <span class="totalCount">2종 2개</span> 
-	        <button class="view-items">주문상품 수정하기</button></h3>
-	        <table class="item-list">
-	            <thead>
-	                <tr>
-	                    <th>상품정보</th>
-	                    <th>판매가</th>
-	                    <th>수량</th>
-	                    <th>예상 적립금</th>
-	                    <th>금액 합계</th>
-	                </tr>
-	            </thead>
-	            <tbody>
-	            	 <c:forEach items="${order}" var="row">
-		                <tr>
-		                    <td class="item-info">
-		                        <img src="${pageContext.request.contextPath}/images/${row.img}" alt="${row.book_title}">
-		                        <div>
-		                            <p class="boot-title">${row.book_title}</p>
-		                        </div>
-		                    </td>
-		                    <td>
-		                        <p class="discount">10%</p>
-		                        <p class="price">11,700원</p>
-		                        <p class="original-price">13,000원</p>
-		                    </td>
-		                    <td>1</td>
-		                    <td>${row.save_points}원</td>
-		                    <td class="sale-price">11,700원</td>
-		                </tr>
-	                </c:forEach>
-	            </tbody>
-	        </table>
-	    </div>
-	    <div class="discount-section">
-	        <h3>할인 <span class="toggle-icon">^</span></h3>
-	        <div class="discount-content">
-	            <p class="no-discount">사용가능한 쿠폰이 없습니다.</p>
-	            <div class="discount-item">
-	                <span>예치금</span>
-	                <input type="text" value="0">
-	                <button>전액 사용</button>
-	                <span class="available">(보유 : 0원)</span>
-	            </div>
-	            <div class="discount-item">
-	                <span>적립금</span>
-	                <input type="text" value="0">
-	                <button>전액 사용</button>
-	                <span class="available">(보유 : 1,550원)</span>
-	            </div>
-	            <div class="discount-item">
-	                <span>YP 머니</span>
-	                <input type="text" value="0">
-	                <button>전액 사용</button>
-	                <span class="available">(보유 : 0원)</span>
-	            </div>
-	            <p class="discount-note">ㆍ쿠폰, 예치금, 적립금 사용 시 예상 적립금이 변경될 수 있습니다.</p>
-	            <p class="discount-note">주문 완료 후 마이페이지 → 주문 상세에서 확인해 주세요.</p>
-	        </div>
-	    </div>
-	    
-	    <div class="payment-method">
-	        <h3>결제수단 <span class="check-icon">✓</span> 선택한 결제수단을 다음에도 사용</h3>
-	        <p class="total-payment">총 결제 금액 <span class="total-amount">${row.total_amount}</span></p>
-	        <div class="payment-options">
-	            <div class="payment-option">
-	                <img src="kakao_pay.png" alt="카카오페이">
-	                <p>신용카드</p>
-	            </div>
-	            <div class="payment-option">
-	                <img src="payco.png" alt="페이코">
-	                <p>실시간 계좌이체</p>
-	            </div>
-	            <div class="payment-option">
-	                <img src="toss.png" alt="토스">
-	                <p>무통장(온라인)입금</p>
-	            </div>
-	        </div>
-	        <p class="payment-note">카카오페이 이용안내</p>
-	    </div>
-	</div>
-
-    <div class="order-aside">
-            <div class="customer-info">
-                <h3>주문자 정보</h3>
-                <p>주문자</p>
+<div class="delivery-wrap">
+    <div class="delivery-info">
+        <h2>배송지</h2>
+        <form id="orderForm" action="/order/orderProcess" method="post">
+            <!-- 배송지 정보 -->
+            <div class="form-group">
+                <label for="recipient">수령인*</label>
+                <input type="text" id="recipient" name="recipient" placeholder="수령인 이름을 입력하세요" required>
             </div>
-            <div class="payment-info">
-                <h3>결제 정보</h3>
-                <table>
-                    <tr>
-                        <td>전체 주문금액</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>상품수</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>상품금액</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>할인금액</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>배송비</td>
-                        <td>0원</td>
-                    </tr>
-                    <tr>
-                        <td>예상 적립금</td>
-                        <td></td>
-                    </tr>
+            <input type="hidden" id="recipient_name" name="recipient_name">
+
+            <div class="form-group">
+                <label>연락처*</label>
+                <div class="phone-input">
+                    <select id="phone1-part1" name="phone1-part1" required>
+                        <option value="">선택</option>
+                        <option value="010">010</option>
+                    </select>
+                    <input type="text" id="phone1-part2" name="phone1-part2" placeholder="-" required>
+                    <input type="text" id="phone1-part3" name="phone1-part3" placeholder="-" required>
+                </div>
+                <input type="hidden" id="recipient_phone" name="recipient_phone">
+            </div>
+            <div class="form-group">
+                <label>배송지 주소*</label>
+                <button type="button" class="address-search" onclick="DaumPostcode()">우편번호 검색</button>
+                <div id="wrap" style="display:none;"></div>
+                <input type="text" id="zipcode" name="zipcode" placeholder="우편번호" readonly>
+                <input type="text" id="address" name="address" placeholder="주소" readonly>
+                <input type="text" id="detailed_address" name="detailed_address" placeholder="상세주소" required>
+            </div>
+            <input type="hidden" id="shipping_address" name="shipping_address">
+
+            <!-- 주문상품 정보 -->
+            <div class="order-items">
+                <h3>주문상품 <span class="totalCount">${totalProductCount}종 ${totalProductCount}개</span> 
+                <button class="view-items">주문상품 수정하기</button></h3>
+                <table class="item-list">
+                    <thead>
+                        <tr>
+                            <th>상품정보</th>
+                            <th>판매가</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${cartItems}" var="row">
+                            <tr>
+                                <td class="item-info">
+                                    <img src="${pageContext.request.contextPath}/images/${row.img}" alt="${row.book_title}">
+                                    <div>
+                                        <p class="boot-title">${row.book_title}</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="price">${row.sale_price}원</p>
+                                    <p class="original-price">${row.original_price}원</p>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
                 </table>
             </div>
-            <button class="order-button">주문하기</button>
+
+            <!-- 할인 정보 -->
+            <div class="discount-section">
+                <h3>할인 <span class="toggle-icon">^</span></h3>
+                <div class="discount-content">
+                    <p class="no-discount">사용가능한 쿠폰이 없습니다.</p>
+                    <div class="discount-item">
+                        <span>적립금</span>
+                        <input type="text" name="points" value="0">
+                        <button type="button">전액 사용</button>
+                        <span class="available">(보유 : 1,550원)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 결제수단 정보 -->
+            <div class="payment-method">
+                <h3>결제수단 </h3>
+                <p class="total-payment">총 결제 금액 <span class="total-amount">${totalOrderAmount + deliveryFee}원</span><span>(주문금액 + 배송비)</span></p>
+                <div class="payment-options">
+                    <div class="payment-option">
+                        <input type="radio" name="payment_method" value="kakao_pay" id="kakao_pay" checked>
+                        <label for="kakao_pay">
+                            <img src="kakao_pay.png" alt="신용카드">
+                            <p>신용카드</p>
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" name="payment_method" value="kakao" id="kakao">
+                        <label for="kakao">
+                            <img src="kakao.png" alt="카카오페이">
+                            <p>카카오페이</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- order-aside 정보 히든 필드로 추가 -->
+            <input type="hidden" name="total_order_amount" value="${totalOrderAmount}">
+            <input type="hidden" name="total_product_count" value="${totalProductCount}">
+            <input type="hidden" name="total_product_amount" value="${totalProductAmount}">
+            <input type="hidden" name="total_discount_amount" value="0">
+            <input type="hidden" name="delivery_fee" value="${deliveryFee}">
+            <input type="hidden" name="expected_points" value="${expectedPoints}">
+
+            <button type="submit" onclick="requestPay()" class="order-button">주문하기</button>
+        </form>
+    </div>
+
+    <!-- 결제 정보 표시 -->
+    <div class="order-aside">
+        <div class="customer-info">
+            <h3>주문자 정보</h3>
         </div>
- </div>
+        <div class="payment-info">
+            <h3>결제 정보</h3>
+            <table>
+                <tr>
+                    <td>전체 주문금액</td>
+                    <td>${totalOrderAmount}원</td>
+                </tr>
+                <tr>
+                    <td>상품수</td>
+                    <td>${totalProductCount}개</td>
+                </tr>
+                <tr>
+                    <td>상품금액</td>
+                    <td>${totalProductAmount}원</td>
+                </tr>
+                <tr>
+                    <td>배송비</td>
+                    <td>${deliveryFee}원</td>
+                </tr>
+                <tr>
+                    <td>예상 적립금</td>
+                    <td>${expectedPoints}원</td>
+                </tr>
+                <tr>
+                    <td>총 금액</td>
+                    <td><strong>${totalOrderAmount + deliveryFee}원</strong></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 
+<!-- 결제 -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 
+<script>
+	IMP.request_pay(
+	  {
+	    pg: "{PG사 코드}.{상점 ID}",
+	    pay_method: "card",
+	    merchant_uid: `payment-${crypto.randomUUID()}`, // 주문 고유 번호
+	    name: "노르웨이 회전 의자",
+	    amount: 64900,
+	    buyer_email: "gildong@gmail.com",
+	    buyer_name: "홍길동",
+	    buyer_tel: "010-4242-4242",
+	    buyer_addr: "서울특별시 강남구 신사동",
+	    buyer_postcode: "01181",
+	  },
+	  function (response) {
+	    // 결제 종료 시 호출되는 콜백 함수
+	    // response.imp_uid 값으로 결제 단건조회 API를 호출하여 결제 결과를 확인하고,
+	    // 결제 결과를 처리하는 로직을 작성합니다.
+	  },
+	);
+</script>
+
+<!-- Kakao 지도 API -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1d2c6fcb1c84e26382b93490500af756&libraries=services"></script>
+
+<script>
+var element_wrap = document.getElementById('wrap');
+
+function foldDaumPostcode() {
+    element_wrap.style.display = 'none';
+}
+
+function DaumPostcode() {
+    var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var addr = '';
+            var extraAddr = '';
+
+            if (data.userSelectedType === 'R') {
+                addr = data.roadAddress;
+            } else {
+                addr = data.jibunAddress;
+            }
+
+            if (data.userSelectedType === 'R') {
+                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                    extraAddr += data.bname;
+                }
+                if (data.buildingName !== '' && data.apartment === 'Y') {
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                if (extraAddr !== '') {
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                addr += extraAddr;
+            }
+
+            document.getElementById('zipcode').value = data.zonecode;
+            document.getElementById('address').value = addr;
+
+            element_wrap.style.display = 'none';
+            document.body.scrollTop = currentScroll;
+        },
+        onresize: function(size) {
+            element_wrap.style.height = size.height + 'px';
+        },
+        width: '100%',
+        height: '100%'
+    }).embed(element_wrap);
+
+    element_wrap.style.display = 'block';
+}
+
+document.getElementById('orderForm').addEventListener('submit', function(event) {
+    var recipient = document.getElementById('recipient').value;
+    var phonePart1 = document.getElementById('phone1-part1').value;
+    var phonePart2 = document.getElementById('phone1-part2').value;
+    var phonePart3 = document.getElementById('phone1-part3').value;
+    var address = document.getElementById('address').value;
+    var detailedAddress = document.getElementById('detailed_address').value;
+
+    if (!recipient || !phonePart1 || !phonePart2 || !phonePart3 || !address || !detailedAddress) {
+        alert('모든 필수 항목을 입력해 주세요.');
+        event.preventDefault();
+        return;
+    }
+
+    document.getElementById('recipient_name').value = recipient;
+    document.getElementById('recipient_phone').value = phonePart1 + '-' + phonePart2 + '-' + phonePart3;
+    document.getElementById('shipping_address').value = address + ' ' + detailedAddress;
+});
+</script>
 
 <style>
-
-
-.delivery-wrap{
+.delivery-wrap {
     display: flex;
     max-width: 1000px;
     margin: 15px auto;
@@ -443,6 +501,5 @@ td:last-child {
     color: #4CAF50;
 }
 </style>
-			
-<!-- 본문 끝 -->
+
 <%@ include file="../footer.jsp"%>

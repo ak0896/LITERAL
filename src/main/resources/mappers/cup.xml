@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- cup.xml -->
+
+<mapper namespace="cup">
+	
+	<!-- 책 월드컵 리스트 -->
+	<select id="acuplist" resultType="java.util.Map">
+		SELECT worldcup_code, wc_title, round, genre_code
+		FROM book_worldcup
+		ORDER BY worldcup_code DESC
+	</select>
+
+
+	<!-- worldcup_code 생성 / cup-1, cup-2 ... -->
+	<select id="worldcupcode" resultType="String">
+		SELECT CONCAT('cup-', COALESCE(MAX(CAST(SUBSTRING_INDEX(worldcup_code, '-', -1) AS UNSIGNED)), 0) + 1) AS new_worldcup_code        
+		FROM book_worldcup	
+	</select>
+
+
+	<!-- 상품 등록 -->
+    <insert id="insert" parameterType="java.util.Map">
+        INSERT INTO book_worldcup (worldcup_code, wc_title, round, genre_code, book_title)
+        VALUES (#{worldcup_code}, #{wc_title}, #{round}, #{genre_code}, #{book_title})
+    </insert>
+    
+    
+    <!-- 장르별 고유한 책 목록 가져오기 -->
+	<select id="genrelist" resultType="java.util.Map">
+		SELECT DISTINCT book_code, book_title, genre_code
+		FROM product 
+		GROUP BY book_code
+		WHERE genre_code = #{genre_code};
+	</select>
+	
+	   
+	<!-- 책 정보 가져오기 -->
+    <select id="getBookyNumber" resultType="java.util.Map">
+        SELECT book_number, book_code, book_title, genre_code
+        FROM product
+        WHERE book_number = #{book_number}
+    </select>
+    
+	
+    <!-- 월드컵 결과 저장 -->
+    <insert id="insertResult" parameterType="java.util.Map">
+        INSERT INTO result_worldcup (email, worldcup_code, book_number, book_code, cup_date)
+        VALUES (#{email}, #{worldcup_code}, #{book_number}, #{book_code}, NOW())
+    </insert>
+	
+	
+	<!-- 월드컵 결과 리스트 -->
+    <select id="aresultlist" resultType="java.util.Map">
+        SELECT re_code, email, worldcup_code, book_number, book_code, cup_date
+		FROM result_worldcup
+		ORDERF BY re_code DESC;
+    </select>
+	
+</mapper>

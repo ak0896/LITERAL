@@ -72,16 +72,24 @@
 				        </c:otherwise>
 				    </c:choose>
 				    
-				    
-  					<c:choose>
-				        <c:when test="${not empty sessionScope.member}">
-				        	<a href="/mypage_main"><i class="fas fa-user-circle"></i> MYPAGE</a>
-				        </c:when>
-				        <c:otherwise>
-				            <a href="/member/login"><i class="fas fa-user-circle"></i> MYPAGE</a>
-				        </c:otherwise>
-				    </c:choose>
-                 	<a href="/cart/cartList"><i class="fas fa-shopping-cart"></i> CART</a>
+					<c:choose>
+					    <c:when test="${not empty sessionScope.member && sessionScope.member.type_code != 0}">
+					        <a href="/mypage/mypage_main"><i class="fas fa-user-circle"></i> MYPAGE </a>
+					    </c:when>
+					    <c:when test="${empty sessionScope.member}">
+					        <a href="/member/login"><i class="fas fa-user-circle"></i> MYPAGE </a>
+					    </c:when>
+					</c:choose>
+					
+					<c:choose>
+					    <c:when test="${not empty sessionScope.member && sessionScope.member.type_code != 0}">
+					        <a href="/cart/cartList"><i class="fas fa-shopping-cart"></i> CART </a>
+					    </c:when>
+					    <c:when test="${empty sessionScope.member}">
+					        <a href="/member/login"><i class="fas fa-user-circle"></i> CART </a>
+					    </c:when>
+					</c:choose>			    
+				    			    
 				</div>
             </div>
         </header>
@@ -107,8 +115,7 @@
 	                       <a class="nav-link font-weight-bold" href="/reading_main">열람실</a>
 	                   </li>
 	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="#">지점안내</a>
-	                   </li>
+							<a class="nav-link font-weight-bold" href="/branch/branchDetail">지점안내</a>	                   </li>
 	                   <li class="nav-item">
 	                       <a class="nav-link font-weight-bold" href="/event/eventlist">이벤트</a>
 	                   </li>

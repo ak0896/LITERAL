@@ -6,7 +6,6 @@ public class UseTimeDTO {
 
     private String time_code;
     private String start_time;
-    
 	public String getTime_code() {
 		return time_code;
 	}

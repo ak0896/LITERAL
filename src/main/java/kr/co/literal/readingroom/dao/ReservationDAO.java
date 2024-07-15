@@ -4,7 +4,10 @@ import kr.co.literal.readingroom.dto.ReservationDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ReservationDAO {
@@ -51,4 +54,26 @@ public class ReservationDAO {
         // 데이터베이스에서 prefix로 시작하는 예약 코드의 최대 숫자를 가져온 다음 1을 더한 값을 반환
         return sqlSession.selectOne("kr.co.literal.readingroom.ReadingRoomMapper.getNextReservationCodeNumber", prefix);
     }
+    
+    //0712추가
+	/*
+	 * public ReservationDTO getReservationBySeatCode(String seatCode) { return
+	 * sqlSession.selectOne(NAMESPACE + ".getReservationBySeatCode", seatCode); }
+	 */
+    
+    //0713추가
+    public List<ReservationDTO> getReservationsBySeatCodeAndTime(String seatCode, String startTime, String endTime) {
+        Map<String, String> params = new HashMap<>();
+        params.put("seatCode", seatCode);
+        params.put("startTime", startTime);
+        params.put("endTime", endTime);
+        return sqlSession.selectList(NAMESPACE + ".getReservationsBySeatCodeAndTime", params);
+    }
+    
+    public List<ReservationDTO> getReservationsBySeatCode(String seatCode) {
+        return sqlSession.selectList(NAMESPACE + ".getReservationsBySeatCode", seatCode);
+    }
+    
+
+    
 }

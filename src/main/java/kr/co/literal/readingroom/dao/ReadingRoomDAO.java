@@ -1,6 +1,7 @@
 package kr.co.literal.readingroom.dao;
 
 import kr.co.literal.readingroom.dto.ReadingRoomDTO;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ public class ReadingRoomDAO {
     private SqlSession sqlSession;
 
     private static final String NAMESPACE = "kr.co.literal.readingroom.ReadingRoomMapper";
+    
     
     
     public void insertReadingRoom(ReadingRoomDTO readingRoom) {
@@ -34,4 +36,6 @@ public class ReadingRoomDAO {
     public void deleteReadingRoom(String room_code) {
         sqlSession.delete(NAMESPACE + ".deleteReadingRoom", room_code);
     }
+    
+
 }

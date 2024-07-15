@@ -16,7 +16,6 @@ public class ReservationDTO {
     private String using_seat;
     private String re_name;
     private String re_phone;
-    
 	public String getReservation_code() {
 		return reservation_code;
 	}

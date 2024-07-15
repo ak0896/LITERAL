@@ -5,7 +5,7 @@ public class OrderDTO {
 	private String payment_code;   
 	private String email;
 	private String payment_method;
-	private int cart_code;
+	private String cart_code;
 	private int used_points;
 	private int total_amount;
 	private String recipient_phone;
@@ -14,7 +14,7 @@ public class OrderDTO {
 	private String shipping_message;
 	private int save_points;
 	private String payment_date;
-	private String delivery_status;
+	private String delivery_status = "pending";;
 	private String tracking_number;
 	
 	
@@ -51,12 +51,12 @@ public class OrderDTO {
 	}
 
 
-	public int getCart_code() {
+	public String getCart_code() {
 		return cart_code;
 	}
 
 
-	public void setCart_code(int cart_code) {
+	public void setCart_code(String cart_code) {
 		this.cart_code = cart_code;
 	}
 

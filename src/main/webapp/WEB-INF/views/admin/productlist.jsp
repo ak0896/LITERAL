@@ -5,29 +5,15 @@
 <!-- productlist(admin).jsp -->
 <!--사이드 메뉴 시작  -->
 <div class="contents_inner">
-    <div class="sidebar">
-        <h2> 국내도서 </h2>
-        <ul>
-            <li><a href="#">고전소설</a></li>
-            <li><a href="#">공포/미스테리소설</a></li>
-            <li><a href="#">역사소설</a></li>
-            <li><a href="#">판타지/과학소설</a></li>
-            <li><a href="#">로맨스소설</a></li>
-            <li><a href="#">무협소설</a></li>
-            <li><a href="#">청소년소설</a></li>
-            <li><a href="#">웹/드라마/영화소설</a></li>
-        </ul>
-    </div> <!-- <div class="sidebar"> end -->
- <!--사이드 메뉴 끝  -->
- 
+
  <!-- 본문 시작 -->
 	
 	<div class="main-content">
 		<div class="row">
 			<div class="col-sm-12">
 			<h3 class="productlist text-center"> [전 체 목 록] </h3>
-			</div>
-	 		</div> <!-- row end -->
+			
+  		</div> <!-- row end -->
 	  
 	  	<div class="row">
 		<c:forEach items="${list}" var="row" varStatus="vs">

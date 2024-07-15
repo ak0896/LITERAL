@@ -11,6 +11,7 @@ public class EventDTO {
 	private String book_number;
 	private String book_code;
 	private String event_date;
+	private String event_banner;
 	
 	public EventDTO() {}
 
@@ -85,13 +86,22 @@ public class EventDTO {
 	public void setEvent_date(String event_date) {
 		this.event_date = event_date;
 	}
+	
+	public String getEvent_banner() {
+		return event_banner;
+	}
 
+	public void setEvent_banner(String event_banner) {
+		this.event_banner = event_banner;
+	}
+
+	
 	@Override
 	public String toString() {
 		return "EventDTO [event_code=" + event_code + ", event_title=" + event_title + ", event_content="
 				+ event_content + ", start_date=" + start_date + ", end_date=" + end_date + ", event_discount="
 				+ event_discount + ", book_number=" + book_number + ", book_code=" + book_code + ", event_date="
-				+ event_date + "]";
+				+ event_date + ", event_banner=" + event_banner + "]";
 	}
 
 } // class EventDTO end

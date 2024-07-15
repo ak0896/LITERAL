@@ -3,12 +3,7 @@ package kr.co.literal.readingroom;
 import kr.co.literal.readingroom.dto.*;
 import kr.co.literal.member.MemberDAO;
 import kr.co.literal.member.MemberDTO;
-import kr.co.literal.readingroom.dao.BranchDAO;
-import kr.co.literal.readingroom.dao.MyCouponDAO;
-import kr.co.literal.readingroom.dao.ReadingRoomDAO;
-import kr.co.literal.readingroom.dao.ReservationDAO;
-import kr.co.literal.readingroom.dao.SeatDAO;
-import kr.co.literal.readingroom.dao.UseTimeDAO;
+import kr.co.literal.readingroom.dao.*;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +15,27 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.time.Duration;
 
 import javax.mail.Session;
 
 @Controller
 public class ReadingRoomCont {
-   private SqlSession session;
-   
-   @Autowired
-   private MemberDAO memberDAO;
+    private SqlSession session;
+    
+    @Autowired
+    private MemberDAO memberDAO;
 
-   @Autowired
+    @Autowired
     private BranchDAO branchDAO;
 
     @Autowired
@@ -53,6 +53,8 @@ public class ReadingRoomCont {
     @Autowired
     private UseTimeDAO useTimeDAO;
     
+    @Autowired
+    private NonMemberDAO nonMemberDAO;
     
     //열람실 예약 메인페이지
     @GetMapping("/reading_main")
@@ -60,42 +62,40 @@ public class ReadingRoomCont {
         return "readingroom/reservationForm";
     }
     
-    
     // 지점 선택 처리
-    @PostMapping("/selectBranch")
-    public String selectBranchByCode(@RequestParam("branch_code") String branch_code, HttpSession session, Model model) {
-       
-       // 선택한 지점과 이름을 세션에 저장
-        BranchDTO branch = branchDAO.selectBranchByCode(branch_code);
-       session.setAttribute("branch_code", branch_code);
-       session.setAttribute("branch_name", branch.getBranch_name()); // 지점 이름 가져오기
-       
-        System.out.println("선택된 Branch_code: " + branch_code);
-        System.out.println("선택된 Branch_name: " + branch.getBranch_name());
+    @RequestMapping(value = "/selectBranch", method = {RequestMethod.GET, RequestMethod.POST})
+    public String selectBranchByCode(@RequestParam(value = "branch_code", required = false) String branch_code, HttpSession session, Model model) {
+        if (branch_code == null) {
+            // branch_code가 없는 경우 세션에서 가져옴
+            branch_code = (String) session.getAttribute("branch_code");
+        }
         
-        // 지점별 좌석 레이아웃을 가져오는 메서드
+        if (branch_code == null) {
+            // 여전히 branch_code가 없는 경우 오류 처리
+            model.addAttribute("errorMessage", "지점 코드가 누락되었습니다. 다시 시도해주세요.");
+            return "error"; // 에러 페이지로 이동
+        }
+
+        BranchDTO branch = branchDAO.selectBranchByCode(branch_code);
+        session.setAttribute("branch_code", branch_code);
+        session.setAttribute("branch_name", branch.getBranch_name());
+
         List<String> seatLayout = getSeatLayoutByBranch(branch_code);
         model.addAttribute("seatLayout", seatLayout);
-        return "readingroom/seatSelection";
-    }//selectBranch() end
-    
-    
-    private String selectBranchByCode(String branch_code) {
-        // 지점 코드를 받아 지점 이름을 반환하는 로직
-        switch (branch_code) {
-            case "L01": return "강남점";
-            case "L02": return "연희점";
-            case "L03": return "종로점";
-            default: return "";
+
+        Map<String, String> seatTimes = new HashMap<>();
+        for (String seatCode : seatLayout) {
+            if (!seatCode.equals("hidden")) {
+                String remainingTime = getSeatTime(seatCode);
+                seatTimes.put(seatCode, remainingTime);
+            }
         }
-    }//selectBranchByCode() end
-    
-    
-    
-    
+        model.addAttribute("seatTimes", seatTimes);
+
+        return "readingroom/seatSelection";
+    }
+
     private List<String> getSeatLayoutByBranch(String branch_code) {
-        // 지점별 좌석 레이아웃을 반환하는 로직
-        // "hidden" 값을 사용하여 빈 자리를 나타냅니다.
         List<String> seatLayout = Arrays.asList(
             "1", "2", "3", "4", "5",
             "hidden", "hidden", "hidden", "hidden", "6",
@@ -104,20 +104,69 @@ public class ReadingRoomCont {
             "hidden", "14", "15", "hidden", "9"
         );
 
-        // seat_code 포맷 변경
         for (int i = 0; i < seatLayout.size(); i++) {
             if (!seatLayout.get(i).equals("hidden")) {
                 seatLayout.set(i, branch_code + "-" + String.format("%02d", Integer.parseInt(seatLayout.get(i))));
             }
-        }// for end
+        }
         return seatLayout;
-    }//getSeatLayoutByBranch() end
-    
+    }
 
-   
+    private String getSeatTime(String seatCode) {
+        List<ReservationDTO> reservations = reservationDAO.getReservationsBySeatCode(seatCode);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime now = LocalTime.now();
+        StringBuilder seatTimeBuilder = new StringBuilder();
+
+        for (ReservationDTO reservation : reservations) {
+            String endTimeStr = reservation.getEnd_time();
+            LocalTime endTime = LocalTime.parse(endTimeStr, formatter);
+            String startTimeStr = getStartTimeByTimeCode(reservation.getTime_code());
+            LocalTime startTime = LocalTime.parse(startTimeStr, formatter);
+
+            if (startTime.isBefore(now) && endTime.isAfter(now)) {
+                Duration duration = Duration.between(now, endTime);
+                long hours = duration.toHours();
+                long minutes = duration.toMinutes() % 60;
+                seatTimeBuilder.append(String.format("%02d:%02d", hours, minutes)).append(", ");
+            }
+        }
+
+        if (seatTimeBuilder.length() == 0) {
+            return "00:00";
+        }
+
+        seatTimeBuilder.setLength(seatTimeBuilder.length() - 2);
+        return seatTimeBuilder.toString();
+    }
 
 
-    // 좌석 선택 
+    @GetMapping("/api/getSeatTimes")
+    @ResponseBody
+    public Map<String, String> getSeatTimes(@RequestParam("branch_code") String branch_code) {
+        List<String> seatLayout = getSeatLayoutByBranch(branch_code);
+        Map<String, String> seatTimes = new HashMap<>();
+        for (String seatCode : seatLayout) {
+            if (!seatCode.equals("hidden")) {
+                String remainingTime = getSeatTime(seatCode);
+                seatTimes.put(seatCode, remainingTime);
+            }
+        }
+        return seatTimes;
+    }
+
+    @PostMapping("/api/checkSeatAvailability")
+    @ResponseBody
+    public Map<String, Boolean> checkSeatAvailability(@RequestParam("seat_code") String seatCode,
+                                                      @RequestParam("start_time") String startTime,
+                                                      @RequestParam("end_time") String endTime) {
+        boolean isAvailable = isSeatAvailable(seatCode, startTime, endTime);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("available", isAvailable);
+        return response;
+    }
+
+ // 좌석 선택 
     @PostMapping("/paymentForm")
     public String paymentForm(@RequestParam("seat_code") String seat_code,
                               @RequestParam("room_code") String room_code, 
@@ -126,14 +175,23 @@ public class ReadingRoomCont {
                               @RequestParam("time_code") String time_code, 
                               @RequestParam("start_time") String start_time,
                               HttpSession session, Model model) {
-        
-       // room_amount를 String으로 받아서 int로 변환(오류방지)
+
+        // room_amount를 String으로 받아서 int로 변환(오류방지)
         int room_amount;
         try {
             room_amount = Integer.parseInt(room_amountStr);
         } catch (NumberFormatException e) {
             System.out.println("Invalid room_amount: " + room_amountStr);
             throw new IllegalArgumentException("Invalid room_amount: " + room_amountStr);
+        }
+
+        // 종료 시간을 계산
+        String end_time = calculateEndTime(start_time, duration);
+
+        // 좌석 사용 가능 여부 확인
+        if (!isSeatAvailable(seat_code, start_time, end_time)) {
+            model.addAttribute("errorMessage", "선택하신 좌석은 선택한 시간에 이미 예약되어 있습니다.");
+            return "redirect:/selectBranch?error=true"; // 예약 페이지로 리다이렉트
         }
 
         // 선택된 정보를 세션에 저장
@@ -143,10 +201,6 @@ public class ReadingRoomCont {
         session.setAttribute("duration", duration);
         session.setAttribute("time_code", time_code);
         session.setAttribute("start_time", start_time);
-
-  
-        // 종료 시간을 계산하여 세션에 저장
-        String end_time = calculateEndTime(start_time, duration);
         session.setAttribute("end_time", end_time);
 
         // Null 체크 추가
@@ -201,10 +255,9 @@ public class ReadingRoomCont {
         }
 
         return "readingroom/submitReservation"; // 결제 페이지로 이동
-    }//paymentForm() end
+    }
 
     
-    // 종료 시간을 계산하는 메서드
     private String calculateEndTime(String start_time, String duration) {
         int durationInHours = parseDuration(duration);
 
@@ -212,14 +265,19 @@ public class ReadingRoomCont {
         int hours = Integer.parseInt(parts[0]);
         int minutes = Integer.parseInt(parts[1]);
 
+        // 종료 시간 계산
         hours += durationInHours;
-        if (hours >= 24) {
-            hours -= 24;
+
+        // 종료 시간이 19시를 넘는 경우
+        if (hours >= 19) {
+            hours = 19;
+            minutes = 0;
         }
 
         return String.format("%02d:%02d", hours, minutes);
     }
 
+    
     // duration 문자열을 정수 시간으로 변환하는 메서드
     private int parseDuration(String duration) {
         switch (duration) {
@@ -236,25 +294,23 @@ public class ReadingRoomCont {
         }
     }//calculateEndTime() end
     
-    
-  
     @PostMapping("/submitReservation")
     public String submitReservation(@RequestParam("branch_code") String branch_code,
-                              @RequestParam("seat_code") String seat_code,
-                              @RequestParam("room_code") String room_code,
-                              @RequestParam("time_code") String time_code,
-                              @RequestParam("start_time") String start_time,
-                              @RequestParam("end_time") String end_time,
-                              @RequestParam("reservation_total") int reservation_total,
-                              @RequestParam("re_name") String re_name,
-                              @RequestParam("re_phone") String re_phone,
-                              @RequestParam(value = "mycoupon_number", required = false) String mycoupon_number,
-                               @RequestParam("reservation_payment") String reservation_payment,
-                              @RequestParam("reservation_date") String reservation_date,
-                              @RequestParam("using_seat") String using_seat,
-                              @RequestParam("isMember") boolean isMember,
-                              HttpSession session,
-                              Model model) {
+                                    @RequestParam("seat_code") String seat_code,
+                                    @RequestParam("room_code") String room_code,
+                                    @RequestParam("time_code") String time_code,
+                                    @RequestParam("start_time") String start_time,
+                                    @RequestParam("end_time") String end_time,
+                                    @RequestParam("reservation_total") int reservation_total,
+                                    @RequestParam("re_name") String re_name,
+                                    @RequestParam("re_phone") String re_phone,
+                                    @RequestParam(value = "mycoupon_number", required = false) String mycoupon_number,
+                                    @RequestParam("reservation_payment") String reservation_payment,
+                                    @RequestParam("reservation_date") String reservation_date,
+                                    @RequestParam("using_seat") String using_seat,
+                                    @RequestParam("isMember") boolean isMember,
+                                    HttpSession session,
+                                    Model model) {
         try {
             // 로그 추가
             System.out.println("re_name: " + re_name);
@@ -274,7 +330,7 @@ public class ReadingRoomCont {
             reservation.setReservation_date(reservation_date);
             reservation.setUsing_seat(using_seat);
             
-         // isMember가 true일 경우 'RP', false일 경우 'NRP'를 예약 코드의 첫 글자로 설정
+            // isMember가 true일 경우 'RP', false일 경우 'NRP'를 예약 코드의 첫 글자로 설정
             String reservationCodePrefix = isMember ? "RP" : "NRP";
 
             // 예약 코드의 숫자 부분을 결정 (예: 000001)
@@ -291,6 +347,22 @@ public class ReadingRoomCont {
             // 서비스 메서드를 통해 데이터베이스에 저장
             reservationDAO.insertReservation(reservation);
 
+            // 비회원일 경우 비회원 정보 저장
+            if (!isMember) {
+                NonMemberDTO existingNonMember = nonMemberDAO.findNonMemberByNameAndPhone(re_name, re_phone);
+                if (existingNonMember == null) {
+                    NonMemberDTO nonMember = new NonMemberDTO();
+                    nonMember.setReservation_code(reservationCode);
+                    nonMember.setNon_name(re_name);
+                    nonMember.setNon_phone(re_phone);
+                    nonMemberDAO.insertNonMember(nonMember);
+                } else {
+                    // 기존 비회원 정보가 있을 경우, 해당 정보와 현재 예약 코드를 연결
+                    existingNonMember.setReservation_code(reservationCode);
+                    nonMemberDAO.updateNonMember(existingNonMember);
+                }
+            }
+
             // 결과 페이지로 이동
             return "readingroom/reservationSuccess";
         } catch (Exception e) {
@@ -299,6 +371,57 @@ public class ReadingRoomCont {
         }
     }
 
-   
- 
-}//ReadingRoomCont() end
+    
+    
+    private boolean isSeatAvailable(String seatCode, String startTime, String endTime) {
+        List<ReservationDTO> reservations = reservationDAO.getReservationsBySeatCode(seatCode);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime start = LocalTime.parse(startTime, formatter);
+        LocalTime end = LocalTime.parse(endTime, formatter);
+
+        for (ReservationDTO reservation : reservations) {
+            String existingStartTime = getStartTimeByTimeCode(reservation.getTime_code());
+            LocalTime existingStart = LocalTime.parse(existingStartTime, formatter);
+            LocalTime existingEnd = LocalTime.parse(reservation.getEnd_time(), formatter);
+
+            // Check if the new reservation starts exactly when an existing reservation ends
+            if (start.equals(existingEnd)) {
+                continue; // New reservation starts exactly when the existing reservation ends, so it is allowed
+            }
+
+            // Check for time overlap
+            if (start.isBefore(existingEnd) && end.isAfter(existingStart)) {
+                return false; // 시간이 겹치면 사용 불가
+            }
+        }
+        return true;
+    }
+
+
+
+
+    private String getStartTimeByTimeCode(String time_code) {
+        switch (time_code) {
+            case "T01":
+                return "09:00";
+            case "T02":
+                return "10:00";
+            case "T03":
+                return "11:00";
+            case "T04":
+                return "12:00";
+            case "T05":
+                return "13:00";
+            case "T06":
+                return "14:00";
+            case "T07":
+                return "15:00";
+            case "T08":
+                return "16:00";
+            case "T09":
+                return "17:00";
+            default:
+                throw new IllegalArgumentException("Invalid time code: " + time_code);
+        }
+    }
+}

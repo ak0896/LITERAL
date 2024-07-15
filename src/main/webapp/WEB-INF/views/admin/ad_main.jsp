@@ -10,9 +10,10 @@
 		<div class="header">
 			<a href="admin/memberList"><h1>회원정보관리</h1></a>
 			<a href="admin/productlist_admin"><h1>상품관리</h1></a>
-			<a href="#"><h1>지점관리</h1></a>
-			<a href="#"><h1>공지사항관리</h1></a>
-			<a href="#"><h1>이벤트관리</h1></a>
+			<a href="admin/branchList"><h1>지점관리</h1></a>
+			<a href="${pageContext.request.contextPath}/notice/notice_list"><h1>공지사항관리</h1></a>
+			<a href="admin/ad_inquiry_list"><h1>1:1문의관리</h1></a>
+			<a href="admin/aeventlist"><h1>이벤트관리</h1></a>
 		
 			<div class="order-status"></div>
 		</div>
