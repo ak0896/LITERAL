@@ -5,29 +5,32 @@
 
 <mapper namespace="cart">
 
-    <insert id="insert" parameterType="kr.co.literal.cart.CartDTO" useGeneratedKeys="true" keyProperty="cart_code">
-        INSERT INTO cart (email, book_number, book_title, sale_price, cart_amount, select_yn)
-        VALUES (#{email}, #{book_number}, #{book_title}, #{sale_price}, #{cart_amount}, #{select_yn})
-    </insert>
-
-    <select id="list" resultType="kr.co.literal.cart.CartDTO" parameterType="String">
-        SELECT cart.cart_code, cart.email, cart.book_number, cart.book_title, cart.sale_price, cart.cart_amount, cart.select_yn
-        FROM cart
-        WHERE cart.email = #{email}
-    </select>
-
-    <select id="getProductByBookNumber" resultType="kr.co.literal.product.ProductDTO" parameterType="String">
-        SELECT book_number, book_title, sale_price
-        FROM product
-        WHERE book_number = #{book_number}
-    </select>
-
-   <delete id="deleteSelected" parameterType="map">
-	    DELETE FROM cart
-	    WHERE email = #{email}
-	    AND cart_code IN
-	    <foreach item="cart_code" collection="cart_codes" open="(" separator="," close=")">
-	        #{cart_code}
-	    </foreach>
+	<insert id="insert" parameterType="kr.co.literal.cart.CartDTO">
+		INSERT INTO cart (email, book_number, book_title, sale_price, original_price, img)
+		VALUES (#{email}, #{book_number}, #{book_title}, #{sale_price}, #{original_price}, #{img})
+	</insert>
+	
+	
+	<select id="cartlist" resultType="kr.co.literal.cart.CartDTO" parameterType="String">
+		SELECT cart_code, email, book_number, book_title, sale_price, original_price, img
+		FROM cart
+		WHERE email = #{email}
+		ORDER BY cart_code DESC
+	</select>
+	
+	
+	<delete id="delete" parameterType="java.util.HashMap">
+		DELETE FROM cart
+		WHERE cart_code = #{cart_code} AND email = #{email}
 	</delete>
+	
+	
+<!-- 	<select id="list2" resultType="java.util.HashMap" parameterType="String">
+	    SELECT c.cartno, c.product_code, c.price, c.qty, c.id, c.regdate, p.product_name
+	    FROM cart c INNER JOIN product p 
+	    ON c.product_code = p.product_code
+	    WHERE c.id = #{id}
+	    ORDER BY c.cartno
+	</select>
+ -->
 </mapper>

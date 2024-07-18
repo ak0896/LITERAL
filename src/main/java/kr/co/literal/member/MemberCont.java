@@ -66,7 +66,7 @@ public class MemberCont {
 	               session.setAttribute("re_name", memberDTO.getName()); // 세션에 이름 저장
 	               session.setAttribute("re_phone", memberDTO.getPhone_number()); // 세션에 전화번호 저장
 	               
-	               System.out.println(memberDTO);
+	               //System.out.println(memberDTO);
 	               
 	               // 이메일 저장 체크박스 처리
 	               handleRememberMeCookie(c_email, email, response);

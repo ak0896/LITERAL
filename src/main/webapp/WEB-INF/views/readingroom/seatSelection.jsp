@@ -119,8 +119,16 @@
         var seats = document.querySelectorAll('.seat');
         seats.forEach(function(seat) {
             seat.classList.remove('selected');
+            if (seat.classList.contains('in-use-temp')) {
+                seat.classList.remove('selected', 'in-use-temp');
+                seat.classList.add('in-use');
+            }
         });
         var selectedSeatButton = document.querySelector('.seat[data-seat_code="' + seatCode + '"]');
+        if (selectedSeatButton.classList.contains('in-use')) {
+            selectedSeatButton.classList.remove('in-use');
+            selectedSeatButton.classList.add('in-use-temp');
+        }
         selectedSeatButton.classList.add('selected');
     }
 
@@ -144,6 +152,12 @@
 
             remainingTimeSpan.textContent = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
         });
+        
+        /* 새로고침 추가  */  
+        // 1초 경과 후 자동으로 새로고침
+           setTimeout(function() {
+             location.reload();
+           }, 1000);
     }
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -181,13 +195,23 @@
 
         // 종료 시간을 계산하여 설정
         document.getElementById("seatSelectionForm").addEventListener("submit", function(event) {
-    const startTime = document.getElementById("selectedStartTime").value;
-    const durationText = document.getElementById("selectedDuration").value;
-    console.log(`Start Time: ${startTime}, Duration: ${durationText}`);
-    let duration = parseDuration(durationText);
-    let endTime = calculateEndTime(startTime, duration);
-    document.getElementById("selectedEndTime").value = endTime;
-    console.log(`Calculated End Time: ${endTime}`);
+        	 const selectedSeat = document.getElementById("selectedSeat").value;
+        	 const selectedStartTime = document.getElementById("selectedStartTime").value;
+        	 const selectedUsageTime = document.getElementById("selectedUsageTime").value;
+        	 
+        	 if (!selectedSeat || !selectedStartTime || !selectedUsageTime) {
+        	        event.preventDefault(); // 폼 제출 막기
+        	        alert('좌석, 시작 시간, 이용권을 모두 선택해주세요.');
+        	        return;
+        	    }
+            
+        	 const startTime = selectedStartTime;
+        	 const durationText = document.getElementById("selectedDuration").value;
+			console.log(`Start Time: ${startTime}, Duration: ${durationText}`);
+		    let duration = parseDuration(durationText);
+		    let endTime = calculateEndTime(startTime, duration);
+		    document.getElementById("selectedEndTime").value = endTime;
+		    console.log(`Calculated End Time: ${endTime}`);
 
     // 이미 사용 중인 좌석인지 확인
     const remainingTime = document.getElementById('selectedRemainingTime').value;
@@ -211,7 +235,8 @@
     // 예약된 시작 시간에 타이머 작동시키기
     startTimerAtScheduledTime(startTime, duration);
 });
-
+        // 주기적으로 남은 시간을 업데이트
+        setInterval(updateRemainingTimes, 60000); // 1분마다 업데이트
 
         function parseDuration(duration) {
             switch (duration) {
@@ -280,6 +305,10 @@
             }
         }
     });
+    
+    
+    
+    
 </script>
 
 

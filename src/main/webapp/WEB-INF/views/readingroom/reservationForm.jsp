@@ -79,6 +79,22 @@
 				</p>
 			</section>
 		</div> <!-- div class="content" end -->
+		
+		<script>
+			document
+					.getElementById('branchForm')
+					.addEventListener(
+							'submit',
+							function(event) {
+								var selectedBranch = document
+										.querySelector('input[name="branch_code"]:checked');
+								if (!selectedBranch) {
+									event.preventDefault();
+									alert('지점을 선택해주세요.');
+								}
+							});
+		</script>
+		
 	</div>	<!-- <div class="reservation-form"> -->
 	<!-- 본문 끝  -->
 </div>

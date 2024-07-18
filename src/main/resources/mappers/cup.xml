@@ -57,7 +57,7 @@
     <select id="aresultlist" resultType="java.util.Map">
         SELECT re_code, email, worldcup_code, book_number, book_code, cup_date
 		FROM result_worldcup
-		ORDERF BY re_code DESC;
+		ORDER BY re_code DESC;
     </select>
 	
 </mapper>

@@ -20,7 +20,7 @@
 	<div class="eventlist-main-content">
 		<h3> 책 월드컵 (8강) </h3>
 		
-		<form id="fmcup" name="fmcup" method="post" action="/admin/cupinsert" enctype="multipart/form-data">
+		<form id="fmcup" name="fmcup" method="post" action="${pageContext.request.contextPath}/admin/cupinsert" enctype="multipart/form-data">
 		<input type="hidden" name="round" value="${round}">
         <table class="table-cup">
         <tbody>

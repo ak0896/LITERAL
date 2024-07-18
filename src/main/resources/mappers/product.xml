@@ -15,7 +15,7 @@
 
 	<!-- 상품 전체 리스트 -->
  	<select id="list" resultType="java.util.Map">
-		SELECT  book_number, book_title, original_price, sale_price, img, img_size, registration_date
+		SELECT  genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
         FROM product
         ORDER BY registration_date DESC
 	</select>

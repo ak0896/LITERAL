@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import kr.co.literal.product.ProductDTO;
 
 @Repository
 public class MypageDAO {
@@ -34,22 +37,30 @@ public class MypageDAO {
 	
 	
 	
-    public void addWishlist(String bookNumber, String email) {
+/*	
+	// wisthlist
+    // wishlist에 항목을 추가하는 메서드
+    public void insertWishlist(String email, String book_number) {
         Map<String, Object> params = new HashMap<>();
-        params.put("bookNumber", bookNumber);
         params.put("email", email);
-        sqlSession.insert("mypage.addWishlist", params);
+        params.put("book_number", book_number);
+        sqlSession.insert("mypage.insertWishlist", params);
     }
+
+    // wishlist에서 항목을 삭제하는 메서드
+    public void deleteWishlist(String email, String book_number) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("email", email);
+        params.put("book_number", book_number);
+        sqlSession.delete("mypage.deleteWishlist", params);
+    }
+
+    // wishlist 조회 메서드
+    public List<ProductDTO> getWishlist(String email) {
+        return sqlSession.selectList("mypage.getWishlist", email);
+    }
+*/
+    
 
     
-    public void removeWishlist(String bookNumber, String email) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("bookNumber", bookNumber);
-        params.put("email", email);
-        sqlSession.delete("mypage.removeWishlist", params);
-    }
-	
-
-
-
 }//class end

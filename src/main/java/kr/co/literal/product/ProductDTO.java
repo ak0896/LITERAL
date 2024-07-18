@@ -20,7 +20,8 @@ public class ProductDTO {
     private String email;              // 이메일
     private int availability;          // 판매 여부
     private Timestamp registration_date; // 등록날짜
-    private String branch_code;        // 지점코드
+    private String branch_code;         // 지점코드
+    private boolean wish;        		// 찜
     
     public ProductDTO() {}
 
@@ -160,6 +161,14 @@ public class ProductDTO {
 		this.branch_code = branch_code;
 	}
 
+	public boolean isWish() {
+		return wish;
+	}
+
+	public void setWish(boolean wish) {
+		this.wish = wish;
+	}
+
 	
 	@Override
 	public String toString() {
@@ -168,7 +177,7 @@ public class ProductDTO {
 				+ publishing_date + ", intro_book=" + intro_book + ", img=" + img + ", img_size=" + img_size
 				+ ", grade_code=" + grade_code + ", original_price=" + original_price + ", sale_price=" + sale_price
 				+ ", email=" + email + ", availability=" + availability + ", registration_date=" + registration_date
-				+ ", branch_code=" + branch_code + "]";
+				+ ", branch_code=" + branch_code + ", wish=" + wish + "]";
 	}
 
     

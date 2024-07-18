@@ -310,22 +310,23 @@
     <!-- Update -->
     <update id="updateNonMember" parameterType="kr.co.literal.readingroom.dto.NonMemberDTO">
         UPDATE non_member
-        SET reservation_code = #{reservation_code},
-            non_name = #{non_name},
+        SET non_name = #{non_name},
             non_phone = #{non_phone}
         WHERE nonmember_code = #{nonmember_code}
     </update>
 
     <!-- Delete -->
-    <delete id="deleteNonMember" parameterType="String">
+    <delete id="deleteNonMember" parameterType="int">
         DELETE FROM non_member WHERE nonmember_code = #{nonmember_code}
     </delete>
     
     
     <!-- 0714추가 -->
-    <select id="findNonMemberByNameAndPhone" parameterType="map" resultType="kr.co.literal.readingroom.dto.NonMemberDTO">
+    <select id="findNonMember" parameterType="map" resultType="kr.co.literal.readingroom.dto.NonMemberDTO">
         SELECT * FROM non_member WHERE non_name = #{non_name} AND non_phone = #{non_phone}
     </select>
     
+    
+  
     
 </mapper>

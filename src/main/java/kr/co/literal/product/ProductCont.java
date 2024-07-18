@@ -228,9 +228,6 @@ public class ProductCont {
     }//search() end
     
     
-	
-
-	
     // 상품 상세
 	@GetMapping("/productdetail/{book_number}")
 	public ModelAndView productdetail(@PathVariable String book_number) 

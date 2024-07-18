@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../header.jsp"%>
 
 <!-- orderDetail.jsp -->
@@ -40,7 +40,7 @@
 
             <!-- 주문상품 정보 -->
             <div class="order-items">
-                <h3>주문상품 <span class="totalCount">${totalProductCount}종 ${totalProductCount}개</span> 
+                <h3>주문상품 <span class="totalCount">${totalProductCount}종 ${totalProductCount}개</span>
                 <button class="view-items">주문상품 수정하기</button></h3>
                 <table class="item-list">
                     <thead>
@@ -88,7 +88,7 @@
                 <p class="total-payment">총 결제 금액 <span class="total-amount">${totalOrderAmount + deliveryFee}원</span><span>(주문금액 + 배송비)</span></p>
                 <div class="payment-options">
                     <div class="payment-option">
-                        <input type="radio" name="payment_method" value="kakao_pay" id="kakao_pay" checked>
+                        <input type="radio" name="payment_method" value="card" id="card" checked>
                         <label for="kakao_pay">
                             <img src="kakao_pay.png" alt="신용카드">
                             <p>신용카드</p>
@@ -112,7 +112,7 @@
             <input type="hidden" name="delivery_fee" value="${deliveryFee}">
             <input type="hidden" name="expected_points" value="${expectedPoints}">
 
-            <button type="submit" onclick="requestPay()" class="order-button">주문하기</button>
+            <button type="submit" class="order-button">주문하기</button>
         </form>
     </div>
 
@@ -152,33 +152,6 @@
         </div>
     </div>
 </div>
-
-<!-- 결제 -->
-<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
-
-<script>
-	IMP.request_pay(
-	  {
-	    pg: "{PG사 코드}.{상점 ID}",
-	    pay_method: "card",
-	    merchant_uid: `payment-${crypto.randomUUID()}`, // 주문 고유 번호
-	    name: "노르웨이 회전 의자",
-	    amount: 64900,
-	    buyer_email: "gildong@gmail.com",
-	    buyer_name: "홍길동",
-	    buyer_tel: "010-4242-4242",
-	    buyer_addr: "서울특별시 강남구 신사동",
-	    buyer_postcode: "01181",
-	  },
-	  function (response) {
-	    // 결제 종료 시 호출되는 콜백 함수
-	    // response.imp_uid 값으로 결제 단건조회 API를 호출하여 결제 결과를 확인하고,
-	    // 결제 결과를 처리하는 로직을 작성합니다.
-	  },
-	);
-</script>
-
 <!-- Kakao 지도 API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1d2c6fcb1c84e26382b93490500af756&libraries=services"></script>

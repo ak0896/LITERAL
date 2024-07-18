@@ -99,10 +99,14 @@ public class CupCont {
             bookNumbers.add((String) book.get("book_number")); // 각 책의 book_number를 리스트에 추가
         }
         
+        System.out.println("bookNumbers : " + bookNumbers);
+        
         session.setAttribute("bookNumbers", bookNumbers); // bookNumbers 리스트를 세션에 저장
         session.setAttribute("round", round);
-
+        
         mav.setViewName("admin/worldcup_match");
+        
+        System.out.println("mav : " + mav);
         return mav;
     } // public ModelAndView startWorldCup end
     
@@ -215,12 +219,12 @@ public class CupCont {
     @PostMapping("/cupinsert")
     public String insert(HttpServletRequest req) 
     {
-        String[] bookNumbers = req.getParameterValues("bookNumbers");
-        if (bookNumbers == null) {
-            System.out.println("bookNumbers is null");
+        String[] book_number = req.getParameterValues("book_number");
+        if (book_number == null) {
+            System.out.println("book_number is null");
             return "redirect:/admin/acuplist?error=missing_book_numbers";
         } else {
-            System.out.println("bookNumbers: " + Arrays.toString(bookNumbers));
+            System.out.println("book_number: " + Arrays.toString(book_number));
         }
 
         // 나머지 로직

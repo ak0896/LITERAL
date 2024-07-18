@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.literal.member.MemberDTO;
 import kr.co.literal.mypage.InquiryDTO;
+import kr.co.literal.product.ProductDTO;
 
 @Repository
 public class AdminDAO {
@@ -28,8 +29,7 @@ public class AdminDAO {
 	    public List<MemberDTO> getAllMembers() {
 	        return sqlSession.selectList(NAMESPACE + ".getAllMembers");
 	    }
-	    
-	    
+	    	    
 	    
 	    
 	    // 상품
@@ -37,6 +37,11 @@ public class AdminDAO {
 	    public List<Map<String, Object>> list(){
 	        return sqlSession.selectList("kr.co.literal.admin.adminMapper.list");
 	    }//list() end
+	    
+	    // 상품 상태 반영 조회
+	    public List<ProductDTO> getFilter(String filter) {
+	        return sqlSession.selectList("kr.co.literal.admin.adminMapper.getFilter", filter);
+	    }
 	    
 	    // 상품 상세
 		public Map<String, Object> detail(String book_number)
@@ -55,6 +60,12 @@ public class AdminDAO {
 			sqlSession.update("kr.co.literal.admin.adminMapper.update", map);
 		} // public void update() end
 		
+	    // 지점, 판매여부 수정
+		public void quickupdate(Map<String, Object> map)
+		{
+			sqlSession.update("kr.co.literal.admin.adminMapper.quickupdate", map);
+		} // public void update() end
+
 		// 이미지
 	    public String img(String book_number) {
 	        return sqlSession.selectOne("kr.co.literal.admin.adminMapper.img", book_number);
@@ -64,7 +75,6 @@ public class AdminDAO {
 	    public int genreBookCode(String genre_code) {
 	        return sqlSession.selectOne(NAMESPACE + ".genreBookCode", genre_code);
 	    } // public int genre_BookCode() end
-	    
 	    
 	    // 주어진 장르 코드와 책 코드로 다음 책 번호를 가져오는 메서드
 	    public int getNextBookNumber(String genre_code, String book_code) {
@@ -131,7 +141,6 @@ public class AdminDAO {
 
 	        return book_code;
 	    } // public String generateBookCode() end
-
 	    
 	    // 책 번호 생성 메서드
 	    public String generateBookNumber(String genre_code, String book_code, String book_title) {
@@ -175,5 +184,16 @@ public class AdminDAO {
 	    public int ad_inquiry_update(InquiryDTO inquiryDto) {
 	    	return sqlSession.update(NAMESPACE+".ad_inquiry_update",inquiryDto);
 	    }
+	    
+	    
+	    
+	    
+		// 리뷰(설문조사)
+		// 전체 리스트
+	    public List<Map<String, Object>> relist(){
+	        return sqlSession.selectList(NAMESPACE + ".relist");
+	    }//list() end
+		
+		
 	   
 }//AdminDAO() end

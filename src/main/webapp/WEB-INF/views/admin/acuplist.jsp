@@ -99,9 +99,25 @@
 
 <script>
 function logRoundValue() {
-    var round = document.getElementById("round").value; // 선택된 값 가져오기
-    return true; // 폼 제출을 계속 진행
+    var form = document.getElementById("selectRoundForm");
+    var round = form.round.value; // 선택된 라운드 값 가져오기
+
+    // 값들을 콘솔에 로그로 남기기
+    console.log("선택된 라운드: " + round);
+
+    // 폼의 모든 값을 로그로 남기기 (추후 더 많은 필드가 추가될 경우)
+    var formData = new FormData(form);
+    formData.forEach((value, key) => {
+        console.log(key + ": " + value);
+    });
+
+    return true; // 폼 제출 계속 진행
 }
+
+// 폼 제출 시 값을 로그로 남기도록 이벤트 리스너 추가
+document.getElementById("selectRoundForm").addEventListener("submit", function(event) {
+    logRoundValue();
+});
 </script>
 
 <!-- 본문 끝 -->

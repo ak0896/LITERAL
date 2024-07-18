@@ -33,11 +33,12 @@ public class NonMemberDAO {
         sqlSession.update(NAMESPACE + ".updateNonMember", non_member);
     }
     
-    public NonMemberDTO deleteNonMember(String nonmember_code) {
-        return sqlSession.selectOne(NAMESPACE + ".deleteNonMember", nonmember_code);
-    }
+    public void deleteNonMember(int nonmember_code) {
+    int result = sqlSession.delete(NAMESPACE + ".deleteNonMember", nonmember_code);
+    System.out.println("Deleted rows: " + result);  // 삭제된 행 수 출력
+}
 
-    public NonMemberDTO findNonMemberByNameAndPhone(String non_name, String non_phone) {
-        return sqlSession.selectOne(NAMESPACE + ".findNonMemberByNameAndPhone", Map.of("non_name", non_name, "non_phone", non_phone));
+    public NonMemberDTO findNonMember(String reservationCode, String non_name, String non_phone) {
+        return sqlSession.selectOne(NAMESPACE + ".findNonMember", Map.of("non_name", non_name, "non_phone", non_phone));
     }
 }

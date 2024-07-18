@@ -50,11 +50,21 @@
 		                    <span> 등록일 : ${product.registration_date} </span>
 		                </p>
 		                <div class="price-area">
-		                    <p>
-								<span class="discount"> ${product.original_price} 원 </span>
-		                        →
-		                        <span class="price"> ${product.sale_price} 원 </span>
-		                    </p>
+		                    <c:choose>
+		                        <c:when test="${product.availability eq 0}">
+		                            <p>
+		                                <span class="discount"> <fmt:formatNumber value="${product.original_price}" pattern="#,###" /> 원 </span>
+		                                →
+		                                <span class="price"> <fmt:formatNumber value="${product.sale_price}" pattern="#,###" /> 원 </span>
+		                            </p>
+		                        </c:when>
+		                        <c:when test="${product.availability eq 1}">
+		                            <p style="color: red;">sold_out</p>
+		                        </c:when>
+		                        <c:otherwise>
+		                            <!-- availability가 2일 경우 아무것도 표시하지 않음 -->
+		                        </c:otherwise>
+		                    </c:choose>
 		                </div>
 		                <p class="book-info-item">
 		                	<span> 출판사 </span>
@@ -107,9 +117,17 @@
 		                </p>
 		                <form name="actionForm" id="actionForm" action="${pageContext.request.contextPath}/cart/insert" method="post" enctype="multipart/form-data">
 		                <input type="hidden" name="book_number" value="${product.book_number}">
+		                <input type="hidden" name="availability" value="${product.availability}">
+		                
+                       <input type="hidden" name="book_title" value="${product.book_title}">
+                       <input type="hidden" name="sale_price" value="${product.sale_price}">
+                       <input type="hidden" name="original_price" value="${product.original_price}">
+                       <input type="hidden" name="img" value="${product.img}">
+                                   
+		                
 			                <table class="price-box-tb table">
 			                    <tbody>
-								<c:forEach var="row" items="${productList}" begin="0" end="2">
+								<c:forEach var="row" items="${productList}">
 								<tr>
 									<td>
 										<a href="${pageContext.request.contextPath}/product/productdetail/${row.book_number}">
@@ -121,6 +139,7 @@
 			                            <p> <fmt:formatNumber value="${row.original_price}" pattern="#,###" /> 원 → <fmt:formatNumber value="${row.sale_price}" pattern="#,###" /> 원 </p>
 							    	</td>
 							    </tr>
+
 							    </c:forEach>
 								<tr>
 									<td colspan="4" align="center">

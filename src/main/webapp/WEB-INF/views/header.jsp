@@ -109,7 +109,7 @@
 	                       <a class="nav-link font-weight-bold" href="/product/productlist">서점</a>
 	                   </li>
 	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="/notice/notice_list">공지사항</a>
+	                       <a class="nav-link font-weight-bold" href="/notice/notice_list2">공지사항</a>
 	                   </li>
 	                   <li class="nav-item">
 	                       <a class="nav-link font-weight-bold" href="/reading_main">열람실</a>

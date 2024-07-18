@@ -34,6 +34,7 @@ import kr.co.literal.member.MemberDAO;
 import kr.co.literal.member.MemberDTO;
 import kr.co.literal.mypage.InquiryDTO;
 import kr.co.literal.product.ProductDAO;
+import kr.co.literal.product.ProductDTO;
 import net.utility.Utility;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -49,6 +50,9 @@ public class AdminCont {
 		@Autowired
 		private AdminDAO adminDao;
 		
+		@Autowired
+		private ProductDAO productDao;
+	
 		
 		// 관리자 메인 페이지
 	    @GetMapping("")
@@ -76,10 +80,10 @@ public class AdminCont {
 	    // 회원 type_code 수정 처리 메서드
 	    @PostMapping("/updateMemberType")
 	    public String updateMemberType(@RequestParam("email") String email, @RequestParam("type_code") int type_code) {
-	    	System.out.println("updateMemberType: email = " + email + ", type_code = " + type_code);
 	    	memberDAO.updateMemberType(email, type_code);
 	        return "redirect:/admin/memberList";
 	    }
+	    
 	    
 	    
 	    // 상품
@@ -91,8 +95,7 @@ public class AdminCont {
 		   mav.setViewName("/admin/productlist");
 		   return mav;
 		 } // list() end
-	
-	
+		
 		// 상품 상세
 		@GetMapping("/aproductdetail/{book_number}")
 		public ModelAndView productdetail(@PathVariable String book_number)
@@ -103,7 +106,7 @@ public class AdminCont {
 			
 			return mav;
 		} // public ModelAndView detail() end
-		
+
 		// 상품 검색
 	    @GetMapping("/search")
 	    public ModelAndView search(@RequestParam(defaultValue = "") String book_title) {
@@ -113,7 +116,6 @@ public class AdminCont {
 	        mav.addObject("book_title", book_title);//검색어
 	        return mav;
 	    }//search() end
-	
 	    
 	    // 상품 수정
 	    @PostMapping("/update")
@@ -199,6 +201,27 @@ public class AdminCont {
 	        return "redirect:/admin/productlist_admin";
 	        
 	     }//update() end		 
+	    
+	    // 지점, 판매여부 수정
+	    @PostMapping("/quickupdate")
+	    public String quickupdate(@RequestParam Map<String, String> params) 
+	    {
+	        String book_number = params.get("book_number");
+	        String availability = params.get("availability");
+	        String branch_code = params.get("branch_code");
+
+	        // 데이터를 Map에 담기
+	        Map<String, Object> Map = new HashMap<>();
+	        Map.put("book_number", book_number);
+	        Map.put("availability", availability);
+	        Map.put("branch_code", branch_code);
+
+	        // DAO를 통해 데이터 업데이트
+	        adminDao.quickupdate(Map);
+
+	        return "redirect:/admin/productlist_admin"; // 변경 후 상품 리스트 페이지로 리다이렉트
+	    }
+	    
 	    
 	    
 	    //1:1문의
@@ -295,5 +318,20 @@ public class AdminCont {
 	        }//try end
 	    }
 	    
+	    
+	    
+	
+		// 리뷰(설문조사)
+		@RequestMapping("/ad_reviewlist")
+		public ModelAndView relist() {
+		   ModelAndView mav = new ModelAndView();
+		   mav.addObject("relist", adminDao.relist());
+		   mav.setViewName("/admin/ad_reviewlist");
+		   return mav;
+		 } // ModelAndView end
+		
+		
+		
+		
 	    
 }//AdminCont() end

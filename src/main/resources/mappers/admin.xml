@@ -9,14 +9,16 @@
     <select id="getAllMembers" resultType="kr.co.literal.member.MemberDTO">
         SELECT * FROM member
     </select>
-	
+    
+    
+	<!-- 상품 -->
 	<!-- 상품 목록 조회 -->
  	<select id="list" resultType="java.util.Map">
-		SELECT  book_number, book_title, original_price, sale_price, img, img_size, registration_date
+		SELECT  genre_code, book_code, book_number, book_title, author, grade_code, sale_price, email, availability, branch_code, registration_date
         FROM product
         ORDER BY registration_date DESC
 	</select>
-	
+
 	<!-- 상품 상세 -->
 	<select id="detail" resultType="java.util.Map" parameterType="String">
         SELECT genre_code, book_code, book_number, book_title, author, press, publishing_date, intro_book, img, img_size, grade_code, original_price, sale_price, email, availability, branch_code
@@ -69,7 +71,6 @@
         LIMIT 1
     </select>
 
-
 	<!-- 상품 수정 -->
 	<update id="update" parameterType="java.util.Map">
         UPDATE product
@@ -86,10 +87,17 @@
             intro_book=#{intro_book},
             img=#{img},
             img_size=#{img_size},
+            availability = #{availability},
             branch_code = #{branch_code}           
         WHERE book_number=#{original_book_number}
     </update>
-   
+    
+    <!-- 지점, 판매여부 수정 -->
+	<update id="quickupdate" parameterType="java.util.Map">
+        UPDATE product
+        SET availability = #{availability}, branch_code = #{branch_code}           
+        WHERE book_number=#{book_number}
+    </update>
    
 	<!-- 상품 조회 -->
 	<select id="search" resultType="java.util.Map" parameterType="String">
@@ -98,6 +106,7 @@
         WHERE book_title LIKE #{keyword}
         ORDER BY book_title
 	</select>
+	
 	
 	
 	<!-- 1:1문의 -->
@@ -134,5 +143,15 @@
 		SET inquiry_answer=#{inquiry_answer}
 		WHERE inquiry_code = #{inquiry_code}
 	</update>
+	
+	
+	<!-- 리뷰(설문조사) -->
+	<!-- 상품 전체 리스트 -->
+ 	<select id="relist" resultType="java.util.Map">
+		SELECT  review_id, email, book_number, rating, delivery_condition, book_condition, price_appropriateness, seller_question, treview, review_date
+        FROM review
+        ORDER BY review_date DESC
+	</select>
+	
 	
 </mapper>

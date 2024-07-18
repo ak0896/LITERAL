@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -24,7 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
 
 import javax.mail.Session;
 
@@ -114,21 +118,28 @@ public class ReadingRoomCont {
 
     private String getSeatTime(String seatCode) {
         List<ReservationDTO> reservations = reservationDAO.getReservationsBySeatCode(seatCode);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime now = LocalTime.now();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
         StringBuilder seatTimeBuilder = new StringBuilder();
 
         for (ReservationDTO reservation : reservations) {
             String endTimeStr = reservation.getEnd_time();
-            LocalTime endTime = LocalTime.parse(endTimeStr, formatter);
+            LocalTime endTime = LocalTime.parse(endTimeStr, timeFormatter);
             String startTimeStr = getStartTimeByTimeCode(reservation.getTime_code());
-            LocalTime startTime = LocalTime.parse(startTimeStr, formatter);
+            LocalTime startTime = LocalTime.parse(startTimeStr, timeFormatter);
 
-            if (startTime.isBefore(now) && endTime.isAfter(now)) {
-                Duration duration = Duration.between(now, endTime);
-                long hours = duration.toHours();
-                long minutes = duration.toMinutes() % 60;
-                seatTimeBuilder.append(String.format("%02d:%02d", hours, minutes)).append(", ");
+            // 예약 날짜를 LocalDate로 변환
+            LocalDate reservationDate = LocalDate.parse(reservation.getReservation_date(), dateTimeFormatter);
+
+            // 현재 날짜와 예약 날짜가 같은지 확인
+            if (reservationDate.isEqual(now.toLocalDate())) {
+                if (startTime.isBefore(now.toLocalTime()) && endTime.isAfter(now.toLocalTime())) {
+                    Duration duration = Duration.between(now.toLocalTime(), endTime);
+                    long hours = duration.toHours();
+                    long minutes = duration.toMinutes() % 60;
+                    seatTimeBuilder.append(String.format("%02d:%02d", hours, minutes)).append(", ");
+                }
             }
         }
 
@@ -139,6 +150,7 @@ public class ReadingRoomCont {
         seatTimeBuilder.setLength(seatTimeBuilder.length() - 2);
         return seatTimeBuilder.toString();
     }
+
 
 
     @GetMapping("/api/getSeatTimes")
@@ -294,6 +306,7 @@ public class ReadingRoomCont {
         }
     }//calculateEndTime() end
     
+ // 예약 제출 메서드
     @PostMapping("/submitReservation")
     public String submitReservation(@RequestParam("branch_code") String branch_code,
                                     @RequestParam("seat_code") String seat_code,
@@ -310,7 +323,7 @@ public class ReadingRoomCont {
                                     @RequestParam("using_seat") String using_seat,
                                     @RequestParam("isMember") boolean isMember,
                                     HttpSession session,
-                                    Model model) {
+                                    RedirectAttributes redirectAttributes) {
         try {
             // 로그 추가
             System.out.println("re_name: " + re_name);
@@ -349,7 +362,7 @@ public class ReadingRoomCont {
 
             // 비회원일 경우 비회원 정보 저장
             if (!isMember) {
-                NonMemberDTO existingNonMember = nonMemberDAO.findNonMemberByNameAndPhone(re_name, re_phone);
+                NonMemberDTO existingNonMember = nonMemberDAO.findNonMember(reservationCode, re_name, re_phone);
                 if (existingNonMember == null) {
                     NonMemberDTO nonMember = new NonMemberDTO();
                     nonMember.setReservation_code(reservationCode);
@@ -363,42 +376,58 @@ public class ReadingRoomCont {
                 }
             }
 
-            // 결과 페이지로 이동
-            return "readingroom/reservationSuccess";
+            // 리다이렉트 설정
+            redirectAttributes.addFlashAttribute("reservation", reservation);
+
+            // 결과 페이지로 리다이렉트
+            return "redirect:/reservation/confirmation";
         } catch (Exception e) {
             e.printStackTrace();
             return "error"; // 에러 발생 시 error 페이지로 이동
         }
     }
 
+    // 예약 확인 페이지 메서드
+    @GetMapping("/reservation/confirmation")
+    public String showReservationConfirmation(Model model) {
+        return "readingroom/reservationSuccess"; // reservationSuccess.jsp 페이지로 이동
+    }
+
+
     
     
     private boolean isSeatAvailable(String seatCode, String startTime, String endTime) {
         List<ReservationDTO> reservations = reservationDAO.getReservationsBySeatCode(seatCode);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime start = LocalTime.parse(startTime, formatter);
-        LocalTime end = LocalTime.parse(endTime, formatter);
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalTime start = LocalTime.parse(startTime, timeFormatter);
+        LocalTime end = LocalTime.parse(endTime, timeFormatter);
+        LocalDate today = LocalDate.now();
 
         for (ReservationDTO reservation : reservations) {
-            String existingStartTime = getStartTimeByTimeCode(reservation.getTime_code());
-            LocalTime existingStart = LocalTime.parse(existingStartTime, formatter);
-            LocalTime existingEnd = LocalTime.parse(reservation.getEnd_time(), formatter);
+            LocalDate reservationDate = LocalDate.parse(reservation.getReservation_date(), dateTimeFormatter);
+            LocalTime existingStart = LocalTime.parse(getStartTimeByTimeCode(reservation.getTime_code()), timeFormatter);
+            LocalTime existingEnd = LocalTime.parse(reservation.getEnd_time(), timeFormatter);
 
-            // Check if the new reservation starts exactly when an existing reservation ends
-            if (start.equals(existingEnd)) {
-                continue; // New reservation starts exactly when the existing reservation ends, so it is allowed
-            }
+            // 현재 날짜와 예약 날짜가 같을 경우에만 예약 시간 겹침 여부를 확인
+            if (reservationDate.isEqual(today)) {
+                // Check if the new reservation starts exactly when an existing reservation ends
+                if (start.equals(existingEnd)) {
+                    continue; // New reservation starts exactly when the existing reservation ends, so it is allowed
+                }
 
-            // Check for time overlap
-            if (start.isBefore(existingEnd) && end.isAfter(existingStart)) {
-                return false; // 시간이 겹치면 사용 불가
+                // Check for time overlap
+                if (start.isBefore(existingEnd) && end.isAfter(existingStart)) {
+                    return false; // 시간이 겹치면 사용 불가
+                }
             }
         }
         return true;
     }
 
-
-
+    
+    
+    
 
     private String getStartTimeByTimeCode(String time_code) {
         switch (time_code) {
