@@ -10,7 +10,7 @@
         <h2> 이 벤 트 </h2>
         <ul>
             <li><a href="/admin/acuplist">책 월드컵</a></li>
-            <li><a href="#">이달의 작가</a></li>
+            <li><a href="/admin/aeventwrite"> 이달의 작가 </a></li>
         </ul>
     </div> <!-- <div class="sidebar"> end -->
 <!--사이드 메뉴 끝  -->

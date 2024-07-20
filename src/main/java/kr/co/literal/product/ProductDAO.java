@@ -186,5 +186,11 @@ public class ProductDAO {
     } // selectTop3() end
     
     
+    ////////////////////////////////////////////////////////////////
+    //오늘 날짜에 등록된 책 리스트 조회 (0712애경추가)
+    public List<ProductDTO> getTodayBookListByBranch(String branch_code) {
+        return sqlSession.selectList("kr.co.literal.product.ProductMapper.getTodayBookListByBranch", branch_code);
+    }//getTodayBookListByBranch() end
+    
     
 } // public class ProductDAO end

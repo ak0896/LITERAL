@@ -8,9 +8,9 @@
     <div class="sidebar">
         <h2> 이 벤 트 </h2>
         <ul>
-            <li><a href="/admin/acuplist"> 책 월드컵 </a></li>
-            <li><a href="/admin/aresultlist"> 책 월드컵 결과 </a></li>
-            <li><a href="#"> 이달의 작가 </a></li>
+       		<li><a href="/admin/aeventlist"> 전체 목록 </a></li>
+            <li><a href="/admin/acup_list"> 책 월드컵 </a></li>
+            <li><a href="/admin/aeventwrite"> 이달의 작가 </a></li>
         </ul>
     </div> <!-- <div class="sidebar"> end -->
 <!--사이드 메뉴 끝  -->
@@ -20,7 +20,7 @@
 	<div class="eventlist-main-content">
 		<h3> 이벤트 등록 </h3>
 		
-		<form id="fmevent" name="fmevent" method="post" action="insert" enctype="multipart/form-data">
+		<form id="fmevent" name="fmevent" method="post" action="aevent_insert" enctype="multipart/form-data">
 
 		<table class="table-event">
 	 	<tbody>
@@ -41,6 +41,14 @@
 	 			<textarea id="summernote" name="event_content" class="form-control">  </textarea>
 	 		</tr>
 	 					<input type="hidden" name="event_banner" id="event_banner">
+	 		<tr>
+	 			<td> 책 코드 </td>
+	 			<td><input type="text" name="book_code" id="book_code" class="form-control"></td>
+	 		</tr>
+	 		<tr>
+	 			<td> 할인율 </td>
+	 			<td><input type="text" name="event_discount" id="event_discount" class="form-control"></td>
+	 		</tr>
 	 		<button type="submit" class="btn btn-primary"> 등록 </button>
 	        <button type="button" class="btn btn-primary" onclick="javascript:history.back()"> 취소 </button>
 	 	</tbody>

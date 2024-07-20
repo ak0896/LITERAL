@@ -152,4 +152,14 @@
 	</select>
 	
 	
+	<!-- 0712애경추가 -->
+    <!-- 오늘 날짜에 등록된 책 리스트 조회 -->
+	<select id="getTodayBookListByBranch" resultType="kr.co.literal.product.ProductDTO">
+	    SELECT book_number, book_code, book_title, original_price, sale_price, img, img_size
+	    FROM product
+	    WHERE branch_code = #{branch_code}
+	    AND DATE(registration_date) = CURDATE()
+	</select>
+	
+	
  </mapper>

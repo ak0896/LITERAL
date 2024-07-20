@@ -12,9 +12,8 @@
 		<button type="button" class="btn btn-newevent" onclick="location.href='${pageContext.request.contextPath}/event/eventlist'"> 이벤트 목록 </button>
 	</p>	
 	
-    <form id="fmevent" name="fmevent" method="post" action="insert" enctype="multipart/form-data">
+    <form id="fmevent" name="fmevent" method="post" enctype="multipart/form-data">
         <input type="hidden" id="event_code" name="event_code" value="${event.event_code}">
-        <input type="hidden" id="book_number" name="book_number" value="${product.book_number}">
         
         <table class="table-event">
             <tbody>
@@ -58,8 +57,6 @@
                     <td> book_code </td>
                     <td> ${product.book_code} </td>
                 </tr>
-                
-                <button type="button" class="btn btn-primary"> 이벤트로 이동하기 </button>
             </tbody>
         </table>
     </form>

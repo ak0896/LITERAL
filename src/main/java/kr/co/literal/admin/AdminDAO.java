@@ -1,5 +1,6 @@
 package kr.co.literal.admin;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -195,5 +196,66 @@ public class AdminDAO {
 	    }//list() end
 		
 		
+	    
+	    
+		//////////////////////////////////////////////////////////////////////////////
+				
+				
+		// 지점매출관리(애경 시작)
+		// DtotalProduct 계산
+		public int calculateDtotalProduct(String branch_code, Date sales_date) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("branch_code", branch_code);
+		params.put("sales_date", sales_date);
+		return sqlSession.selectOne(NAMESPACE + ".calculateDtotalProduct", params);
+		}//calculateDtotalProduct() end
+		
+		
+		
+		// DtotalRoom 계산
+		public int calculateDtotalRoom(String branch_code, Date sales_date) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("branch_code", branch_code);
+		params.put("sales_date", sales_date);
+		return sqlSession.selectOne(NAMESPACE + ".calculateDtotalRoom", params);
+		}//calculateDtotalRoom() end
+		
+		
+		
+		// daily_sales 테이블의 데이터를 삽입 또는 업데이트하는 메소드
+		public int insertOrUpdateDailySales(DailySalesDTO dailySalesDTO) {
+		return sqlSession.insert(NAMESPACE + ".insertOrUpdateDailySales", dailySalesDTO);
+		}//insertOrUpdateDailySales() end
+		
+		
+		
+		// 지점 코드와 매출 날짜로 daily_sales 데이터를 조회하는 메소드
+		public DailySalesDTO selectDailySales(String branch_code, Date sales_date) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("branch_code", branch_code);
+		params.put("sales_date", sales_date);
+		return sqlSession.selectOne(NAMESPACE + ".selectDailySales", params);
+		}//selectDailySales() end
+		
+		
+		
+		// daily_sales 테이블의 데이터를 업데이트하는 메소드
+		public void updateDailySales(DailySalesDTO dailySalesDTO) {
+		sqlSession.update(NAMESPACE + ".updateDailySales", dailySalesDTO);
+		}//updateDailySales() end
+		
+		
+		
+		// 지점 코드와 매출 날짜로 daily_sales 테이블의 데이터를 삭제하는 메소드
+		public void deleteDailySales(String branch_code, Date sales_date) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("branch_code", branch_code);
+		params.put("sales_date", sales_date);
+		sqlSession.delete(NAMESPACE + ".deleteDailySales", params);
+		}//deleteDailySales() end
+		
+		
+		
+		////////////////////////////////////////////////////지점매출관리(애경 끝)
 	   
 }//AdminDAO() end

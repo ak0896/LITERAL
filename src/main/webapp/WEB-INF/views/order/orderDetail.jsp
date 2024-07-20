@@ -9,6 +9,9 @@
     <div class="delivery-info">
         <h2>배송지</h2>
         <form id="orderForm" action="/order/orderProcess" method="post">
+            <input type="hidden" name="cart_code" value="${cartCode}">
+            <input type="hidden" name="payment_code" value="${paymentCode}">
+            <input type="hidden" name="email" value="${email}">
             <!-- 배송지 정보 -->
             <div class="form-group">
                 <label for="recipient">수령인*</label>
@@ -41,7 +44,7 @@
             <!-- 주문상품 정보 -->
             <div class="order-items">
                 <h3>주문상품 <span class="totalCount">${totalProductCount}종 ${totalProductCount}개</span>
-                <button class="view-items">주문상품 수정하기</button></h3>
+                <button class="view-items" onclick="location.href='/cart/cartList'">주문상품 수정하기</button></h3>
                 <table class="item-list">
                     <thead>
                         <tr>
@@ -157,6 +160,15 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1d2c6fcb1c84e26382b93490500af756&libraries=services"></script>
 
 <script>
+document.getElementById('orderForm').addEventListener('submit', function(event) {
+    var recipient = document.getElementById('recipient').value;
+    if (recipient.length < 2) {
+        alert('수령인 이름은 최소 2글자 이상이어야 합니다.');
+        event.preventDefault();
+    }
+});
+
+
 var element_wrap = document.getElementById('wrap');
 
 function foldDaumPostcode() {

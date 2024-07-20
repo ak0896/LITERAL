@@ -20,14 +20,14 @@ public class EventDAO {
 	SqlSession sqlSession;
 
 	// 상품 전체 리스트
-    public List<Map<String, Object>> list(){
-        return sqlSession.selectList("event.list");
+    public List<Map<String, Object>> event_list(){
+        return sqlSession.selectList("event.event_list");
     }//list() end
     
     // 상세 내용
-	public Map<String, Object> detail(String event_code)
+	public Map<String, Object> event_detail(String event_code)
 	{
-		return sqlSession.selectOne("event.detail", event_code);
+		return sqlSession.selectOne("event.event_detail", event_code);
 	} // public Map<String, Object> detail() end
 	
 
@@ -35,8 +35,8 @@ public class EventDAO {
 	
 	// 관리자 페이지
 	// (관리자)상품 전체 리스트
-    public List<Map<String, Object>> adlist(){
-        return sqlSession.selectList("event.adlist");
+    public List<Map<String, Object>> aevent_list(){
+        return sqlSession.selectList("event.aevent_list");
     }//list() end
     
     
@@ -47,18 +47,18 @@ public class EventDAO {
     
     
     // insert
-    public void insert(Map<String, Object> map) {
-    	sqlSession.insert("event.insert", map);
+    public void aevent_insert(Map<String, Object> map) {
+    	sqlSession.insert("event.aevent_insert", map);
     } // public void insert end
     
     // 상세 내용
-	public Map<String, Object> addetail(String event_code)
+	public Map<String, Object> aevent_detail(String event_code)
 	{
-		return sqlSession.selectOne("event.addetail", event_code);
+		return sqlSession.selectOne("event.aevent_detail", event_code);
 	} // public Map<String, Object> detail() end
 	
     // update
-    public void adupdate(Map<String, Object> map) {
+    public void aevent_update(Map<String, Object> map) {
     	sqlSession.update("event.adupdate", map);
     } // public void insert end
 	

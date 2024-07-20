@@ -153,5 +153,58 @@
         ORDER BY review_date DESC
 	</select>
 	
+	<!-- daily_sales(지점매출관리) 애경 수정 시작-->
+    <!-- 당일매출등록 -->
+    <!-- reservation 테이블에서 branch_code를 직접 참조하는 대신, seat_code의 첫 3글자를 사용하여 branch_code를 추출 -->
+	 
+	 <!-- dtotal_product 계산 -->
+	<select id="calculateDtotalProduct" resultType="int" parameterType="map">
+	    SELECT COALESCE(SUM(c.sale_price), 0)
+	    FROM payment p
+	    JOIN cart c ON p.cart_code = c.cart_code
+	    JOIN product prod ON c.book_number = prod.book_number
+	    WHERE prod.branch_code = #{branch_code} 
+	    AND DATE(p.payment_date) = DATE(#{sales_date})
+	</select>
+
+	<!-- dtotal_room 계산 -->
+	<select id="calculateDtotalRoom" resultType="int" parameterType="map">
+	    SELECT COALESCE(SUM(r.reservation_total), 0)
+	    FROM reservation r
+	    WHERE SUBSTRING(r.seat_code, 1, 3) = #{branch_code} 
+	    AND DATE(r.reservation_date) = DATE(#{sales_date})
+	</select>
+	
+	<!-- 삽입 또는 업데이트 -->
+	<insert id="insertOrUpdateDailySales" parameterType="kr.co.literal.admin.DailySalesDTO">
+	    INSERT INTO daily_sales (branch_code, dtotal_product, dtotal_room, sales_date)
+	    VALUES (#{branch_code}, #{dtotal_product}, #{dtotal_room}, #{sales_date})
+	    ON DUPLICATE KEY UPDATE
+	    dtotal_product = dtotal_product + VALUES(dtotal_product),
+    	dtotal_room = dtotal_room + VALUES(dtotal_room)
+	</insert>
+
+    <!-- 지점별 일일 매출 조회 -->
+	<select id="selectDailySales" parameterType="map" resultType="kr.co.literal.admin.DailySalesDTO">
+	    SELECT branch_code, dtotal_product, dtotal_room, sales_date
+	    FROM daily_sales
+	    WHERE branch_code = #{branch_code} AND DATE(sales_date) = DATE(#{sales_date})
+	</select>
+	
+	<!-- 지점별 기간 매출 조회 -->
+	<select id="selectDailySalesByPeriod" parameterType="map" resultType="kr.co.literal.admin.DailySalesDTO">
+	    SELECT branch_code, dtotal_product, dtotal_room, sales_date
+	    FROM daily_sales
+	    WHERE branch_code = #{branch_code} 
+	    AND sales_date BETWEEN #{startDate} AND #{endDate}
+	    ORDER BY sales_date
+	</select>
+	
+	<!-- 삭제 -->
+	<delete id="deleteDailySales" parameterType="map">
+	    DELETE FROM daily_sales
+	    WHERE branch_code = #{branch_code} AND DATE(sales_date) = DATE(#{sales_date})
+	</delete>
+	<!-- daily_sales(지점매출관리) 애경 수정 끝-->
 	
 </mapper>

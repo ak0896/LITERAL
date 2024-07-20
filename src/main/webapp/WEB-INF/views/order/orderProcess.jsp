@@ -16,8 +16,8 @@
                     <img src="${pageContext.request.contextPath}/images/${row.img}" alt="${row.book_title}">
                     <div class="product-info">
                         <h3>${row.book_title}</h3>
-                        <p>${row.quantity}개</p>
-                        <p>${row.sale_price}원</p>
+                        <p>수량: ${row.quantity}개</p>
+                        <p>가격: ${row.sale_price}원</p>
                     </div>
                 </div>
             </c:forEach>
@@ -31,7 +31,7 @@
             <p>주소: ${orderInfo.shipping_address}</p>
         </div>
     </div>
-    <button class="confirm-btn">확인</button>
+    <button class="confirm-btn" onclick="location.href='/'">확인</button>
 </div>
 
 

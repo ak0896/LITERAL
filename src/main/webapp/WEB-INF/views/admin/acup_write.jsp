@@ -1,16 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ include file="../header_admin.jsp"%>
 
-<!-- aeventdetail.jsp -->
+<!-- acup_write.jsp -->
 <!--사이드 메뉴 시작  -->
 <div class="contents_inner">
     <div class="sidebar">
         <h2> 이 벤 트 </h2>
         <ul>
-       		<li><a href="/admin/aeventlist"> 전체 목록 </a></li>
-            <li><a href="/admin/acup_list"> 책 월드컵 </a></li>
+            <li><a href="/admin/acup_write"> 책 월드컵 </a></li>
             <li><a href="/admin/aeventwrite"> 이달의 작가 </a></li>
         </ul>
     </div> <!-- <div class="sidebar"> end -->
@@ -19,53 +17,62 @@
 <!-- 본문 시작 -->
 
 	<div class="eventlist-main-content">
-		<h3> 이벤트 수정 </h3>
+		<h3> 책 월드컵 </h3>
 		
-	    <form id="fmevent" name="fmevent" method="post" action="${pageContext.request.contextPath}/admin/aevent_update" enctype="multipart/form-data">
-	        <input type="hidden" id="event_code" name="event_code" value="${event.event_code}">
-
-	       <table class="table-event">
-	 	<tbody>
-	 		<tr>
-	 			<td> 이벤트 코드 </td>
-	 			<td> ${event.event_code} </td>
-	 		</tr>
-	 		<tr>
-	 			<td> 작성 날짜 </td>
-	 			<td> ${event.event_date} </td>
-	 		</tr>	 		
-	 		<tr>
-	 			<td> 제목 </td>
-	 			<td><input type="text" value="${event.event_title}" name="event_title" id="event_title" class="form-control"></td>
-	 		</tr>
+		<form id="fmcup" name="fmcup" method="post" action="acup_insert" enctype="multipart/form-data">
+			
+        <table class="table-cup">
+        <tbody>
+            <tr>
+                <td> 제목 </td>
+                <td><input type="text" name="wc_title" id="wc_title" class="form-control"></td>
+            </tr>
+            <tr>
+                <td> 장르 </td>
+                <td>
+                    <select name="genre_code" id="genre_code" class="form-control">
+                        <option value="G"> 고전 </option>
+                        <option value="M"> 공포 / 미스테리 </option>
+                        <option value="H"> 역사 </option>
+                        <option value="S"> 판타지 / 과학 </option>
+                        <option value="R"> 로맨스 </option>
+                        <option value="P"> 무협 </option>
+                        <option value="T"> 청소년 </option>
+                        <option value="W"> 웹 / 드라마 / 영화 </option>                    
+                    </select>
+                </td>
+            </tr>
 	 		<tr>
 	 			<td> 시작 날짜 </td>
-	 			<td><input type="date" value="${event.start_date}" name="start_date" id="start_date" class="form-control"></td>
+	 			<td><input type="date" name="cupstart_date" id="cupstart_date" class="form-control"></td>
 	 		</tr>
 	 		<tr>
 	 			<td> 종료 날짜 </td>
-	 			<td><input type="date" value="${event.end_date}" name="end_date" id="end_date" class="form-control"></td>
+	 			<td><input type="date" name="cupend_date" id="cupend_date" class="form-control"></td>
 	 		</tr>
 			<tr>
 	 			<td> 상세 내용 </td> 				
-	 			<textarea id="summernote" name="event_content" class="form-control">
-	 				${event.event_content}
-	 			</textarea>
+	 			<textarea id="summernote" name="wc_content" class="form-control">  </textarea>
 	 		</tr>
-	 			<input type="hidden" name="event_banner" id="event_banner">
+	 					<input type="hidden" name="wc_banner" id="wc_banner">	 		
 	 		<tr>
-	 			<td> 이벤트 할인율 </td>
-	 			<td><input type="number" value="${event.event_discount}" name="event_discount" id="endevent_discount_date" class="form-control" readonly></td>
-	 		</tr>
-	 		<tr>
-	 			<td> 책 코드 </td>
-	 			<td><input type="text" value="${product.book_code}" name="book_code" id="book_code" class="form-control" readonly></td>
-	 		</tr>	 		
-	 		<button type="submit" class="btn btn-primary"> 수정 </button>	 	</tbody>
-		</table>
-		</form>
+	 			<td> 할인율 </td>
+	 			<td><input type="text" name="wc_discount" id="wc_discount" class="form-control"></td>
+	 		</tr>		     
+            <tr>
+                <td colspan="2">
+                    <button type="submit" class="btn btn-primary"> 등록 </button>
+                    <button type="button" class="btn btn-primary" onclick="javascript:history.back()"> 취소 </button>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        </form>
+
+        
 	</div> <!-- <div class="eventlist-main-content"> end -->
-	
+
+
 	
 	<!-- Summernote관련  CSS/JS -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
@@ -73,7 +80,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
 		
 		
-<script>
+	<script>
 	//summernote 작성부분
 	$(document).ready(function() {
 	    $('#summernote').summernote({
@@ -112,10 +119,10 @@
 	                var bannerFileName = data.url.split('/').pop();
 	                
 	                $('#summernote').summernote('insertImage', imageUrl); // 이미지 URL을 에디터에 삽입
-	                $('#event_banner').val(bannerFileName); // 이미지 파일명을 hidden input에 저장
+	                $('#wc_banner').val(bannerFileName); // 이미지 파일명을 hidden input에 저장
 
 	                // hidden input 값 확인
-	                console.log("Hidden Input Event Banner: " + $('#event_banner').val());
+	                console.log("Hidden Input Event Banner: " + $('#wc_banner').val());
 	            } else {
 	                alert('이미지 업로드에 실패했습니다.');
 	            }
@@ -127,7 +134,7 @@
 	    }); // $.ajax end
 	} // function sendFile(file, el) end
 	</script>
-
+	
 <!-- 본문 끝 -->
 </div> <!-- <div class="contents_inner"> end -->
 <%@ include file="../footer.jsp"%>

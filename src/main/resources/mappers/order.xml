@@ -4,49 +4,44 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="order">
-	
-	<!-- 총 결제 금액 -->
+
+    <!-- 총 결제 금액 -->
     <select id="totalamount" resultType="int">
         SELECT SUM(sale_price) FROM cart WHERE email = #{email}
     </select>
-    
+
     <!-- 장바구니 코드 가져오기 -->
     <select id="cart_code" resultType="string">
         SELECT cart_code FROM cart WHERE email = #{email} LIMIT 1
     </select>
-    
-    <!-- cart Items -->
-    <select id="getCartItems" parameterType="String" resultType="hashmap">
+
+    <!-- 선택된 상품만 가져오기 -->
+    <select id="getCartItems" parameterType="map" resultType="hashmap">
         SELECT img, book_title, sale_price, original_price, save_points
         FROM cart
-        WHERE email = #{email}
-    </select>
-    
-    <!-- 장바구니 삭제 -->
-    <delete id="cartDelete" parameterType="string">
-        DELETE FROM cart WHERE email = #{email}
-    </delete>
-    
-     <select id="getOrderInfo" parameterType="string" resultType="hashmap">
-        SELECT payment_code,
-               recipient_name,
-               shipping_address,
-               payment_date
-        FROM payment
-        WHERE email = #{email}
-        LIMIT 1
+        WHERE email = #{email} AND cart_code IN
+        <foreach item="item" collection="selectedItems" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
-    <!-- 주문 삽입 -->
+    <!-- 주문서 목록 삽입 -->
     <insert id="insertOrder" parameterType="kr.co.literal.order.OrderDTO">
-        INSERT INTO payment (email, payment_method, cart_code, used_points, total_amount,
+        INSERT INTO payment (payment_code, email, payment_method, cart_code, used_points, total_amount,
             recipient_phone, shipping_address, recipient_name, shipping_message, save_points, payment_date,
             delivery_status, tracking_number)
-        VALUES (#{email}, #{payment_method}, #{cart_code}, #{used_points}, #{total_amount},
+        VALUES (#{payment_code}, #{email}, #{payment_method}, #{cart_code}, #{used_points}, #{total_amount},
             #{recipient_phone}, #{shipping_address}, #{recipient_name}, #{shipping_message}, #{save_points}, NOW(),
             #{delivery_status}, #{tracking_number})
     </insert>
 
+    <!-- 장바구니 삭제 -->
+    <delete id="cartDelete" parameterType="map">
+        DELETE FROM cart WHERE email = #{email} AND cart_code IN
+        <foreach item="item" collection="selectedItems" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
 
     <!-- cart_code 유효성 검사 -->
     <select id="cartCodeValid" parameterType="string" resultType="int">
@@ -54,14 +49,24 @@
     </select>
 
     <update id="disableForeignKeyChecks">
-    	SET FOREIGN_KEY_CHECKS = 0;
-	</update>
-	
-	<update id="enableForeignKeyChecks">
-	    SET FOREIGN_KEY_CHECKS = 1;
-	</update>
-	
-    <!-- 삽입된 payment_code 조회 -->
+        SET FOREIGN_KEY_CHECKS = 0;
+    </update>
+
+    <update id="enableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 1;
+    </update>
+
+    <select id="checkIfOrderExists" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM payment WHERE payment_code = #{payment_code}
+    </select>
+
+    <select id="getOrderInfo" parameterType="string" resultType="hashmap">
+        SELECT payment_code, recipient_name, shipping_address, payment_date
+        FROM payment
+        WHERE email = #{email}
+        LIMIT 1
+    </select>
+
     <select id="getPaymentCode" parameterType="String" resultType="String">
         SELECT payment_code 
         FROM payment 
@@ -70,4 +75,18 @@
         LIMIT 1
     </select>
     
+    <select id="orderDesc" parameterType="string" resultType="hashmap">
+         SELECT book_title, sale_price
+        FROM cart
+        WHERE cart_code = #{cart_code}
+    </select>
+    
+     <select id="getCartCodeByPaymentCode" parameterType="string" resultType="string">
+        SELECT cart_code
+        FROM payment
+        WHERE payment_code = #{payment_code}
+    </select>
 </mapper>
+
+
+

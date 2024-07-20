@@ -39,35 +39,51 @@ public class EventCont {
 	@Autowired
 	private EventDAO eventDao;
 	
+    @Autowired
+    private CupDAO cupDao;
+	
 	@Autowired
 	private ProductDAO productDao;
 
-	@RequestMapping("/eventlist")
-	public ModelAndView eventlist() {
-	    List<Map<String, Object>> events = eventDao.list();
+	
+    // 사용자용 이벤트 리스트
+    @GetMapping("/eventlist")
+    public ModelAndView eventlist() {
+        List<Map<String, Object>> event_list = eventDao.event_list();
+        List<Map<String, Object>> cup_list = cupDao.cup_list();
 
-	    ModelAndView mav = new ModelAndView();
-	    mav.addObject("list", events);
-	    mav.setViewName("/event/eventlist");
-	    return mav;
-	}
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("event_list", event_list);
+        mav.addObject("cup_list", cup_list);
+        
+        mav.setViewName("/event/eventlist");
+        return mav;
+    }
+    
+    
+    // 사용자용 이달의 작가 상세
+    @GetMapping("/eventdetail/{event_code}")
+    public ModelAndView eventDetail(@PathVariable String event_code) {
+        Map<String, Object> event = eventDao.event_detail(event_code);
 
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("event/eventdetail");
+        mav.addObject("event", event);
+        return mav;
+    }
+    
+    
+    // 사용자용 책 월드컵 상세
+    @GetMapping("/cup_detail/{worldcup_code}")
+    public ModelAndView cup_detail(@PathVariable String worldcup_code) {
+        Map<String, Object> cup_detail = cupDao.cup_detail(worldcup_code);
 
-	// 상세
- 	@GetMapping("/eventdetail/{event_code}")
- 	public ModelAndView eventDetail(@PathVariable String event_code) {
- 	    // event 정보를 가져옵니다: event_code를 사용하여 이벤트 정보를 조회
- 	    Map<String, Object> event = eventDao.detail(event_code);
- 	    
- 	    ModelAndView mav = new ModelAndView();
- 	    mav.setViewName("event/eventdetail");
-
- 	    // 조회된 이벤트 정보를 ModelAndView 객체에 추가
- 	    mav.addObject("event", event);
- 	    mav.addObject("event_code", event_code);
-
- 	    return mav;
- 	} // public ModelAndView eventDetail() end
- 	
- 	
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("event/cup_detail");
+        mav.addObject("event", cup_detail);
+        return mav;
+    }
+    
+    
+    
 } // public class EventCont end

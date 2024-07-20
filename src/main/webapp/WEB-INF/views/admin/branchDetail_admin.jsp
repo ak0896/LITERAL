@@ -11,7 +11,8 @@
 		<ul>
 			<li><a href="${pageContext.request.contextPath}/admin/branchList">지점 목록</a></li>
 			<li><a href="${pageContext.request.contextPath}/admin/branchRegister">지점 등록</a></li>
-			<li><a href="#">지점 매출</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/dailySales">지점 매출</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/nonMemberList">비회원 목록</a></li>
 		</ul>
 	</div><!-- sidebar end -->
 
@@ -36,6 +37,7 @@
 				<form action="${pageContext.request.contextPath}/admin/deleteBranch" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');" style="display: inline-block;">
 					<input type="hidden" name="branch_code" value="${branch.branch_code}">
 					<input type="submit" value="삭제" class="btn btn-danger">
+					<input type="button" value="취소" class="btn btn-success" onclick="javascript:history.back()">
 				</form>
 			</div>
 		</div><!-- <div class="branch-details"> end  -->

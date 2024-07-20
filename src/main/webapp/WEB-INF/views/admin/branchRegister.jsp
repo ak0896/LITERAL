@@ -10,7 +10,8 @@
         <ul>
             <li><a href="${pageContext.request.contextPath}/admin/branchList">지점 목록</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/branchRegister">지점 등록</a></li>
-            <li><a href="#">지점 매출</a></li>
+            <li><a href="${pageContext.request.contextPath}/admin/dailySales">지점 매출</a></li>
+            <li><a href="${pageContext.request.contextPath}/admin/nonMemberList">비회원 목록</a></li>
         </ul>
     </div><!-- <div class="sidebar"> end -->
 
