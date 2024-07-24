@@ -47,10 +47,10 @@
 			  <div class="row">
 			  	<div class="col-sm-12">
 					<!-- 검색 -->
-					<form method="get" action="${pageContext.request.contextPath}/product/search">
-						<input type="text" name="book_title" value="${book_title}">
-						<input type="submit" value="검색" class="btn">
-					</form>
+                    <form method="get" action="${pageContext.request.contextPath}/product/search" class='search-form'>
+                        <input type="text" name="book_title" value="${book_title}" class='search-input'>
+                        <input type="submit" value="검색" class="btn">
+                    </form>
 			  	</div><!-- col end -->
 			  </div><!-- row end -->
 

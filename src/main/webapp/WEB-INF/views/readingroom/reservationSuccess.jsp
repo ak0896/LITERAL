@@ -3,7 +3,7 @@
 
 <%@ include file="../header.jsp"%>
     <!-- reservationSuccess.jsp -->
-	<!-- 본문 시작 -->
+   <!-- 본문 시작 -->
 
 
     <div class="container">
@@ -24,9 +24,9 @@
         <p>이용 시간: ${duration}</p>
         <p>시작 시간: ${start_time}</p>
         <p>종료 시간: ${end_time}</p>
-        <p>결제 금액: ${room_amount}원</p>
+        <p>결제 금액: ${sessionScope.actualPayment}원</p> <!-- 실제 결제 금액 표시 -->
        
     </div> <!-- <div class="container"> end -->
 
-	<!-- 본문 끝 -->
+   <!-- 본문 끝 -->
 <%@ include file="../footer.jsp"%>

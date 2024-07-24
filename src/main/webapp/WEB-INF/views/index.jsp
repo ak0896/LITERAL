@@ -46,10 +46,10 @@
 			  <div class="row">
 			  	<div class="col-sm-12">
 					<!-- 검색 -->
-					<form method="get" action="${pageContext.request.contextPath}/product/search">
-						<input type="text" name="book_title" value="${book_title}">
-						<input type="submit" value="검색" class="btn">
-					</form>
+                    <form method="get" action="${pageContext.request.contextPath}/product/search" class='search-form'>
+                        <input type="text" name="book_title" value="${book_title}" class='search-input'>
+                        <input type="submit" value="검색" class="btn">
+                    </form>
 			  	</div><!-- col end -->
 			  </div><!-- row end -->
 			  
@@ -67,21 +67,14 @@
 				        </c:otherwise>
 				    </c:choose>
 				    
-					<c:choose>
+				    <c:choose>
 					    <c:when test="${not empty sessionScope.member && sessionScope.member.type_code != 0}">
-					        <a href="/mypage/mypage_main"><i class="fas fa-user-circle"></i> MYPAGE </a>
+					        <a href="/mypage_main"><i class="fas fa-user-circle"></i> MYPAGE</a>
+					        <a href="/cart/cartList"><i class="fas fa-shopping-cart"></i> CART</a>
 					    </c:when>
 					    <c:when test="${empty sessionScope.member}">
-					        <a href="/member/login"><i class="fas fa-user-circle"></i> MYPAGE </a>
-					    </c:when>
-					</c:choose>
-					
-					<c:choose>
-					    <c:when test="${not empty sessionScope.member && sessionScope.member.type_code != 0}">
-					        <a href="/cart/cartList"><i class="fas fa-shopping-cart"></i> CART </a>
-					    </c:when>
-					    <c:when test="${empty sessionScope.member}">
-					        <a href="/member/login"><i class="fas fa-user-circle"></i> CART </a>
+					        <a href="/member/login"><i class="fas fa-user-circle"></i> MYPAGE</a>
+					        <a href="/cart/cartList"><i class="fas fa-shopping-cart"></i> CART</a>
 					    </c:when>
 					</c:choose>
 					
@@ -108,13 +101,13 @@
 		                    <a class="nav-link font-weight-bold" href="/product/productlist">서점</a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link font-weight-bold" href="/notice/notice_list2">공지사항</a>
+		                    <a class="nav-link font-weight-bold" href="/notice/notice_list">공지사항</a>
 		                </li>
 		                <li class="nav-item">
 		                    <a class="nav-link font-weight-bold" href="/reading_main">열람실</a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link font-weight-bold" href="/branch/branchDetail">지점안내</a>
+		                    <a class="nav-link font-weight-bold" href="#">지점안내</a>
 		                </li>
 		            </ul>
 		        </div>
@@ -125,47 +118,49 @@
 
 
         <!-- container -->
-		<div class="main">
-            <!-- Carousel -->
+        <div class="main">
+           <!-- Carousel -->
             <div id="demo" class="carousel slide" data-bs-ride="carousel">
+
                 <!-- Indicators/dots -->
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-                    <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-                    <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+	                <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+	                <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+	                <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
                 </div>
                 
                 <!-- The slideshow/carousel -->
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="${pageContext.request.contextPath}/storage/eventImages/main2.jpg" alt="keroro" class="d-block" style="width:100%">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="../images/moon.png" alt="moon" class="d-block" style="width:100%">
-                        <div class="carousel-caption">
-                            <h3>MOON</h3>
-                            <p>사진으로 보는 달의 모습</p>
-                        </div> 
-                    </div>
-                    <div class="carousel-item">
-                        <img src="../images/remon.png" alt="remon" class="d-block" style="width:100%">
-                        <div class="carousel-caption">
-                            <h3>아동도서</h3>
-                            <p>과일</p>
-                        </div>  
-                    </div>
-                </div>
+	                <div class="carousel-item active">
+	                    <img src="${pageContext.request.contextPath}/storage/eventImages/main2.jpg" alt="keroro" class="d-block" style="width:100%">
+	                </div>
+	                <div class="carousel-item">
+	                    <img src="./images/moon.png" alt="moon" class="d-block" style="width:100%">
+	                    <div class="carousel-caption">
+	                    <h3>MOON</h3>
+	                    <p>사진으로 보는 달의 모습</p>
+	                    </div> 
+	                </div>
+	                <div class="carousel-item">
+	                    <img src="./images/remon.png" alt="remon" class="d-block" style="width:100%">
+	                    <div class="carousel-caption">
+	                    <h3>아동도서</h3>
+	                    <p>과일</p>
+	                    </div>  
+	                </div>
+                </div><!-- div class="carousel-inner" end -->
                 
                 <!-- Left and right controls/icons -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
+                <span class="carousel-control-prev-icon"></span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
+                <span class="carousel-control-next-icon"></span>
                 </button>
-            </div> <!-- <div id="demo" class="carousel slide" data-bs-ride="carousel"> end -->
+            </div><!-- div id="demo" end  -->
 
-            <div class="content">
+
+             <div class="content">
                 <div class="best-books">
                     <h2>BEST</h2>
                     <!-- 여기부터 슬라이드.. -->
@@ -195,14 +190,14 @@
                                     </c:if>
                                 </c:forEach>
                             </ul>
-                        </div> <!-- <div class="books section"> end -->
+                        </div>
                         <div class="slide_control">
                             <label for="slide1"></label>
                             <label for="slide2"></label>
                             <label for="slide3"></label>
                         </div>
-                    </div> <!-- <div class="best-books"> end -->
-                </div> <!-- <div class="content"> end -->
+                    </div>
+                </div>
 
                 <div class="today-book">
                     <h2>오늘의 추천도서</h2>
@@ -228,7 +223,7 @@
                                     </div>
                                     
                                     <c:if test="${status.index % 3 == 2 || status.last}">
-                                            </div> <!-- <div class="slidewrap"> end -->
+                                            </div>
                                         </li>
                                     </c:if>
                                 </c:forEach>
@@ -246,9 +241,11 @@
                                     <label for="slide2-2" class="left"></label>
                                     <label for="slide2-1" class="right"></label>
                                 </div>
-                            </div> <!-- <div class="slide-control2"> end -->
-                        </div> <!-- <div class="books section2"> end -->
-                    </div> <!-- <div class="today-book"> end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Content 끝 -->
 
         </div><!--  <div class="main"> -->
@@ -267,12 +264,6 @@
 	                <p> TEL : 02-1234-1234 </p>
 	                <p> 이메일 : gangnam@gmail.com </p>
             	</div>
-                <div class="footer-links">
-                    <a href="#">HOME</a>
-                    <a href="#">ABOUT US</a>
-                    <a href="#">BOOKS</a>
-                    <a href="#">CONTACT US</a>
-                </div>
             </div>
             <div class="footer-bottom">
                 <p>Copyright © LITERAL Corp. All Rights Reserved.</p>

@@ -29,7 +29,7 @@
     <!-- 사이드 메뉴 끝 -->
 
     <!-- 본문 시작 -->
-    
+    <div class="seatWrap">
     <h3>${branch_name} 좌석선택</h3>
     <!-- 좌석 선택 폼 -->
     <form id="seatSelectionForm" action="${pageContext.request.contextPath}/paymentForm" method="post">
@@ -65,40 +65,43 @@
             <p>좌석 번호 : <span id="selectedSeatInfo"></span></p>
             <!-- 결제 옵션 추가 -->
             <!-- 시작 시간 선택 -->
-            <h2>시작 시간</h2>
-            <div class="times">
-                <button type="button" class="time" data-time_code="T01" data-start_time="09:00">09:00</button>
-                <button type="button" class="time" data-time_code="T02" data-start_time="10:00">10:00</button>
-                <button type="button" class="time" data-time_code="T03" data-start_time="11:00">11:00</button>
-                <button type="button" class="time" data-time_code="T04" data-start_time="12:00">12:00</button>
-                <button type="button" class="time" data-time_code="T05" data-start_time="13:00">13:00</button>
-                <button type="button" class="time" data-time_code="T06" data-start_time="14:00">14:00</button>
-                <button type="button" class="time" data-time_code="T07" data-start_time="15:00">15:00</button>
-                <button type="button" class="time" data-time_code="T08" data-start_time="16:00">16:00</button>
-                <button type="button" class="time" data-time_code="T09" data-start_time="17:00">17:00</button>
-            </div> <!-- <div class="times"> end -->
-
+            <div class="timeArea">
+	            <h2>시작 시간</h2>
+	            <div class="times">
+	                <button type="button" class="time" data-time_code="T01" data-start_time="09:00">09:00</button>
+	                <button type="button" class="time" data-time_code="T02" data-start_time="10:00">10:00</button>
+	                <button type="button" class="time" data-time_code="T03" data-start_time="11:00">11:00</button>
+	                <button type="button" class="time" data-time_code="T04" data-start_time="12:00">12:00</button>
+	                <button type="button" class="time" data-time_code="T05" data-start_time="13:00">13:00</button>
+	                <button type="button" class="time" data-time_code="T06" data-start_time="14:00">14:00</button>
+	                <button type="button" class="time" data-time_code="T07" data-start_time="15:00">15:00</button>
+	                <button type="button" class="time" data-time_code="T08" data-start_time="16:00">16:00</button>
+	                <button type="button" class="time" data-time_code="T09" data-start_time="17:00">17:00</button>
+	            </div> <!-- <div class="times"> end -->
+			</div>
             <input type="hidden" name="time_code" id="selectedTimeCode">
             <input type="hidden" name="start_time" id="selectedStartTime">
             <input type="hidden" name="end_time" id="selectedEndTime">  
             <input type="hidden" name="isMember" value="${loggedInUser != null}"> <!-- 로그인한 경우 true로 설정 -->
             
-            
-            <h2>이용권</h2>
-            <div class="options">
-                <button type="button" class="option" data-room_code="D1" data-room_amount="4000" data-duration="2시간">
-                    2 시간<br>4,000 원
-                </button>
-                <button type="button" class="option" data-room_code="D2" data-room_amount="6000" data-duration="4시간">
-                    4 시간<br>6,000 원
-                </button>
-                <button type="button" class="option" data-room_code="D3" data-room_amount="8000" data-duration="6시간">
-                    6 시간<br>8,000 원
-                </button>
-                <button type="button" class="option" data-room_code="D4" data-room_amount="10000" data-duration="종일권">
-                    종일권<br>10,000 원
-                </button>
-            </div> <!-- <div class="options"> end -->
+            <div class="optionArea">
+	            <h2>이용권</h2>
+	            <div class="options">
+	                <button type="button" class="option" data-room_code="D1" data-room_amount="4000" data-duration="2시간">
+	                    2 시간<br>4,000 원
+	                </button>
+	                <button type="button" class="option" data-room_code="D2" data-room_amount="6000" data-duration="4시간">
+	                    4 시간<br>6,000 원
+	                </button>
+	                <button type="button" class="option" data-room_code="D3" data-room_amount="8000" data-duration="6시간">
+	                    6 시간<br>8,000 원
+	                </button>
+	                <button type="button" class="option" data-room_code="D4" data-room_amount="10000" data-duration="종일권">
+	                    종일권<br>10,000 원
+	                </button>
+	            </div> <!-- <div class="options"> end -->
+            </div>
+           
             <input type="hidden" name="room_code" id="selectedUsageTime">
             <input type="hidden" name="room_amount" id="selectedRoomAmount">
             <input type="hidden" name="duration" id="selectedDuration">
@@ -108,7 +111,7 @@
 
         </div> <!-- <div class="payment-options"> end -->
     </form> <!-- <form id="seatSelectionForm" end -->
-
+</div>
 
 <script>
     function selectSeat(seatCode, remainingTime) {
@@ -314,15 +317,12 @@
             }
         }
     });
-    
-    
-    
+
     
 </script>
 
 
 <style>
-
 
 
 .seatWrap {
@@ -426,6 +426,7 @@
     padding-bottom: 10px;
 }
 </style>
+
 
 <!-- 본문 끝 -->
 </div> <!-- <div class="contents_inner"> end -->

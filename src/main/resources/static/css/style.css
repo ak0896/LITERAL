@@ -1,13 +1,20 @@
 
 /* index css 시작 --------------------------------------------------------------------------------- */
 
+@font-face {
+    font-family: 'GowunDodum-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
     li { list-style: none; }
     header, nav { display: block; }    
 
 /* body */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'GowunDodum-Regular';
     margin: 0;
     padding: 0;
     /*background-color: #f7f7f7;*/
@@ -69,6 +76,22 @@ header {
     margin: 0;
     margin-right: 20px; /* 문자 옆에 여백 추가 */
     color: #000;
+}
+
+.search-form {
+	display: flex;
+	place-items: center;
+}
+
+.search-form .search-input {
+	width: 300px;
+	height: 30px;
+	border-radius: 10px;
+	border: 1px #c4c4c4 solid;
+}
+
+.search-form .btn {
+	color: #6C4436;
 }
 
 .header-container .search-bar input {
@@ -172,7 +195,7 @@ nav {
 /* main  */
 main {
     width: 90%;
-    height:100vh;
+/*     height:100vh; */
     margin: 20px auto;
     display: flex;
     flex-direction: column;
@@ -334,8 +357,8 @@ button {
 footer {
 	/* 고정 test 3줄~ */
 	/* position: fixed;
-    bottom: 0;
-    width: 100%; */
+    bottom: 0; */
+    width: 100%;
     background-color: #f9e36e; /* 배경색 설정 */
     padding: 10px 0;  /* padding을 줄여서 높이 조정 */
     text-align: center;
