@@ -24,13 +24,16 @@
                 <c:forEach items="${list}" var="row">
                     <tr>
                         <td class="book-image">
-                            <img src="storage/images/${row.img}" alt="${row.book_title}">
+                            <a href="${pageContext.request.contextPath}/product/productdetail/${row.book_number}">
+								<img src="${pageContext.request.contextPath}/storage/images/${row.img}" alt="${row.book_title}">
+							</a>
                         </td>
                         <td>
-                            <div class="title">${row.book_title}</div>
+                            <div class="title">
+	                            <a href="${pageContext.request.contextPath}/product/productdetail/${row.book_number}"> ${row.book_title} </a>                            	
+	                        </div>
                             <div>
-                                <span class="price">${row.sale_price}원</span>
-                                <span class="original-price">${row.original_price}원</span>
+								<span class="original-price"> ${row.original_price} 원 </span> → <span class="price"> ${row.sale_price} 원 </span>
                             </div>
                         </td>
                         <td>

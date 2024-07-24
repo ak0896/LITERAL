@@ -5,7 +5,8 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        height: 100vh; /* 화면의 세로 가운데 정렬을 위해 높이 설정 */
+        margin: 50px 0;
+        /*height: 100vh; /* 화면의 세로 가운데 정렬을 위해 높이 설정 */
     }
 
 .alert {

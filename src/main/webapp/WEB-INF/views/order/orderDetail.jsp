@@ -3,6 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../header.jsp"%>
 
+<!-- 포트원 결제 -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
+
 <!-- orderDetail.jsp -->
 
 <div class="delivery-wrap">
@@ -14,10 +22,9 @@
             <input type="hidden" name="email" value="${email}">
             <!-- 배송지 정보 -->
             <div class="form-group">
-                <label for="recipient">수령인*</label>
-                <input type="text" id="recipient" name="recipient" placeholder="수령인 이름을 입력하세요" required>
+                <label for="recipient_name">수령인*</label>
+                <input type="text" id="recipient_name" name="recipient_name" placeholder="수령인 이름을 입력하세요" required>
             </div>
-            <input type="hidden" id="recipient_name" name="recipient_name">
 
             <div class="form-group">
                 <label>연락처*</label>
@@ -56,7 +63,7 @@
                         <c:forEach items="${cartItems}" var="row">
                             <tr>
                                 <td class="item-info">
-                                    <img src="${pageContext.request.contextPath}/images/${row.img}" alt="${row.book_title}">
+                                    <img src="${pageContext.request.contextPath}/storage/images/${row.img}" alt="${row.book_title}">
                                     <div>
                                         <p class="boot-title">${row.book_title}</p>
                                     </div>
@@ -86,26 +93,13 @@
             </div>
 
             <!-- 결제수단 정보 -->
-            <div class="payment-method">
-                <h3>결제수단 </h3>
-                <p class="total-payment">총 결제 금액 <span class="total-amount">${totalOrderAmount + deliveryFee}원</span><span>(주문금액 + 배송비)</span></p>
-                <div class="payment-options">
-                    <div class="payment-option">
-                        <input type="radio" name="payment_method" value="card" id="card" checked>
-                        <label for="kakao_pay">
-                            <img src="kakao_pay.png" alt="신용카드">
-                            <p>신용카드</p>
-                        </label>
-                    </div>
-                    <div class="payment-option">
-                        <input type="radio" name="payment_method" value="kakao" id="kakao">
-                        <label for="kakao">
-                            <img src="kakao.png" alt="카카오페이">
-                            <p>카카오페이</p>
-                        </label>
-                    </div>
-                </div>
-            </div>
+            <label for="payment_method">결제 방법:</label>
+            <select name="payment_method" id="payment_method" required>
+                <option value="신용카드">신용카드</option>
+                <option value="계좌이체">계좌이체</option>
+                <option value="카카오페이">카카오페이</option>
+                <option value="토스페이">토스페이</option>
+            </select>
 
             <!-- order-aside 정보 히든 필드로 추가 -->
             <input type="hidden" name="total_order_amount" value="${totalOrderAmount}">
@@ -115,7 +109,7 @@
             <input type="hidden" name="delivery_fee" value="${deliveryFee}">
             <input type="hidden" name="expected_points" value="${expectedPoints}">
 
-            <button type="submit" class="order-button">주문하기</button>
+            <button type="submit" class="order-button" onclick="requestPay()">주문하기</button>
         </form>
     </div>
 
@@ -161,11 +155,22 @@
 
 <script>
 document.getElementById('orderForm').addEventListener('submit', function(event) {
-    var recipient = document.getElementById('recipient').value;
-    if (recipient.length < 2) {
-        alert('수령인 이름은 최소 2글자 이상이어야 합니다.');
+    var recipient = document.getElementById('recipient_name').value;
+    var phonePart1 = document.getElementById('phone1-part1').value;
+    var phonePart2 = document.getElementById('phone1-part2').value;
+    var phonePart3 = document.getElementById('phone1-part3').value;
+    var address = document.getElementById('address').value;
+    var detailedAddress = document.getElementById('detailed_address').value;
+    var zipcode = document.getElementById('zipcode').value;
+
+    if (!recipient || !phonePart1 || !phonePart2 || !phonePart3 || !address || !detailedAddress || !zipcode) {
+        alert('모든 필수 항목을 입력해 주세요.');
         event.preventDefault();
+        return;
     }
+
+    document.getElementById('recipient_phone').value = phonePart1 + '-' + phonePart2 + '-' + phonePart3;
+    document.getElementById('shipping_address').value = zipcode + ' ' + address + ' ' + detailedAddress;
 });
 
 
@@ -217,24 +222,57 @@ function DaumPostcode() {
     element_wrap.style.display = 'block';
 }
 
-document.getElementById('orderForm').addEventListener('submit', function(event) {
-    var recipient = document.getElementById('recipient').value;
-    var phonePart1 = document.getElementById('phone1-part1').value;
-    var phonePart2 = document.getElementById('phone1-part2').value;
-    var phonePart3 = document.getElementById('phone1-part3').value;
-    var address = document.getElementById('address').value;
-    var detailedAddress = document.getElementById('detailed_address').value;
 
-    if (!recipient || !phonePart1 || !phonePart2 || !phonePart3 || !address || !detailedAddress) {
-        alert('모든 필수 항목을 입력해 주세요.');
-        event.preventDefault();
-        return;
+var IMP = window.IMP;
+IMP.init("imp45135378");
+
+function requestPay() {
+    var today = new Date();
+    var merchant_uid = "IMP" + today.getHours() + today.getMinutes() + today.getSeconds() + today.getMilliseconds();
+    var paymentMethod = document.getElementById('payment_method').value;
+    var amount = parseInt(document.getElementsByName('total_order_amount')[0].value);
+
+    var pg;
+    switch(paymentMethod) {
+        case '카카오페이':
+            pg = 'kakaopay.TC0ONETIME';
+            break;
+        case '토스페이': 
+            pg = 'tosspay';
+            break;
+        case '신용카드':
+        case '계좌이체':
+        default:
+            pg = 'html5_inicis';
     }
 
-    document.getElementById('recipient_name').value = recipient;
-    document.getElementById('recipient_phone').value = phonePart1 + '-' + phonePart2 + '-' + phonePart3;
-    document.getElementById('shipping_address').value = address + ' ' + detailedAddress;
-});
+    IMP.request_pay({
+        pg: pg,
+        pay_method: paymentMethod === '계좌이체' || paymentMethod === '토스페이' ? 'trans' : 'card',
+        merchant_uid: merchant_uid,
+        name: '서점 주문 결제',
+        amount: amount,
+        buyer_email: document.getElementsByName('email')[0].value,
+        buyer_name: document.getElementById('recipient_name').value,
+        buyer_tel: document.getElementById('phone1-part1').value + '-' + document.getElementById('phone1-part2').value + '-' + document.getElementById('phone1-part3').value,
+        buyer_addr: document.getElementById('address').value,
+        buyer_postcode: document.getElementById('zipcode').value,
+    }, function (rsp) {
+        if (rsp.success) {
+            alert('결제가 완료되었습니다.');
+            var form = document.getElementById('orderForm');
+            var impUidField = document.createElement('input');
+            impUidField.type = 'hidden';
+            impUidField.name = 'imp_uid';
+            impUidField.value = rsp.imp_uid;
+            form.appendChild(impUidField);
+            form.submit();
+        } else {
+            alert('결제에 실패하였습니다. ' + rsp.error_msg);
+        }
+    });
+}
+
 </script>
 
 <style>
@@ -484,6 +522,15 @@ td:last-child {
     padding: 0 15px;
     font-size: 12px;
     color: #4CAF50;
+}
+
+.item-info{
+	width:100px;
+	height:150px;
+}
+
+.item-info img{
+	width:100%;
 }
 </style>
 

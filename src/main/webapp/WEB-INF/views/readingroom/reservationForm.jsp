@@ -31,6 +31,15 @@
 				<input type="submit" value="예약하기">
 			</div>
 		</form>
+		
+		<!-- 이용권 구매 추가 -->
+		<h3>이용권 구매</h3>
+		<form action="${pageContext.request.contextPath}/buyTicket"
+			method="get" id="buyTicketForm">
+			<!-- 이용권 구매 버튼 -->
+			<div>
+				<input type="submit" value="이용권 구매">
+			</div>
 		</form>
 	</div>
 	<!-- 사이드 메뉴 끝 -->
@@ -42,16 +51,14 @@
 		<!-- 예약 폼 내용 -->
 		<div class="content">
 			<div class="info-section">
-				<div class="info-box">
-					<img src="./images/moon.png" alt="예약일 아이콘">
+				<div class="info-box">				
 					<div class="info-text">
+						<img src="./images/moon.png" alt="예약일 아이콘">
 						<h3>예약일 / 이용료</h3>
 						<p>사용당일 / 무료</p>
 					</div>
-				</div>
-				<div class="info-box">
-					<img src="./images/moon.png" alt="이용시간 아이콘">
 					<div class="info-text">
+						<img src="./images/moon.png" alt="이용시간 아이콘">
 						<h3>이용시간</h3>
 						<p>09:00 ~ 19:00</p>
 					</div>
@@ -99,5 +106,23 @@
 	<!-- 본문 끝  -->
 </div>
 <!-- <div class="contents_inner"> -->
+<style>
+
+	.reservation-form{
+		margin-top:20px;
+	}
+	
+	.info-box{
+		display:flex;
+	}
+	
+	.info-text{
+		margin-right:20px;
+	}
+	
+	.contents_inner h2{
+		font-size:
+	}
+</style>
 
 <%@ include file="../footer.jsp"%>

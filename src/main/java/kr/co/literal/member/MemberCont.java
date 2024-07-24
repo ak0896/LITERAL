@@ -35,6 +35,9 @@ public class MemberCont {
     @Autowired
     private MemberDAO memberDAO;
 
+    @Autowired
+    private KakaoService kakaoService;
+
 		    
     	// 로그인 폼을 보여주는 메서드
 	    @GetMapping("/login")
@@ -92,6 +95,35 @@ public class MemberCont {
 	        }//if end
 	    }//handleRememberMeCookie() end
 
+	    //0721 애경 수정 시작
+	    //카카오 로그인
+	    @GetMapping("/kakaoLogin")
+	    public String kakaoLogin() {
+	        String kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize"
+	                + "?client_id=" + kakaoService.getClientId()
+	                + "&redirect_uri=" + kakaoService.getRedirectUri()
+	                + "&response_type=code"
+	        		+ "&scope=name,account_email,phone_number";
+	        return "redirect:" + kakaoAuthUrl;
+	    }//kakaoLogin() end
+
+	    
+	    @GetMapping("/kakaoCallback")
+	    public String kakaoCallback(@RequestParam String code, HttpSession session) {
+	        // 액세스 토큰 얻기
+	        String accessToken = kakaoService.getKakaoAccessToken(code);
+	        System.out.println("액세스 토큰: " + accessToken);
+	        
+	        // 사용자 정보 얻기
+	        MemberDTO kakaoUser = kakaoService.getKakaoUserInfo(accessToken);
+	        
+	        // 로그인 처리
+	        kakaoService.processKakaoLogin(kakaoUser, session);
+	        
+	        return "redirect:/";
+	    }//kakaoCallback() end
+	    //0721 애경 수정 끝
+	    
 	    
 	    // 로그아웃 처리 메서드
 	    @GetMapping("/logout")

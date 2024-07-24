@@ -195,6 +195,44 @@
     
     
     
+    <!-- 0719쿠폰 mycoupon_number 추가 -->
+    <select id="getNextCouponCount" parameterType="map" resultType="int">
+    SELECT COALESCE(MAX(CAST(SUBSTRING(mycoupon_number, LENGTH(mycoupon_number) - 2, 3) AS UNSIGNED)), 0) + 1
+    FROM my_coupon
+    WHERE DATE_FORMAT(issue_date, '%y%m%d') = #{date} AND room_code = #{roomCode}
+	</select>
+    
+    <!-- 사용자의 가장 최근 쿠폰을 가져오는 쿼리 -->
+    <select id="selectLatestCouponByEmail" parameterType="String" resultType="kr.co.literal.readingroom.dto.MyCouponDTO">
+        SELECT * FROM my_coupon
+        WHERE email = #{email}
+        ORDER BY issue_date DESC
+        LIMIT 1
+    </select>
+    
+     <!-- 사용자의 모든 쿠폰을 가져오는 쿼리 -->
+    <select id="selectAllCouponsByEmail" parameterType="String" resultType="kr.co.literal.readingroom.dto.MyCouponDTO">
+        SELECT * FROM my_coupon
+        WHERE email = #{email}
+        ORDER BY issue_date DESC
+    </select>
+
+    <!-- 사용한 쿠폰의 사용 날짜를 업데이트하는 쿼리 -->
+    <update id="updateMyCouponUsageDate" parameterType="kr.co.literal.readingroom.dto.MyCouponDTO">
+        UPDATE my_coupon
+        SET usage_date = #{usage_date}
+        WHERE mycoupon_number = #{mycoupon_number}
+    </update>
+    
+    
+    <!-- 0722추가 -->
+     <!-- 사용된 쿠폰을 제외한 모든 쿠폰을 가져오는 쿼리 -->
+    <select id="selectAllUnusedCouponsByEmail" parameterType="String" resultType="kr.co.literal.readingroom.dto.MyCouponDTO">
+        SELECT * FROM my_coupon
+        WHERE email = #{email} 
+        AND usage_date IS NULL
+    </select>
+    
     
     
      <!-- reservation 테이블 -->

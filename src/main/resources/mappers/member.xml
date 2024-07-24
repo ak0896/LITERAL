@@ -74,4 +74,17 @@
 	    WHERE email = #{email}
 	</update>
 
+
+	<!-- 포인트 -->
+	<select id="getPoints" resultType="kr.co.literal.member.MemberDTO" parameterType="String">
+        SELECT email, points
+        FROM member
+        WHERE email = #{email}
+    </select>
+
+    <update id="updatePoints" parameterType="kr.co.literal.member.MemberDTO">
+        UPDATE member
+        SET points = #{points}
+        WHERE email = #{email}
+    </update>
 </mapper>

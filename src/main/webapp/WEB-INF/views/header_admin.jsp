@@ -67,35 +67,6 @@
 				</div>
             </div>
         </header>
-
-       <!-- nav 카테고리 시작 -->
-	   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	       <div class="container-fluid">
-	           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-	               <span class="navbar-toggler-icon"></span>
-	           </button>
-	           <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-	               <ul class="navbar-nav">
-	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="/admin/memberList">회원정보관리</a>
-	                   </li>
-	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="/admin/productlist_admin"">상품관리</a>
-	                   </li>
-	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="/admin/branchList">지점관리</a>
-	                   </li>
-	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="${pageContext.request.contextPath}/notice/notice_list">공지사항관리</a>
-	                   </li>
-	                   <li class="nav-item">
-	                       <a class="nav-link font-weight-bold" href="/admin/aeventlist">이벤트관리</a>
-	                   </li>
-	               </ul>
-	           </div>
-	       </div>
-	   </nav>
-	   <!-- nav 카테고리 끝 -->
 	   
         <!-- container -->
         <div class="main">   

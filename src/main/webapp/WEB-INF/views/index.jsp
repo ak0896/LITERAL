@@ -116,9 +116,6 @@
 		                <li class="nav-item">
 		                    <a class="nav-link font-weight-bold" href="/branch/branchDetail">지점안내</a>
 		                </li>
-		                <li class="nav-item">
-		                    <a class="nav-link font-weight-bold" href="/event/eventlist">이벤트</a>
-		                </li>
 		            </ul>
 		        </div>
 		    </div>

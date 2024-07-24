@@ -6,18 +6,18 @@
 <mapper namespace="cart">
 
     <insert id="insert" parameterType="kr.co.literal.cart.CartDTO" useGeneratedKeys="true" keyProperty="cart_code">
-        INSERT INTO cart (email, book_number, book_title, sale_price, cart_amount, select_yn)
-        VALUES (#{email}, #{book_number}, #{book_title}, #{sale_price}, #{cart_amount}, #{select_yn})
+        INSERT INTO cart (email, book_number, book_title, original_price, sale_price, cart_amount, select_yn, img)
+        VALUES (#{email}, #{book_number}, #{book_title}, #{original_price}, #{sale_price}, #{cart_amount}, #{select_yn}, #{img})
     </insert>
 
     <select id="list" resultType="kr.co.literal.cart.CartDTO" parameterType="String">
-        SELECT cart.cart_code, cart.email, cart.book_number, cart.book_title, cart.sale_price, cart.cart_amount, cart.select_yn
+        SELECT cart_code, email, book_number, book_title, original_price, sale_price, cart_amount, select_yn, img
         FROM cart
         WHERE cart.email = #{email}
     </select>
 
     <select id="getProductByBookNumber" resultType="kr.co.literal.product.ProductDTO" parameterType="String">
-        SELECT book_number, book_title, sale_price
+        SELECT book_number, book_title, sale_price, original_price, img
         FROM product
         WHERE book_number = #{book_number}
     </select>
@@ -30,4 +30,12 @@
 	        #{cart_code}
 	    </foreach>
 	</delete>
+	
+	
+	<!-- 결제 완료 후 책 판매 상태 변경 -->
+	<select id="getProductIdsByCartCode" resultType="string">
+        SELECT book_number
+        FROM cart
+        WHERE cart_code = #{cartCode}
+    </select>
 </mapper>

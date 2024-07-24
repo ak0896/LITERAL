@@ -3,7 +3,22 @@
 <%@ include file="../header_admin.jsp"%>
 
 <!-- productlist(admin).jsp -->
+
+<div class="contents_inner">
 <!--사이드 메뉴 시작  -->
+	<div class="sidebar">
+		<ul>
+			<li><a href="${pageContext.request.contextPath}/admin">열람실 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/memberList">회원정보 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/productlist_admin">상품 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/branchList">지점 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/notice/notice_list">공지사항 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/ad_inquiry_list">1:1문의 관리</a></li>
+		</ul>
+	</div>
+	<!-- sidebar end -->
+
+
  <!-- 본문 시작 -->
 	
 <div class="main-content">
@@ -90,5 +105,80 @@
 </script> -->
 	
 </div> <!-- <div class="main-content"> end -->
+</div><!-- contents_inner end -->
 <!-- 본문 끝 -->
-<%@ include file="../footer.jsp"%>
+
+
+
+<style>
+.main-content {
+    width: 80%;
+    padding: 20px;
+}
+
+.main-content h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.main-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.main-content table, .main-content th, .main-content td {
+    border: 1px solid #ddd;
+}
+
+.main-content th, .main-content td {
+    padding: 12px;
+    text-align: left;
+}
+
+.main-content th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.main-content tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.main-content form {
+    display: flex;
+    align-items: center;
+}
+
+.main-content select {
+    margin-right: 5px;
+}
+
+.main-content input[type="submit"] {
+    margin-left: 5px;
+    padding: 10px 20px;
+    background-color: #FA8072;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.main-content input[type="submit"]:hover {
+    background-color: #FF4500;
+}
+
+.main-content a {
+    color: #6A24FE;
+    text-decoration: none;
+}
+
+.main-content a:hover {
+    text-decoration: underline;
+}
+</style>
+
+
+<%@ include file="../footer_admin.jsp"%>

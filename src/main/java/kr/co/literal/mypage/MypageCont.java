@@ -153,48 +153,28 @@ public class MypageCont {
 	}
 	
 	
-/*	
-	// wishlist 추가 및 삭제
-	@PostMapping("/updateWishlist")
-    public String updateWishlist(@RequestParam("book_number") String book_number,
-                                 @RequestParam("wish") boolean wish,
-                                 Model model, HttpSession session) {
-        String email = (String) session.getAttribute("email");
-
-        try {
-	            // email이 member 테이블에 존재하는지 확인하는 코드
-	            MemberDTO member = memberDao.getMemberByEmail(email);
-	            if (member != null && member.getEmail().equals(email)) {
-	                if (wish) {
-	                    // DAO 메서드를 호출하여 wishlist 테이블에 데이터 삽입
-	                    mypageDao.insertWishlist(email, book_number);
-	                } else {
-	                    // DAO 메서드를 호출하여 wishlist 테이블에서 데이터 삭제
-	                    mypageDao.deleteWishlist(email, book_number);
-	                }
-	                model.addAttribute("successMessage", "찜 상태가 업데이트되었습니다.");
-            } else {
-                model.addAttribute("errorMessage", "존재하지 않는 이메일입니다.");
-            }
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "찜 상태 변경에 실패했습니다.");
-        }
-
-        // 페이지를 다시 로드하여 변경사항을 반영
-        return "redirect:/product/productlist"; // 리다이렉트할 경로를 정확히 지정하세요
+    @PostMapping("/wishlist/add")
+    public Map<String, Object> addWishlist(@RequestBody Map<String, String> payload) {
+        String bookNumber = payload.get("bookNumber");
+        // 찜 목록에 책 추가 로직 구현
+        // 예시: wishlistService.addWishlist(bookNumber);
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Book added to wishlist");
+        return response;
     }
-	
-	
-	@RequestMapping("/wishlist")
-	public ModelAndView getWishlist() {
-		
-	   ModelAndView mav = new ModelAndView();
-	   mav.addObject("list", mypageDao.getWishlist("email"));
-	   
-	   mav.setViewName("/mypage/wishlist");
-	   return mav;
-	 } // getWishlist() end
-*/
+
+    @PostMapping("/wishlist/remove")
+    public Map<String, Object> removeWishlist(@RequestBody Map<String, String> payload) {
+        String bookNumber = payload.get("bookNumber");
+        // 찜 목록에서 책 제거 로직 구현
+        // 예시: wishlistService.removeWishlist(bookNumber);
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Book removed from wishlist");
+        return response;
+    }
+    
 	
 	
 }//class end

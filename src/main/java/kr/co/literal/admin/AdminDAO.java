@@ -185,18 +185,7 @@ public class AdminDAO {
 	    public int ad_inquiry_update(InquiryDTO inquiryDto) {
 	    	return sqlSession.update(NAMESPACE+".ad_inquiry_update",inquiryDto);
 	    }
-	    
-	    
-	    
-	    
-		// 리뷰(설문조사)
-		// 전체 리스트
-	    public List<Map<String, Object>> relist(){
-	        return sqlSession.selectList(NAMESPACE + ".relist");
-	    }//list() end
-		
-		
-	    
+	   
 	    
 		//////////////////////////////////////////////////////////////////////////////
 				

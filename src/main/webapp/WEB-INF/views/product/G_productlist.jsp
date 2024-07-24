@@ -31,31 +31,26 @@
 			</div>
   		</div> <!-- row end -->
 	  
-	  	<div class="row">
-		<c:forEach items="${list}" var="row" varStatus="vs">
-			<div class="col-sm-4 col-md-4">
-				<a href="productdetail/${row.book_number}">
-					<img src="/storage/images/${row.img}" class="img-responsive margin" style="width:100px">
-				</a>
-				<br>
-				상품명 :
-				<a href="productdetail/${row.book_number}"> ${row.book_title} </a>
-	
-				<br>
-				상품가격 : <fmt:formatNumber value="${row.original_price}" pattern="#,###" /> 원 → 
-						<fmt:formatNumber value="${row.sale_price}" pattern="#,###" /> 원
-				
-				<!-- 한줄에 3칸씩 -->
-				<c:if test="${vs.count mod 3 == 0}">
-				</div><!-- row end -->
-					<div style="height: 50px;"> </div>
-	  				<div class="row">
-				</c:if>
-				
-			</div>
-		</c:forEach>
-	  </div><!-- row end --> 	
-  	
+	  	<!-- 상품 -->
+		<div class="product-area">
+				<c:forEach items="${list}" var="row" varStatus="vs">
+					 <div class="product-box">
+		                    <div class="img-area">
+		                        <a href="productdetail/${row.book_number}">
+		                            <img src="/storage/images/${row.img}" alt="상품 이미지">
+		                        </a>
+		                    </div>
+		                    <div class="product-info">
+		                        <p>상품명: <a href="productdetail/${row.book_number}">${row.book_title}</a></p>
+		                        <p class="price">
+								    <span class="sale-price"><fmt:formatNumber value="${row.sale_price}" pattern="#,###"/> 원</span>
+								    <span class="original-price"><fmt:formatNumber value="${row.original_price}" pattern="#,###"/> 원</span>
+								</p>
+		                        <p class="views">조회수: ${row.book_view}</p>
+		                    </div>
+		                </div>
+				</c:forEach>
+		 </div><!-- row end --> 	
 	</div> <!-- <div class="main-content"> end -->
 <!-- 본문 끝 -->
 </div> <!-- <div class="contents_inner"> end -->

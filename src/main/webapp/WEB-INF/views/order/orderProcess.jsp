@@ -13,7 +13,7 @@
             <h2>주문한 상품</h2>
             <c:forEach items="${cartItems}" var="row">
                 <div class="product">
-                    <img src="${pageContext.request.contextPath}/images/${row.img}" alt="${row.book_title}">
+                    <img src="${pageContext.request.contextPath}/storage/images/${row.img}" alt="${row.book_title}">
                     <div class="product-info">
                         <h3>${row.book_title}</h3>
                         <p>수량: ${row.quantity}개</p>
@@ -21,17 +21,17 @@
                     </div>
                 </div>
             </c:forEach>
-            <p class="total">총 결제 금액: ${totalOrderAmount}원</p>
+            <p class="total">총 결제 금액: ${totalOrderAmount + deliveryFee}원</p>
         </div>
         <div class="shipping-info">
             <h2>배송 및 주문자 정보</h2>
-            <p>주문번호: ${orderInfo.payment_code}</p>
-            <p>주문일: ${orderInfo.payment_date}</p>
-            <p>주문인: ${orderInfo.recipient_name}</p>
-            <p>주소: ${orderInfo.shipping_address}</p>
+            <p>주문번호: ${orderDto.payment_code}</p>
+            <p>주문일: ${orderDto.payment_date}</p>
+            <p>주문인: ${orderDto.recipient_name}</p>
+            <p>주소: ${orderDto.shipping_address}</p>
         </div>
     </div>
-    <button class="confirm-btn" onclick="location.href='/'">확인</button>
+    <button class="confirm-btn" onclick="location.href='/mypage/mypage_main'">확인</button>
 </div>
 
 

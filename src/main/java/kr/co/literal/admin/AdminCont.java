@@ -317,21 +317,6 @@ public class AdminCont {
 	            e.printStackTrace(); // 예외 로그 출력
 	        }//try end
 	    }
-	    
-	    
-	    
-	
-		// 리뷰(설문조사)
-		@RequestMapping("/ad_reviewlist")
-		public ModelAndView relist() {
-		   ModelAndView mav = new ModelAndView();
-		   mav.addObject("relist", adminDao.relist());
-		   mav.setViewName("/admin/ad_reviewlist");
-		   return mav;
-		 } // ModelAndView end
-		
-		
-		
 		
 	    
 }//AdminCont() end

@@ -163,99 +163,157 @@
 	</div> <!-- 모달 끝 -->
 
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
-	    // 모달 열림 상태를 추적하기 위한 변수
-	    var modalOpened = false;
-	
-	    // Select 요소 클릭 시 모달을 띄움
-	    var gradeCodeSelect = document.getElementById('grade_code');
-	    gradeCodeSelect.addEventListener('click', function(event) {
-	        // 모달이 열려있지 않을 때만 모달을 띄움
-	        if (!modalOpened) {
-	            var gradeGuideModal = new bootstrap.Modal(document.getElementById('gradeGuideModal'));
-	            gradeGuideModal.show();
-	            modalOpened = true;
-	        }
-	        event.stopPropagation(); // 이벤트 전파 중단
-	    });
-	
-	    // 모달이 닫힐 때 모달 열림 상태를 초기화
-	    var modalElement = document.getElementById('gradeGuideModal');
-	    modalElement.addEventListener('hidden.bs.modal', function () {
-	        modalOpened = false; // 모달 열림 상태를 초기화
-	        gradeCodeSelect.blur(); // select 요소의 포커스를 제거하여 무한 반복 방지
-	    });
-	
-	    // 할인율 정보 객체
-	    var discountRates = {
-	        0: 0,    // 선택 시 할인 없음
-	        1: 0.3,  // 최상 등급 시 30% 할인
-	        2: 0.4,  // 상 등급 시 40% 할인
-	        3: 0.5   // 중 등급 시 50% 할인
-	    };
-	
-	    // 판매가 자동 계산
-	    var originalPriceInput = document.getElementById('original_price');
-	    var salePriceInput = document.getElementById('sale_price');
-	    
-	    // 등급 코드 선택 시 판매가 계산
-	    gradeCodeSelect.addEventListener('change', function() {
-	        var gradeCode = parseInt(gradeCodeSelect.value); // 선택된 등급 코드 값
-	        var originalPrice = parseFloat(originalPriceInput.value) || 0; // 입력된 정가 값, 기본값 0
-	        var discountRate = discountRates[gradeCode]; // 선택된 등급 코드에 따른 할인율
-	        var salePrice = originalPrice * (1 - discountRate); // 할인율 적용한 판매가 계산
-	        var roundedSalePrice = Math.floor(salePrice / 10) * 10; // 10의 자리로 내림하여 정수로 변환
-            salePriceInput.value = roundedSalePrice; // 계산된 판매가를 소수점 2자리까지 표시하여 입력 필드에 설정
-	    });
-	    
-	    // 정가 입력 시 판매가 계산
-	    originalPriceInput.addEventListener('input', function() {
-	        var gradeCode = parseInt(gradeCodeSelect.value); // 선택된 등급 코드 값
-	        var originalPrice = parseFloat(originalPriceInput.value) || 0; // 입력된 정가 값, 기본값 0
-	        var discountRate = discountRates[gradeCode]; // 선택된 등급 코드에 따른 할인율
-	        var salePrice = originalPrice * (1 - discountRate); // 할인율 적용한 판매가 계산
-	        var roundedSalePrice = Math.floor(salePrice / 10) * 10; // 10의 자리로 내림하여 정수로 변환
-            salePriceInput.value = roundedSalePrice; // 계산된 판매가를 소수점 2자리까지 표시하여 입력 필드에 설정
-	    });
-	 	
-	    // 폼 유효성 검사
-	    var form = document.getElementById('fmproduct'); // 폼 요소를 가져옵니다.
-	    form.addEventListener('submit', function(event) { // 폼 제출 이벤트를 리스닝합니다.
-	        var isValid = true; // 폼 유효성 상태를 추적하는 변수입니다.
+document.addEventListener('DOMContentLoaded', function() {
+    var modalOpened = false;
+    var gradeCodeSelect = document.getElementById('grade_code');
+    var gradeGuideModal = document.getElementById('gradeGuideModal');
 
-	        // 필수 입력 필드의 ID 목록입니다.
-	        var requiredFields = ['book_title', 'author', 'original_price', 'img'];
+    // 모달이 닫힐 때 모달 열림 상태를 초기화
+    gradeGuideModal.addEventListener('hidden.bs.modal', function () {
+        modalOpened = false;
+        gradeCodeSelect.blur();
+    });
 
-	        // 각 필수 입력 필드를 순회하면서 값을 확인합니다.
-	        requiredFields.forEach(function(fieldId) {
-	            var field = document.getElementById(fieldId); // 필드를 가져옵니다.
+    // 'X' 버튼 클릭 시 모달을 닫음
+    var closeButton = gradeGuideModal.querySelector('.close');
+    closeButton.addEventListener('click', function() {
+        var bootstrapModal = bootstrap.Modal.getInstance(gradeGuideModal);
+        bootstrapModal.hide();
+    });
 
-	            // 필드가 비어있는지 확인합니다.
-	            if (!field.value) {
-	                isValid = false; // 필드가 비어있으면 isValid를 false로 설정합니다.
-	                field.classList.add('is-invalid'); // 필드에 'is-invalid' 클래스를 추가하여 강조합니다.
-	            } else {
-	                field.classList.remove('is-invalid'); // 필드가 채워져 있으면 'is-invalid' 클래스를 제거합니다.
-	            }
-	        });
+    var discountRates = {
+        0: 0,
+        1: 0.3,
+        2: 0.4,
+        3: 0.5
+    };
 
-	        // 필수 입력 필드 중 하나라도 비어있으면 폼 제출을 막고 경고 메시지를 표시합니다.
-	        if (!isValid) {
-	            event.preventDefault(); // 폼 제출을 막습니다.
-	            alert('모든 필수 항목을 입력해주세요.'); // 경고 메시지를 표시합니다.
-	        }
-	    });
-	});
+    var originalPriceInput = document.getElementById('original_price');
+    var salePriceInput = document.getElementById('sale_price');
+
+    gradeCodeSelect.addEventListener('change', function() {
+        // 셀렉트 박스 변경 후 모달을 띄움
+        if (!modalOpened) {
+            var gradeCode = parseInt(gradeCodeSelect.value); // 선택된 등급 코드 값
+            if (gradeCode > 0) { // 선택된 값이 '선택'이 아닌 경우에만 모달을 띄움
+                var bootstrapModal = new bootstrap.Modal(gradeGuideModal);
+                bootstrapModal.show();
+                modalOpened = true;
+            }
+
+            var originalPrice = parseFloat(originalPriceInput.value) || 0;
+            var discountRate = discountRates[gradeCode];
+            var salePrice = originalPrice * (1 - discountRate);
+            var roundedSalePrice = Math.floor(salePrice / 10) * 10;
+            salePriceInput.value = roundedSalePrice;
+        }
+    });
+
+    originalPriceInput.addEventListener('input', function() {
+        var gradeCode = parseInt(gradeCodeSelect.value);
+        var originalPrice = parseFloat(originalPriceInput.value) || 0;
+        var discountRate = discountRates[gradeCode];
+        var salePrice = originalPrice * (1 - discountRate);
+        var roundedSalePrice = Math.floor(salePrice / 10) * 10;
+        salePriceInput.value = roundedSalePrice;
+    });
+
+    var form = document.getElementById('fmproduct');
+    form.addEventListener('submit', function(event) {
+        var isValid = true;
+        var requiredFields = ['book_title', 'author', 'original_price', 'img'];
+
+        requiredFields.forEach(function(fieldId) {
+            var field = document.getElementById(fieldId);
+            if (!field.value) {
+                isValid = false;
+                field.classList.add('is-invalid');
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        if (!isValid) {
+            event.preventDefault();
+            alert('모든 필수 항목을 입력해주세요.');
+        }
+    });
+});
+
+
 	</script>
 
 	
 	<style>
-	.table-product {
-		 text-align: center;
-		 width: 100%;
-		 margin-top: 50px;
-		 padding: 30px;
-	}
+	 .table-product {
+    width: 100%;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px; /* 라벨과 입력 필드 사이의 간격 추가 */
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px; /* 입력 필드 간의 간격 추가 */
+}
+
+.form-group input[type="submit"] {
+    width: auto;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 20px; /* 제출 버튼 위의 간격 추가 */
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-in-out;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+	 
+	 
 	</style>
 <!-- 본문 끝 -->
 </div> <!-- <div class="contents_inner"> end -->

@@ -2,20 +2,21 @@
 <%@ include file="../header_admin.jsp"%>
 
 <!-- nonMemberList.jsp -->
-
+<!-- 사이트 메뉴 시작 -->
 <div class="contents_inner">
-    <div class="sidebar">
-        <ul>
-            <li><a href="${pageContext.request.contextPath}/admin/branchList">지점 목록</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/branchRegister">지점 등록</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/dailySales">지점 매출</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/nonMemberList">비회원 목록</a></li>
-        </ul>
-    </div>
-    <!-- sidebar end -->
-	
-<!-- 본문 시작 -->
+	<div class="sidebar">
+		<ul>
+			<li><a href="${pageContext.request.contextPath}/admin">열람실 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/memberList">회원정보 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/productlist_admin">상품 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/branchList">지점 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/notice/notice_list">공지사항 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/ad_inquiry_list">1:1문의 관리</a></li>
+		</ul>
+	</div><!-- sidebar end -->
+<!-- 사이트 메뉴 끝 -->
 
+<!-- 본문 시작 -->
 <div class="nonMemberList-main-content">
 	<div class="nonMemberList-row">
 		<div class="nonMemberList-col-sm-12">
@@ -61,6 +62,8 @@
     </table>
 </div><!-- nonMemberList-main-content end -->
 
+<!-- 본문 끝 -->	
+</div> <!-- <div class="contents_inner"> end -->
 
 
 <style>
@@ -120,12 +123,4 @@
 
 
 
-
-
-
-
-	
-</div> <!-- <div class="contents_inner"> end -->
-<!-- 본문 끝 -->
-
-<%@ include file="../footer.jsp"%>
+<%@ include file="../footer_admin.jsp"%>

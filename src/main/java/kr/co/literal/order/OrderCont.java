@@ -89,17 +89,17 @@ public class OrderCont {
         // selectedItems 세션 저장
         session.setAttribute("selectedItems", selectedItems);
         session.setAttribute("selectedCartItems", cartItems);
-
-        // 로그 출력
-        System.out.println("selectedItems: " + selectedItems);
-        System.out.println("cartItems" + cartItems);
-
+        
         return mav;
     }
 
     @Transactional
     @PostMapping("/orderProcess")
     public ModelAndView orderProcess(@ModelAttribute OrderDTO orderDto, HttpSession session) {
+    	
+        // insertOrder 호출
+        int result = orderDao.insertOrder(orderDto);
+    
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/order/orderProcess");
 
@@ -111,7 +111,7 @@ public class OrderCont {
         }
 
         // 총 결제 금액 구하기
-        int totalamount = orderDao.totalamount(email);
+        int total_amount = orderDao.totalamount(email);
 
         // 주문 데이터 삽입 전에 orderDto에 email 및 기타 필요한 정보 설정
         orderDto.setEmail(email);
@@ -146,12 +146,9 @@ public class OrderCont {
             return mav;
         }
 
-        // insertOrder 호출
-        int result = orderDao.insertOrder(orderDto);
-
         if (result > 0) {
             // orderDto에 세션아이디, 총결제금액 추가로 담기
-            orderDto.setTotal_amount(totalamount);
+            orderDto.setTotal_amount(total_amount);
 
             System.out.println("Calling order_sendMail method.");
             order_sendMail(orderDto);  // 이메일 전송 메서드 호출 추가
@@ -174,29 +171,30 @@ public class OrderCont {
                 orderDao.enableForeignKeyChecks();
             }
 
-            // 결제 완료 페이지에 필요한 정보 추가
-            mav.addObject("totalOrderAmount", totalamount);
-
             // 세션에서 selectedCartItems 가져오기
             List<HashMap<String, Object>> sessionCartItems = (List<HashMap<String, Object>>) session.getAttribute("selectedCartItems");
             mav.addObject("cartItems", sessionCartItems);
-
-            // 주문 정보 추가
-            Map<String, Object> orderInfo = new HashMap<>();
-            orderInfo.put("payment_code", paymentCode);
-            orderInfo.put("payment_date", new Date()); // 주문 날짜 추가
-            orderInfo.put("recipient_name", orderDto.getRecipient_name());
-            orderInfo.put("shipping_address", orderDto.getShipping_address());
-            mav.addObject("orderInfo", orderInfo);
+            
+            
+			/*
+			 * mav.addObject("payment_date", payment_date); // 결제 날짜
+			 * mav.addObject("recipient_phone", recipient_phone); // 전화번호
+			 * mav.addObject("shipping_address", shipping_address); // 주소
+			 */
+            
+            mav.addObject("orderDto", orderDto);
+            
+            System.out.println("orderDTO : " + orderDto); 
 
             // 세션에 cart_code 저장
-            session.setAttribute("cart_code", cartCode);
+            session.setAttribute("cart_code", cartCode);;
 
             // 로그 출력
-            System.out.println("Selected Items: " + selectedItems);
-            System.out.println("Order Info: " + orderInfo);
-            System.out.println("Session Cart Items: " + sessionCartItems);
-            System.out.println("Payment Code: " + paymentCode);
+			/*
+			 * System.out.println("Selected Items: " + selectedItems);
+			 * System.out.println("Session Cart Items: " + sessionCartItems);
+			 * System.out.println("Payment Code: " + paymentCode);
+			 */
 
             // 세션 데이터 초기화
             session.removeAttribute("selectedItems");

@@ -193,4 +193,34 @@ public class ProductDAO {
     }//getTodayBookListByBranch() end
     
     
+    // 결재 완료 후 판매 상태 변경
+    public void updateAvailability(String productId, int availability) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("productId", productId);
+        params.put("availability", availability);
+        sqlSession.update("product.updateAvailability", params);
+    }
+    
+    
+    //위시리스트
+    public void insertWish(WishlistDTO wishlistDto) {
+        sqlSession.insert("kr.co.literal.product.ProductMapper.insertWish", wishlistDto);
+    }
+
+    public void deleteWish(WishlistDTO wishlistDto) {
+        sqlSession.delete("kr.co.literal.product.ProductMapper.deleteWish", wishlistDto);
+    }
+    
+    //조회수
+    public void increasebookCount(String book_code) {
+    	System.out.println("Increasing book count for: " + book_code); // 디버깅 코드
+        sqlSession.update("kr.co.literal.product.ProductMapper.increaseBookCount", book_code);
+    }
+
+	 public ProductDTO selectbookById(String book_code) {
+		 System.out.println("Selecting book by ID: " + book_code);
+		 	increasebookCount(book_code);
+	        return sqlSession.selectOne("kr.co.literal.product.ProductMapper.selectBookById", book_code);
+	 }
+	 
 } // public class ProductDAO end

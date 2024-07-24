@@ -162,4 +162,37 @@
 	</select>
 	
 	
+	<!-- 결제 완료 후 판매 상태 변경 -->
+	<update id="updateAvailability">
+        UPDATE product
+        SET availability = #{availability}
+        WHERE book_number = #{book_number}
+    </update>
+    
+    
+    	<!--위시 리스트-->
+	
+	<insert id="insertWish" parameterType="kr.co.literal.product.WishlistDTO">
+        INSERT INTO wishlist (email, book_number)
+        VALUES (#{email}, #{book_number})
+    </insert>
+    
+    <delete id="deleteWish" parameterType="kr.co.literal.product.WishlistDTO">
+        DELETE FROM wishlist
+        WHERE email = #{email} AND book_number = #{book_number}
+    </delete>
+	
+	<!-- 조회수  -->
+	 <update id="increaseBookCount" parameterType="String">
+    	UPDATE product SET book_view = book_view + 1 
+    	WHERE book_code = #{book_code}
+	</update>
+
+	<select id="selectBookById" parameterType="String" resultType="kr.co.literal.product.ProductDTO">
+    	SELECT book_code, book_title, book_view, original_price, sale_price, img
+    	FROM product
+    	WHERE book_code = #{book_code}
+	</select>
+	
+	
  </mapper>

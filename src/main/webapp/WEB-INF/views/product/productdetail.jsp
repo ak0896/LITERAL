@@ -26,17 +26,16 @@
 		<div class="row">
 			<div class="col-sm-12">
 			<h3 class="productlist text-center"> [상 품] </h3>
-			<p>
-				<button type="button" class="btn btn-newproduct" onclick="location.href='${pageContext.request.contextPath}/product/productlist'"> 상품 목록 </button>
-			</p>
 			</div> <!-- class="col-sm-12" end -->
 			
         <div class="pro-container">
             <div class="content-inner">
                 <div class="book-img">
-					<c:if test="${product.img != '-'}">
-						<img src="/storage/images/${product.img}" width="100px">
-					</c:if>                
+                	<div class="book-img-info">
+						<c:if test="${product.img != '-'}">
+							<img src="/storage/images/${product.img}" width="100px">
+						</c:if>     
+					</div>           
                 </div> <!-- <div class="pro-book-img"> end -->
                 			
 				<div class="book-detail">
@@ -46,7 +45,7 @@
 		                    <span class="author"> "${product.author}" </span>
 		                    <span> 저자 </span>
 		                </p>
-		                <pW class="book-info-item">
+		                <p class="book-info-item">
 		                    <span> 등록일 : ${product.registration_date} </span>
 		                </p>
 		                <div class="price-area">
@@ -66,51 +65,55 @@
 		                        </c:otherwise>
 		                    </c:choose>
 		                </div>
-		                <p class="book-info-item">
-		                	<span> 출판사 </span>
-		                    <span> ${product.press} </span>
-		                </p>
-		                <p class="book-info-item">
-		                	<span> 출판일 </span>
-		                    <span> ${product.publishing_date} </span>
-		                </p>
-		                <p class="book-info-item">
-		                	<span> 판매자 책 소개 </span>
-		                    <span> ${product.intro_book} </span>
-		                </p>		                		                
+		                <div>
+			                <p class="book-info-item">
+			                	<span> 출판사 </span>
+			                    <span> ${product.press} </span>
+			                </p>
+			                <p class="book-info-item">
+			                	<span> 출판일 </span>
+			                    <span> ${product.publishing_date} </span>
+			                </p>
+			                <p class="book-info-item">
+			                	<span> 판매자 책 소개 </span>
+			                    <span> ${product.intro_book} </span>
+			                </p>	
+		                </div>	                		                
+		                <div>
+		                <c:if test="${sessionScope.member != null && sessionScope.member.type_code == 0}">
 		                
-		                <!-- 테스트 -->
-		                <hr>
-		                <p class="book-info-item">
-		                    <span> 장르 : ${product.genre_code} </span>
-		                </p>		                
-		                
-		                <p class="book-info-item">
-		                    <span> book_code : ${product.book_code} </span>
-		                </p>
-		                
-		                <p class="book-info-item">
-		                    <span> book_number : ${product.book_number} </span>
-		                </p>
-		                
-		                <p class="book-info-item">
-		                    <span> grade_code : ${product.grade_code} </span>
-		                </p>
-		                
-		                <p class="book-info-item">
-		                    <span> 작성자 : ${product.email} </span>
-		                </p>
-		                
-		                <p class="book-info-item">
-		                    <span> 판매여부 : ${product.availability} </span>
-		                </p>
-		                		               
-		                <p class="book-info-item">
-		                    <span> 지점코드 : ${product.branch_code} </span>
-		                </p>
-		                		                
-		           		<hr>
-		            </div>
+			                <!-- 테스트 -->
+			                <hr>
+			                <p class="book-info-item">
+			                    <span> 장르 : ${product.genre_code} </span>
+			                </p>		                
+			                
+			                <p class="book-info-item">
+			                    <span> book_code : ${product.book_code} </span>
+			                </p>
+			                
+			                <p class="book-info-item">
+			                    <span> book_number : ${product.book_number} </span>
+			                </p>
+			                
+			                <p class="book-info-item">
+			                    <span> grade_code : ${product.grade_code} </span>
+			                </p>
+			                
+			                <p class="book-info-item">
+			                    <span> 작성자 : ${product.email} </span>
+			                </p>
+			                
+			                <p class="book-info-item">
+			                    <span> 판매여부 : ${product.availability} </span>
+			                </p>
+			                		               
+			                <p class="book-info-item">
+			                    <span> 지점코드 : ${product.branch_code} </span>
+			                </p>
+			                		                
+			           		</c:if>
+		            	</div>
 		            <div>
 		                <p> 등록된 책 
        						<a href="${pageContext.request.contextPath}/product/productlist?book_code=${product.book_code}"> 더보기 </a>    
@@ -143,6 +146,7 @@
 							    </c:forEach>
 								<tr>
 									<td colspan="4" align="center">
+										<button type="button" class="btn btn-newproduct" onclick="location.href='${pageContext.request.contextPath}/product/productlist'"> 상품 목록 </button>
 										<button type="submit" class="btn btn-newproduct btn-info"> 장바구니 </button>
 									</td>
 							    </tr> 	                    
@@ -242,6 +246,10 @@
 	    padding-right: 20px;
 	}
 	
+	.book-img-info{
+		 width: 300px;
+	}
+	
 	.book-img img {
 	    width: 100%;
 	    height: auto;
@@ -256,8 +264,7 @@
 	
 	.book-info {
 	    margin-bottom: 20px;
-	    border-bottom: 1px solid #ccc;
-	    padding-bottom: 20px;
+	
 	}
 	
 	.book-title {

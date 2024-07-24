@@ -35,32 +35,21 @@ public class MypageDAO {
 		return sqlSession.delete("mypage.inquiry_delete",inquiryDto);
 	}
 	
-	
-	
-/*	
-	// wisthlist
-    // wishlist에 항목을 추가하는 메서드
-    public void insertWishlist(String email, String book_number) {
+
+    public void addWishlist(String bookNumber, String email) {
         Map<String, Object> params = new HashMap<>();
+        params.put("bookNumber", bookNumber);
         params.put("email", email);
-        params.put("book_number", book_number);
-        sqlSession.insert("mypage.insertWishlist", params);
+        sqlSession.insert("mypage.addWishlist", params);
     }
 
-    // wishlist에서 항목을 삭제하는 메서드
-    public void deleteWishlist(String email, String book_number) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("email", email);
-        params.put("book_number", book_number);
-        sqlSession.delete("mypage.deleteWishlist", params);
-    }
-
-    // wishlist 조회 메서드
-    public List<ProductDTO> getWishlist(String email) {
-        return sqlSession.selectList("mypage.getWishlist", email);
-    }
-*/
     
-
+    public void removeWishlist(String bookNumber, String email) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("bookNumber", bookNumber);
+        params.put("email", email);
+        sqlSession.delete("mypage.removeWishlist", params);
+    }
+	
     
 }//class end

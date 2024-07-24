@@ -10,7 +10,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f7f7f7;
+    /*background-color: #f7f7f7;*/
     height: 100%;
 }
 
@@ -119,11 +119,18 @@ header {
   .carousel-inner {
     width: 100%;
     height: 500px; /* 변경된 height */
+    /*padding:20px;*/
   }
 
   .carousel-item {
       width:100%;
     height: 500px; /* 변경된 height */
+  }
+  
+  .contents_inner{
+  	width:1200px;
+  	max-width:1280px;
+  	margin:0 auto;
   }
 
 
@@ -165,10 +172,17 @@ nav {
 /* main  */
 main {
     width: 90%;
+    height:100vh;
     margin: 20px auto;
     display: flex;
     flex-direction: column;
     gap: 20px; /* 각 섹션 사이의 간격 */
+}
+
+.main-content{
+	/*height:100vh;*/
+	width:80%;
+	padding-left:20px;
 }
 
 /*.banner {
@@ -188,20 +202,23 @@ main {
 /* BEST SLIDE */
 /* 슬라이드 css */
 .section input[id*="slide"] {display:none;}
-.section .slidewrap {max-width:1200px;margin:0 auto;}
+.section .slidewrap {max-width:1200px;margin:0 auto;position:relative;}
 .section .slidelist {white-space:nowrap;font-size:0;overflow:hidden;position:relative;}
 .section .slidelist > li {display:inline-block;vertical-align:middle;width:100%;transition:all .5s;}
+.section .slideitem {width: 100%; display: flex; justify-content: space-between;}
+.section .slide_flex {display: flex; justify-content: space-between; width: 100%;}
+.section .book {width: calc(33.3333% - 10px); margin: 5px;}
 .section .slidelist > li > a {display:block;position:relative;}
 .section .slidelist > li > a img {width:100%;}
-.section .slidelist label {position:absolute;z-index:10;top:50%;transform:translateY(-50%);padding:50px;cursor:pointer;}
+.section .slidelist label {position:absolute;z-index:10;top:50%;transform:translateY(-50%);padding:20px;cursor:pointer;}
 .section .slidelist .textbox {position:absolute;z-index:1;top:50%;left:50%;transform:translate(-50%,-50%);line-height:1.6;text-align:center;}
-.section .slidelist .textbox h3 {font-size:36px;color:#fff;;transform:translateY(30px);transition:all .5s;}
-.section .slidelist .textbox p {fonslideitemslideitemt-size:16px;color:#fff;opacity:0;transform:translateY(30px);transition:all .5s;}
+.section .slidelist .textbox h3 {font-size:36px;color:#fff;transform:translateY(30px);transition:all .5s;}
+.section .slidelist .textbox p {font-size:16px;color:#fff;opacity:0;transform:translateY(30px);transition:all .5s;}
 
 /* input에 체크되면 슬라이드 효과 */
-.section input[id="slide1"]:checked ~ .slidewrap .slidelist > li {transform:translateX(0%);}
-.section input[id="slide2"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-100%);}
-.section input[id="slide3"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-200%);}
+.section input[id="slide1"]:checked ~ .slidewrap .slidelist {transform:translateX(0%);}
+.section input[id="slide2"]:checked ~ .slidewrap .slidelist {transform:translateX(-100%);}
+.section input[id="slide3"]:checked ~ .slidewrap .slidelist {transform:translateX(-200%);}
 
 /* input에 체크되면 텍스트 효과 */
 .section input[id="slide1"]:checked ~ .slidewrap li:nth-child(1) .textbox h3 {opacity:1;transform:translateY(0);transition-delay:.2s;}
@@ -212,13 +229,8 @@ main {
 .section input[id="slide3"]:checked ~ .slidewrap li:nth-child(3) .textbox p {opacity:1;transform:translateY(0);transition-delay:.4s;}
 
 /* 좌,우 슬라이드 버튼 */
-.slide-control > div {display:none;}
-.section .left {left:-10px;background:url('../images/left.png') center center / 100% no-repeat;}
-.section .right {right:-10px;background:url('../images/right.png') center center / 100% no-repeat;}
-.section input[id="slide1"]:checked ~ .slidewrap .slide-control > div:nth-child(1) {display:block;}
-.section input[id="slide2"]:checked ~ .slidewrap .slide-control > div:nth-child(2) {display:block;}
-.section input[id="slide3"]:checked ~ .slidewrap .slide-control > div:nth-child(3) {display:block;}
-
+.section .left {left:10px;background:url('../images/left.png') center center / contain no-repeat;}
+.section .right {right:10px;background:url('../images/right.png') center center / contain no-repeat;}
 
 /* 오늘의 추천 도서 SLIDE */
 /* 슬라이드 css */
@@ -295,7 +307,8 @@ main {
 
 button {
     display: block;
-    margin: 20px auto 0;
+    /*margin: 20px auto 0;*/
+   	margin-right:15px;
     padding: 10px 20px;
     background-color: #333;
     color: white;
@@ -382,7 +395,76 @@ footer {
 /* ---------------------------------------------------------------------------------------------- */
 
 /* 상품 css 시작 ---------------------------------------------------------------------------------- */
-
+  .list-top{
+  	display:flex;
+  	justify-content: space-between
+  }
+  
+  .product-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.product-box {
+    width: 30%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    min-height: 350px; /* 최소 높이를 설정하여 박스의 크기를 고정 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.product-box img {
+    width: 100%;
+    height: 300px;
+    object-fit: contain; /* 이미지 비율을 유지하면서 잘리지 않도록 설정 */
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+.product-info {
+    text-align: left;
+}
+.product-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+.product-info a:hover {
+    text-decoration: underline;
+}
+.product-info p {
+    margin: 5px 0;
+    color: #555;
+}
+.product-info .price {
+    font-size: 14px;
+    color: #555;
+}
+.product-info .views {
+    font-size: 12px;
+    color: #777;
+}
+.product-info .original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-left: 5px;
+}
+.product-info .sale-price {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+      .product-info .views {
+          font-size: 12px;
+          color: #777;
+      }
+      
+      .sold-out{
+      	color:red;
+      }
 /* Custom button style */
 .btn-newproduct {
     background-color: #FA8072;

@@ -97,12 +97,7 @@ public class BranchDAO {
         sqlSession.delete("kr.co.literal.admin.adminMapper.deleteDailySales", params);
     }
     
+}
     
     
-    
-    
-    
-    
-    
-}//BranchDAO() end
 

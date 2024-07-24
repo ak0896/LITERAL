@@ -95,6 +95,17 @@ public class MemberDAO {
 		public void kakaoJoin(MemberDTO member) {
 			sqlSession.insert(NAMESPACE + ".insertMember", member);
 		}//kakaoJoin() end
-	    	    
+		
 	   
+		// 포인트
+	    public MemberDTO getPoints(String email) {
+	        return sqlSession.selectOne(NAMESPACE + ".getPoints", email);
+	    }
+
+	    public void updatePoints(String email, int points) {
+	        MemberDTO member = new MemberDTO();
+	        member.setEmail(email);
+	        member.setPoints(points);
+	        sqlSession.update(NAMESPACE + ".updatePoints", member);
+	    }
 }//class end

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import net.utility.Utility;
@@ -261,6 +262,36 @@ public class ProductCont {
 	    return mav;
 	}// public ModelAndView detail() end
 	
+	
+	//위시리스트
+	 @PostMapping("/wish")
+	    @ResponseBody
+	    public String handleWish(
+	            @RequestParam("book_number") String book_number,
+	            @RequestParam("action") String action,
+	            HttpSession session) {
+			
+		 	String email = (String) session.getAttribute("email");
+		 	 System.out.println("Session email: " + email);
+		     System.out.println("Book Number: " + book_number);
+		     System.out.println("Action: " + action);
+			
+	        WishlistDTO wish = new WishlistDTO();
+	        wish.setEmail(email);
+	        wish.setBook_number(book_number);
+
+	       
+
+	        if ("add".equals(action)) {
+	            productDao.insertWish(wish);
+	            return "Wish added";
+	        } else if ("remove".equals(action)) {
+	            productDao.deleteWish(wish);
+	            return "Wish removed";
+	        } else {
+	            return "Invalid action";
+	        }
+	    }
 	
 	
 } // public class ProductCont end

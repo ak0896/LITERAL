@@ -10,7 +10,6 @@
 		<ul>
             <li><a href="${pageContext.request.contextPath}/member/editMember?email=${sessionScope.member.email}" class="button">회원정보수정/삭제</a></li>
             <li><a href="#">나의서점</a></li>
-            <li><a href="#">리뷰</a></li>
             <li><a href="${pageContext.request.contextPath}/mypage/inquiry_list?email=${sessionScope.member.email}">1:1문의</a></li>
 		</ul>
 	</div> 

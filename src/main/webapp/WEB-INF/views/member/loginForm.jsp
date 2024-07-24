@@ -33,11 +33,13 @@
 			</div>
 			
 			
+			<!-- 0721 애경 수정 시작 -->
 			<div class="col-lg-12 text-center mt-3">
-			    <a class="kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=1d2c6fcb1c84e26382b93490500af756&redirect_uri=http://localhost:8080/kakaoLogin&response_type=code">
+			    <a class="kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=8f9dec329968d9694db0f7ef13e6d56b&redirect_uri=http://localhost:8080/member/kakaoLogin&response_type=code">
 			        <img src="${pageContext.request.contextPath}/images/kakao_login_medium_wide.png" alt="카카오로그인" style="cursor:pointer;">
 			    </a>
 			</div>
+			<!-- 0721 애경 수정 끝 -->
 			
 			
 		</form>
