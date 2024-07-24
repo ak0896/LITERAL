@@ -22,6 +22,7 @@ public class ProductDTO {
     private Timestamp registration_date; // 등록날짜
     private String branch_code;         // 지점코드
     private boolean wish;        		// 찜
+    private int book_view;
     
     public ProductDTO() {}
 

@@ -161,6 +161,15 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
+        // URL 파라미터 확인 및 에러 메시지 표시
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+
+        if (error === 'already_reserved') {
+            alert('이미 예약된 좌석입니다. 다른 좌석을 선택해주세요.');
+        }
+
+        // 기존 옵션 선택 로직
         const options = document.querySelectorAll(".option");
         const times = document.querySelectorAll(".time");
         let selectedOption = null;
@@ -312,37 +321,109 @@
 </script>
 
 
-
 <style>
+
+
+
+.seatWrap {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px 0;
+}
+
 .seatArea {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 15px;
 }
 
 .seat, .seat_hidden {
     width: 100%;
-    padding: 10px;
+    padding: 15px 10px;
     text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    background-color: #e0e0e0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.seat:hover {
+    background-color: #d0d0d0;
 }
 
 .seat.selected {
     background-color: #4CAF50;
+    color: white;
 }
 
 .seat.in-use {
-    background-color: #FFA500; /* 타이머가 표시되는 좌석의 색상 (오렌지색) */
+    background-color: #FFA500;
+    color: white;
 }
 
 .seat_hidden {
     visibility: hidden;
 }
 
-.option.selected, .time.selected {
+.timeArea, .optionArea {
+    margin: 30px 0;
+}
+
+.times, .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.time, .option {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.time:hover, .option:hover {
+    background-color: #d0d0d0;
+}
+
+.time.selected, .option.selected {
     background-color: #4CAF50;
+    color: white;
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-top: 30px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.payment-options{
+	margin-top:20px;
+}
+
+.seatWrap h2 {
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
 }
 </style>
 

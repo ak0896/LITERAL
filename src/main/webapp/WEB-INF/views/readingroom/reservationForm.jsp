@@ -31,7 +31,6 @@
 				<input type="submit" value="예약하기">
 			</div>
 		</form>
-		
 		<!-- 이용권 구매 추가 -->
 		<h3>이용권 구매</h3>
 		<form action="${pageContext.request.contextPath}/buyTicket"
@@ -50,39 +49,25 @@
 		<hr class="title-divider">
 		<!-- 예약 폼 내용 -->
 		<div class="content">
-			<div class="info-section">
-				<div class="info-box">				
-					<div class="info-text">
-						<img src="./images/moon.png" alt="예약일 아이콘">
-						<h3>예약일 / 이용료</h3>
-						<p>사용당일 / 무료</p>
-					</div>
-					<div class="info-text">
-						<img src="./images/moon.png" alt="이용시간 아이콘">
-						<h3>이용시간</h3>
-						<p>09:00 ~ 19:00</p>
-					</div>
-				</div>
-			</div> <!-- <div class="info-section"> end -->
+			<section>
+				<h2>이용시간</h2>
+					<p>09:00 ~ 19:00</p>
+			</section>
+			<hr class="title-divider">
 			<section class="usage-instructions">
 				<h2>이용방법</h2>
-				<ol>
 					<li>열람실 좌석 예약 중 원하는 도서관 선택</li>
-					<li>신청가능 좌석에 한하여 좌석 예약(1인 1석, 예약가능시간 09:00~22:00)<br> <small>※
-							[신청금지] 설정된 좌석은 신청 및 이용 불가<br> ※ 신청자 본인이 신청한 좌석은 [퇴실신청] 상태로
-							보이며, 타 회원이 신청한 좌석은 [이용 중]으로 표시
-					</small>
-					</li>
-					<li>좌석 이용 후 퇴실 시 [퇴실신청] 선택 후 퇴실<br> <small>※
-							장시간(2시간 이상) 부재 시 관리자에 의해 강제 퇴실 조치</small>
-					</li>
-				</ol>
+					<li>신청가능 좌석에 한하여 좌석 예약(1인 1석, 예약가능시간 09:00~17:00)</li><br> 
+					<small>※[신청금지] 설정된 좌석은 신청 및 이용 불가<br></small>
+
 			</section>
+			<hr class="title-divider">
 			<section class="usage-inquiries">
 				<h2>이용문의</h2>
 				<p>
-					강남점 : 02-6255-8002<br> 연희점 : 02-6255-8002<br> 종로점 :
-					02-6255-8002
+					강남점 : 02-1234-1234<br> 
+					연희점 : 02-4567-4567<br> 
+					종로점 : 02-6789-6789
 				</p>
 			</section>
 		</div> <!-- div class="content" end -->
@@ -104,6 +89,7 @@
 		
 	</div>	<!-- <div class="reservation-form"> -->
 	<!-- 본문 끝  -->
+	
 </div>
 <!-- <div class="contents_inner"> -->
 <style>

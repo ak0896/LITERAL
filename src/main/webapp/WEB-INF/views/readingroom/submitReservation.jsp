@@ -11,71 +11,116 @@
 <!-- submitReservation.jsp -->
 <!-- 본문 시작 -->
 <div class="paymentArea">
-	<h1>Payment Form</h1>
-	<p>지점:
-	    <c:choose>
-	        <c:when test="${branch_code == 'L01'}">강남점</c:when>
-	        <c:when test="${branch_code == 'L02'}">연희점</c:when>
-	        <c:when test="${branch_code == 'L03'}">종로점</c:when>
-	        <c:otherwise>알 수 없음</c:otherwise>
-	    </c:choose>
-	</p>
-	<p>좌석 번호: ${seat_code}</p>
-	<p>이용 시간: ${room_code}</p>
-	<p>시작 시간: ${start_time}</p>
-	<p>종료 시간: ${end_time}</p>
-	
-	<form id="paymentForm" action="${pageContext.request.contextPath}/submitReservation" method="post">
-	    <input type="hidden" name="branch_code" value="${branch_code}">
-	    <input type="hidden" name="seat_code" value="${seat_code}">
-	    <input type="hidden" name="room_code" value="${room_code}">
-	    <input type="hidden" name="reservation_total" value="${room_amount}">
-	    <input type="hidden" name="time_code" value="${time_code}">
-	    <input type="hidden" name="start_time" value="${start_time}">
-	    <input type="hidden" name="end_time" value="${end_time}">
-	    <input type="hidden" name="reservation_date" value="${reservation_date}">
-	    <input type="hidden" name="using_seat" value="${using_seat}">
-	    <input type="hidden" name="isMember" value="${isMember}">
-	
-	    <div class="payment-options">
-	        <h2>예약자 정보</h2>
-	        <c:if test="${isMember}">
-	            <p>이름: ${re_name}</p>
-	            <p>전화번호: ${re_phone}</p>
-	            <input type="hidden" name="re_name" id="re_name" value="${re_name}">
-	            <input type="hidden" name="re_phone" id="re_phone" value="${re_phone}">
-	        </c:if>
-	        <c:if test="${!isMember}">
-	            <label for="re_name">이름:</label>
-	            <input type="text" name="re_name" id="re_name" value="${re_name}" required><br>
-	            
-	            <label for="re_phone">전화번호:</label>
-	            <input type="text" name="re_phone" id="re_phone" value="${re_phone}" required><br>
-	            
-	        </c:if>
-	
-	        <h2>결제 정보</h2>
-	        <label for="mycoupon_number">쿠폰 번호:</label>
-	        <input type="text" name="mycoupon_number" id="mycoupon_number" placeholder="쿠폰 번호가 있다면 입력하세요"><br>
-	        
-	        <label for="reservation_payment">결제 방법:</label>
-	        <select name="reservation_payment" id="reservation_payment" required>
-	            <option value="신용카드">신용카드</option>
-	            <option value="계좌이체">계좌이체</option>
-	            <option value="카카오페이">카카오페이</option>
-	            <option value="토스페이">토스페이</option>
-	        </select>
-	        <br>
-	        <label for="reservation_total">결제 금액:</label>
-	        <input type="text" name="reservation_total_display" id="reservation_total_display" value="${room_amount}" readonly>
-	
-	        <button type="button" class="btn-primary" onclick="requestPay()">결제</button>
-	    </div>
-	</form>
+<h1>Payment Form</h1>
+<p>지점:
+    <c:choose>
+        <c:when test="${branch_code == 'L01'}">강남점</c:when>
+        <c:when test="${branch_code == 'L02'}">연희점</c:when>
+        <c:when test="${branch_code == 'L03'}">종로점</c:when>
+        <c:otherwise>알 수 없음</c:otherwise>
+    </c:choose>
+</p>
+<p>좌석 번호: ${seat_code}</p>
+<p>이용 시간: ${room_code}</p>
+<p>시작 시간: ${start_time}</p>
+<p>종료 시간: ${end_time}</p>
+
+<form id="paymentForm" action="${pageContext.request.contextPath}/submitReservation" method="post">
+    <input type="hidden" name="branch_code" value="${branch_code}">
+    <input type="hidden" name="seat_code" value="${seat_code}">
+    <input type="hidden" name="room_code" value="${room_code}">
+    <input type="hidden" name="reservation_total" id="reservation_total" value="${room_amount}">
+    <input type="hidden" name="time_code" value="${time_code}">
+    <input type="hidden" name="start_time" value="${start_time}">
+    <input type="hidden" name="end_time" value="${end_time}">
+    <input type="hidden" name="reservation_date" value="${reservation_date}">
+    <input type="hidden" name="using_seat" value="${using_seat}">
+    <input type="hidden" name="isMember" value="${isMember}">
+
+    <div class="payment-options">
+        <h2>예약자 정보</h2>
+        <c:if test="${isMember}">
+            <p>이름: ${re_name}</p>
+            <p>전화번호: ${re_phone}</p>
+            <input type="hidden" name="re_name" id="re_name" value="${re_name}">
+            <input type="hidden" name="re_phone" id="re_phone" value="${re_phone}">
+            
+            <label for="mycoupon_number">쿠폰 번호:</label>
+            <select name="mycoupon_number" id="mycoupon_number">
+                <c:forEach var="coupon" items="${sessionScope.couponList}">
+                    <option value="${coupon.mycoupon_number}">${coupon.mycoupon_number}</option>
+                </c:forEach>
+            </select>
+            <input type="checkbox" name="use_coupon" id="use_coupon" onchange="applyCoupon()"> 
+            <!-- 쿠폰 사용<br> -->
+        </c:if>
+        <c:if test="${!isMember}">
+            <label for="re_name">이름:</label>
+            <input type="text" name="re_name" id="re_name" value="${re_name}" required><br>
+            
+            <label for="re_phone">전화번호:</label>
+            <input type="text" name="re_phone" id="re_phone" value="${re_phone}" required><br>
+
+        </c:if>
+
+        <h2>결제 정보</h2>
+        <label for="reservation_payment">결제 방법:</label>
+        <select name="reservation_payment" id="reservation_payment" required>
+            <option value="신용카드">신용카드</option>
+            <option value="계좌이체">계좌이체</option>
+            <option value="카카오페이">카카오페이</option>
+            <option value="토스페이">토스페이</option>
+        </select>
+        <br>
+        <label for="reservation_total">결제 금액:</label>
+        <input type="text" name="reservation_total_display" id="reservation_total_display" value="${room_amount}" readonly>
+
+        <button type="button" class="btn-primary" onclick="requestPay()">결제</button>
+    </div>
+</form>
 </div>
+
 <script>
 var IMP = window.IMP;
 IMP.init("imp45135378"); // 실제 가맹점 식별코드로 변경 필요
+
+//0719쿠폰추가
+function applyCoupon() {
+    var useCoupon = document.getElementById('use_coupon');
+    var couponNumber = document.getElementById('mycoupon_number').value;
+    var totalElement = document.getElementById('reservation_total'); // 숨겨진 필드
+    var displayElement = document.getElementById('reservation_total_display'); // 사용자에게 표시되는 필드
+    var totalAmount = parseInt(totalElement.value);
+
+    if (useCoupon && useCoupon.checked && couponNumber) {
+        // 실제로 사용 가능한 쿠폰인지 서버에 검증 요청
+        $.ajax({
+            url: '${pageContext.request.contextPath}/validateCoupon',
+            method: 'POST',
+            data: { couponNumber: couponNumber },
+            success: function(response) {
+                if (response.valid) {
+                    totalAmount -= response.discountAmount; // 서버에서 받은 할인 금액
+                    if (totalAmount < 0) totalAmount = 0;
+                    totalElement.value = totalAmount;
+                    displayElement.value = totalAmount;
+                } else {
+                    alert('유효하지 않은 쿠폰 번호입니다.');
+                    useCoupon.checked = false;
+                }
+            },
+            error: function() {
+                alert('쿠폰 검증 중 오류가 발생했습니다.');
+                useCoupon.checked = false;
+            }
+        });
+    } else {
+        totalAmount = parseInt('${room_amount}'); // 원래 금액으로 재설정
+        totalElement.value = totalAmount;
+        displayElement.value = totalAmount;
+    }
+}
+//0719쿠폰추가끝
 
 function requestPay() {
     console.log("requestPay function called");
@@ -107,7 +152,19 @@ function requestPay() {
     console.log("Phone:", phone);
     console.log("Seat:", seat);
     console.log("Is Member:", isMember);
-
+    
+    if (amount === 0) {
+        alert('결제 금액이 0원이므로 결제 과정을 생략합니다.');
+        // 결제 성공 시 추가 데이터를 폼에 포함
+        var form = document.getElementById('paymentForm');
+        var hiddenField = document.createElement('input');
+        hiddenField.type = 'hidden';
+        hiddenField.name = 'imp_uid';
+        hiddenField.value = 'zero_payment';
+        form.appendChild(hiddenField);
+        form.submit();
+        return;
+    }
 
     var today = new Date();
     var merchant_uid = "IMP" + today.getHours() + today.getMinutes() + today.getSeconds() + today.getMilliseconds();
@@ -118,8 +175,8 @@ function requestPay() {
             pg = 'kakaopay.TC0ONETIME';
             break;
         case '토스페이': 
-        	pg = 'tosspay';
-        	break;
+           pg = 'tosspay';
+           break;
         case '신용카드':
         case '계좌이체':
         default:
@@ -153,8 +210,9 @@ function requestPay() {
     });
 }
 </script>
+
 <style>
-	.paymentArea {
+   .paymentArea {
             max-width: 600px;
             width: 100%;
             background: white;

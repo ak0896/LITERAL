@@ -125,225 +125,131 @@
 
 
         <!-- container -->
-        <div class="main">
-           <!-- Carousel -->
+		<div class="main">
+            <!-- Carousel -->
             <div id="demo" class="carousel slide" data-bs-ride="carousel">
-
                 <!-- Indicators/dots -->
                 <div class="carousel-indicators">
-	                <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-	                <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-	                <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                    <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
                 </div>
                 
                 <!-- The slideshow/carousel -->
                 <div class="carousel-inner">
-	                <div class="carousel-item active">
-	                    <img src="${pageContext.request.contextPath}/storage/eventImages/main2.jpg" alt="keroro" class="d-block" style="width:100%">
-	                </div>
-	                <div class="carousel-item">
-	                    <img src="./images/moon.png" alt="moon" class="d-block" style="width:100%">
-	                    <div class="carousel-caption">
-	                    <h3>MOON</h3>
-	                    <p>사진으로 보는 달의 모습</p>
-	                    </div> 
-	                </div>
-	                <div class="carousel-item">
-	                    <img src="./images/remon.png" alt="remon" class="d-block" style="width:100%">
-	                    <div class="carousel-caption">
-	                    <h3>아동도서</h3>
-	                    <p>과일</p>
-	                    </div>  
-	                </div>
-                </div><!-- div class="carousel-inner" end -->
+                    <div class="carousel-item active">
+                        <img src="${pageContext.request.contextPath}/storage/eventImages/main2.jpg" alt="keroro" class="d-block" style="width:100%">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../images/moon.png" alt="moon" class="d-block" style="width:100%">
+                        <div class="carousel-caption">
+                            <h3>MOON</h3>
+                            <p>사진으로 보는 달의 모습</p>
+                        </div> 
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../images/remon.png" alt="remon" class="d-block" style="width:100%">
+                        <div class="carousel-caption">
+                            <h3>아동도서</h3>
+                            <p>과일</p>
+                        </div>  
+                    </div>
+                </div>
                 
                 <!-- Left and right controls/icons -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
+                    <span class="carousel-control-prev-icon"></span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
+                    <span class="carousel-control-next-icon"></span>
                 </button>
-            </div><!-- div id="demo" end  -->
+            </div> <!-- <div id="demo" class="carousel slide" data-bs-ride="carousel"> end -->
 
             <div class="content">
-				<div class="best-books">
-					<h2>BEST</h2>
-					<!-- 여기부터 슬라이드.. -->
-					<div class="books section">
-						<input type="radio" name="slide" id="slide1" checked>
-						<input type="radio" name="slide" id="slide2">
-						<input type="radio" name="slide" id="slide3">
-						<div class="slidewrap">
-							<ul class="slidelist">
-								<li class="slideitem">
-									<div class="slide_flex">
-										<div class="book">
-											<img src="./images/gray.jpg" alt="Book 1">
-											<p>회색인간</p>
-											<span>11,700원</span>
-										</div>
-										<div class="book">
-											<img src="./images/oneday.jpg" alt="Book 2">
-											<p>하루한장</p>
-											<span>11,000원</span>
-										</div>
-										<div class="book">
-											<img src="./images/stoner.jpg" alt="Book 3">
-											<p>스토너</p>
-											<span>11,900원</span>
-										</div>
-									</div>
-								</li>
-								<li class="slideitem">
-									<div class="slide_flex">
-										<div class="book">
-											<img src="./images/gray.jpg" alt="Book 1">
-											<p>회색인간22</p>
-											<span>11,700원</span>
-										</div>
-										<div class="book">
-											<img src="./images/oneday.jpg" alt="Book 2">
-											<p>하루한장22</p>
-											<span>11,000원</span>
-										</div>
-										<div class="book">
-											<img src="./images/stoner.jpg" alt="Book 3">
-											<p>스토너22</p>
-											<span>11,900원</span>
-										</div>
-									</div>
-								</li>
-								<li class="slideitem">
-									<div class="slide_flex">
-										<div class="book">
-											<img src="./images/gray.jpg" alt="Book 1">
-											<p>회색인간33</p>
-											<span>11,700원</span>
-										</div>
-										<div class="book">
-											<img src="./images/oneday.jpg" alt="Book 2">
-											<p>하루한장33</p>
-											<span>11,000원</span>
-										</div>
-										<div class="book">
-											<img src="./images/stoner.jpg" alt="Book 3">
-											<p>스토너33</p>
-											<span>11,900원</span>
-										</div>
-									</div>
-								</li>
-								<div class="slide-control">
-									<div>
-										<label for="slide3" class="left"></label>
-										<label for="slide2" class="right"></label>
-									</div>
-									<div>
-										<label for="slide1" class="left"></label>
-										<label for="slide3" class="right"></label>
-									</div>
-									<div>
-										<label for="slide2" class="left"></label>
-										<label for="slide1" class="right"></label>
-									</div>
-								</div>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="today-book">
-					<h2>오늘의 추천도서</h2>
-					<!-- 여기부터 슬라이드.. -->
-					<div class="books section2">
-						<input type="radio" name="slide2" id="slide2-1" checked>
-						<input type="radio" name="slide2" id="slide2-2">
-						<input type="radio" name="slide2" id="slide2-3">
-						<div class="slidewrap">
-							<ul class="slidelist">
-								<li class="slideitem">
-									<div class="slide_flex">
-										<div class="book">
-											<img src="./images/mosoon.jpg" alt="Book 4">
-											<p>모순</p>
-											<span>11,200원</span>
-										</div>
-										<div class="book">
-											<img src="./images/cal.jpg" alt="Book 5">
-											<p>칼의 노래</p>
-											<span>13,000원</span>
-										</div>
-										<div class="book">
-											<img src="./images/kind.jpg" alt="Book 6">
-											<p>
-												나는 다정한 <br>관찰자가<br> 되기로 했다
-											</p>
-											<span>15,000원</span>
-										</div>
-									</div>
-								</li>
-								<li class="slideitem">
-									<div class="slide_flex">
-										<div class="book">
-											<img src="./images/mosoon.jpg" alt="Book 4">
-											<p>모순22</p>
-											<span>11,200원</span>
-										</div>
-										<div class="book">
-											<img src="./images/cal.jpg" alt="Book 5">
-											<p>칼의 노래22</p>
-											<span>13,000원</span>
-										</div>
-										<div class="book">
-											<img src="./images/kind.jpg" alt="Book 6">
-											<p>
-												나는 다정한 <br>관찰자가<br> 되기로 했다22
-											</p>
-											<span>15,000원</span>
-										</div>
-									</div>
-								</li>
-								<li class="slideitem">
-									<div class="slide_flex">
-										<div class="book">
-											<img src="./images/mosoon.jpg" alt="Book 4">
-											<p>모순33</p>
-											<span>11,200원</span>
-										</div>
-										<div class="book">
-											<img src="./images/cal.jpg" alt="Book 5">
-											<p>칼의 노래33</p>
-											<span>13,000원</span>
-										</div>
-										<div class="book">
-											<img src="./images/kind.jpg" alt="Book 6">
-											<p>
-												나는 다정한 <br>관찰자가<br> 되기로 했다33
-											</p>
-											<span>15,000원</span>
-										</div>
-									</div>
-								</li>
-								<div class="slide-control2">
-									<div>
-										<label for="slide2-3" class="left"></label>
-										<label for="slide2-2" class="right"></label>
-									</div>
-									<div>
-										<label for="slide2-1" class="left"></label>
-										<label for="slide2-3" class="right"></label>
-									</div>
-									<div>
-										<label for="slide2-2" class="left"></label>
-										<label for="slide2-1" class="right"></label>
-									</div>
-								</div>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- <div class="content"> end -->
-			<!-- Content 끝 -->
+                <div class="best-books">
+                    <h2>BEST</h2>
+                    <!-- 여기부터 슬라이드.. -->
+                    <div class="books section">
+                        <input type="radio" name="slide" id="slide1" checked>
+                        <input type="radio" name="slide" id="slide2">
+                        <input type="radio" name="slide" id="slide3">
+                        <div class="slidewrap">
+                            <ul class="slidelist">
+                                <c:forEach items="${topBooks}" var="book" varStatus="status">
+                                    <c:if test="${status.index % 3 == 0}">
+                                        <li class="slideitem">
+                                            <div class="slide_flex">
+                                    </c:if>
+                                    
+                                    <div class="book">
+                                        <a href="../product/productdetail/${book.book_code}">
+                                            <img src="../storage/images/${book.img}" alt="${book.book_title}">
+                                        </a>
+                                        <p>${book.book_title}</p>
+                                        <span><fmt:formatNumber value="${book.sale_price}" pattern="#,###"/>원</span>
+                                    </div>
+                                    
+                                    <c:if test="${status.index % 3 == 2 || status.last}">
+                                            </div>
+                                        </li>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
+                        </div> <!-- <div class="books section"> end -->
+                        <div class="slide_control">
+                            <label for="slide1"></label>
+                            <label for="slide2"></label>
+                            <label for="slide3"></label>
+                        </div>
+                    </div> <!-- <div class="best-books"> end -->
+                </div> <!-- <div class="content"> end -->
+
+                <div class="today-book">
+                    <h2>오늘의 추천도서</h2>
+                    <!-- 여기부터 슬라이드.. -->
+                    <div class="books section2">
+                        <input type="radio" name="slide2" id="slide2-1" checked>
+                        <input type="radio" name="slide2" id="slide2-2">
+                        <input type="radio" name="slide2" id="slide2-3">
+                        <div class="slidewrap">
+                            <ul class="slidelist">
+                                <c:forEach items="${todayBooks}" var="book" varStatus="status">
+                                    <c:if test="${status.index % 3 == 0}">
+                                        <li class="slideitem">
+                                            <div class="slide_flex">
+                                    </c:if>
+                                    
+                                    <div class="book">
+                                        <a href="productdetail/${book.book_code}">
+                                            <img src="../storage/images/${book.img}" alt="${book.book_title}">
+                                        </a>
+                                        <p>${book.book_title}</p>
+                                        <span><fmt:formatNumber value="${book.sale_price}" pattern="#,###"/>원</span>
+                                    </div>
+                                    
+                                    <c:if test="${status.index % 3 == 2 || status.last}">
+                                            </div> <!-- <div class="slidewrap"> end -->
+                                        </li>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
+                            <div class="slide-control2">
+                                <div>
+                                    <label for="slide2-3" class="left"></label>
+                                    <label for="slide2-2" class="right"></label>
+                                </div>
+                                <div>
+                                    <label for="slide2-1" class="left"></label>
+                                    <label for="slide2-3" class="right"></label>
+                                </div>
+                                <div>
+                                    <label for="slide2-2" class="left"></label>
+                                    <label for="slide2-1" class="right"></label>
+                                </div>
+                            </div> <!-- <div class="slide-control2"> end -->
+                        </div> <!-- <div class="books section2"> end -->
+                    </div> <!-- <div class="today-book"> end -->
+            <!-- Content 끝 -->
 
         </div><!--  <div class="main"> -->
 
