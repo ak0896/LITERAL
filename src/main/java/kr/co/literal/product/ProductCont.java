@@ -241,6 +241,8 @@ public class ProductCont {
 	    // book_code를 설정: 조회된 제품 정보에서 book_code를 가져옵니다
 	    String book_code = debook != null ? debook.get("book_code").toString() : null;
 	    
+	    productDao.selectbookById(book_code);
+	    
 	    ModelAndView mav = new ModelAndView();
 	    mav.setViewName("product/productdetail");
 	    

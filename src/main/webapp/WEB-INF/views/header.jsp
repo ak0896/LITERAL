@@ -40,7 +40,7 @@
         <header>
             <div class="header-container">
                <div class="logo">
-                   <a href="/"><h1>LITERAL</h1></a>
+                   <a href="/index"><h1>LITERAL</h1></a>
                </div>
                
               <!-- 검색 (검색 그림 수정예정 a태그) -->
@@ -61,7 +61,7 @@
                 <div class="header-links user-actions">
 				    <c:choose>
 				        <c:when test="${not empty sessionScope.member}">
-				        	<p>${sessionScope.member.name} 님</p> <!-- 로그인한 사람의 이름 출력 -->
+				        	<span>${sessionScope.member.name} 님</span> <!-- 로그인한 사람의 이름 출력 -->
 				            <a href="/member/logout"><i class="fas fa-user"></i> LOGOUT</a>
 				             <c:if test="${sessionScope.member.type_code == 0}">
 					            <a href="/admin"><i class="fas fa-user-shield"></i> 관리자 화면</a>

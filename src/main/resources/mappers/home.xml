@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="home">
+	<select id="best_book" resultType="kr.co.literal.product.ProductDTO">
+	    SELECT book_number, book_title, book_view, sale_price, img
+	    FROM product
+	    ORDER BY book_view DESC
+	    LIMIT 5
+	</select>
+	
+	<select id="today_book" resultType="kr.co.literal.product.ProductDTO">
+		SELECT book_number, book_title, book_view, sale_price, img ,registration_date
+		FROM product
+		WHERE DATE(registration_date) = CURDATE()
+		ORDER BY registration_date DESC
+		LIMIT 5
+	</select>
+</mapper>

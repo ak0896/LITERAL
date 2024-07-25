@@ -38,8 +38,8 @@
   		</div> <!-- row end -->
 	   
 	   <!-- 상품 -->
-	  	<div class="product-area">
-	    	<c:forEach items="${list}" var="row" varStatus="vs">
+	   <div class="product-area">
+	    	<c:forEach items="${list}" var="row" varStatus="vs">    	
 		        <c:choose>
 		            <c:when test="${row.availability eq 0}">
 		                <div class="product-box">
@@ -58,7 +58,7 @@
 		                    </div>
 		                </div>
 		            </c:when>
-		            <c:when test="${row.availability eq 0}">
+		            <c:when test="${row.availability eq 1}">
 		                <div class="product-box">
 		                    <div class="img-area">
 		                        <a href="productdetail/${row.book_number}">
@@ -72,7 +72,7 @@
 								    <span class="original-price"><fmt:formatNumber value="${row.original_price}" pattern="#,###"/> 원</span>
 								</p>
 		                        <p class="views">조회수: ${row.book_view}</p>
-		                        <p class="solo-out">sold_out</p>
+		                        <p class="solo-out" style="color:red">sold_out</p>
 		                    </div>
 		                </div>
 		            </c:when>
@@ -82,7 +82,6 @@
 		        </c:choose>
 	    	</c:forEach>
 		</div>
-
 
 <!-- 본문 끝 -->
 </div> <!-- <div class="contents_inner"> end -->

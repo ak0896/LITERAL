@@ -39,7 +39,7 @@
         <header>
             <div class="header-container">
                 <div class="logo">
-                    <a href="/"><h1>LITERAL</h1></a>
+                    <a href="/index"><h1>LITERAL</h1></a>
                 </div>
                 
               <!-- 검색 (검색 그림 수정예정 a태그) -->
@@ -59,7 +59,7 @@
                 <div class="header-links user-actions">
 				    <c:choose>
 				        <c:when test="${not empty sessionScope.member}">
-				        	<p>${sessionScope.member.name} 님</p> <!-- 로그인한 사람의 이름 출력 -->
+				        	<span>${sessionScope.member.name} 님</span> <!-- 로그인한 사람의 이름 출력 -->
 				            <a href="/member/logout" id="logoutLink"><i class="fas fa-user"></i> LOGOUT</a>
 				        </c:when>
 				        <c:otherwise>
@@ -69,12 +69,12 @@
 				    
 				    <c:choose>
 					    <c:when test="${not empty sessionScope.member && sessionScope.member.type_code != 0}">
-					        <a href="/mypage_main"><i class="fas fa-user-circle"></i> MYPAGE</a>
+					        <a href="/mypage/mypage_main"><i class="fas fa-user-circle"></i> MYPAGE</a>
 					        <a href="/cart/cartList"><i class="fas fa-shopping-cart"></i> CART</a>
 					    </c:when>
 					    <c:when test="${empty sessionScope.member}">
 					        <a href="/member/login"><i class="fas fa-user-circle"></i> MYPAGE</a>
-					        <a href="/cart/cartList"><i class="fas fa-shopping-cart"></i> CART</a>
+					        <a href="/member/login"><i class="fas fa-shopping-cart"></i> CART</a>
 					    </c:when>
 					</c:choose>
 					
@@ -95,19 +95,19 @@
 		        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
 		            <ul class="navbar-nav">
 		                <li class="nav-item">
-		                    <a class="navbar-brand" href="/"><i class="fas fa-home home-icon"></i></a>
+		                    <a class="navbar-brand" href="/index"><i class="fas fa-home home-icon"></i></a>
 		                </li>
 		                <li class="nav-item">
 		                    <a class="nav-link font-weight-bold" href="/product/productlist">서점</a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link font-weight-bold" href="/notice/notice_list">공지사항</a>
+		                    <a class="nav-link font-weight-bold" href="/notice/notice_list2">공지사항</a>
 		                </li>
 		                <li class="nav-item">
 		                    <a class="nav-link font-weight-bold" href="/reading_main">열람실</a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link font-weight-bold" href="#">지점안내</a>
+		                    <a class="nav-link font-weight-bold" href="/branch/branchDetail">지점안내</a>
 		                </li>
 		            </ul>
 		        </div>
@@ -135,18 +135,10 @@
 	                    <img src="${pageContext.request.contextPath}/storage/eventImages/main2.jpg" alt="keroro" class="d-block" style="width:100%">
 	                </div>
 	                <div class="carousel-item">
-	                    <img src="./images/moon.png" alt="moon" class="d-block" style="width:100%">
-	                    <div class="carousel-caption">
-	                    <h3>MOON</h3>
-	                    <p>사진으로 보는 달의 모습</p>
-	                    </div> 
+	              		<img src="${pageContext.request.contextPath}/storage/eventImages/웹.jpg" alt="keroro" class="d-block" style="width:100%">
 	                </div>
 	                <div class="carousel-item">
-	                    <img src="./images/remon.png" alt="remon" class="d-block" style="width:100%">
-	                    <div class="carousel-caption">
-	                    <h3>아동도서</h3>
-	                    <p>과일</p>
-	                    </div>  
+	              		<img src="${pageContext.request.contextPath}/storage/eventImages/이달.jpg" alt="keroro" class="d-block" style="width:100%">
 	                </div>
                 </div><!-- div class="carousel-inner" end -->
                 
@@ -160,44 +152,46 @@
             </div><!-- div id="demo" end  -->
 
 
-             <div class="content">
-                <div class="best-books">
-                    <h2>BEST</h2>
-                    <!-- 여기부터 슬라이드.. -->
-                    <div class="books section">
-                        <input type="radio" name="slide" id="slide1" checked>
-                        <input type="radio" name="slide" id="slide2">
-                        <input type="radio" name="slide" id="slide3">
-                        <div class="slidewrap">
-                            <ul class="slidelist">
-                                <c:forEach items="${topBooks}" var="book" varStatus="status">
-                                    <c:if test="${status.index % 3 == 0}">
-                                        <li class="slideitem">
-                                            <div class="slide_flex">
-                                    </c:if>
-                                    
-                                    <div class="book">
-                                        <a href="../product/productdetail/${book.book_code}">
-                                            <img src="../storage/images/${book.img}" alt="${book.book_title}">
-                                        </a>
-                                        <p>${book.book_title}</p>
-                                        <span><fmt:formatNumber value="${book.sale_price}" pattern="#,###"/>원</span>
+  <div class="content">
+				<div class="best-books">
+					<h2>BEST</h2>
+					<!-- 여기부터 슬라이드.. -->
+				  
+                <div class="books section">
+                    <input type="radio" name="slide" id="slide1" checked>
+                    <input type="radio" name="slide" id="slide2">
+                    <input type="radio" name="slide" id="slide3">
+                    <div class="slidewrap">
+                        <ul class="slidelist">
+                            <c:forEach items="${topBooks}" var="book" varStatus="status">
+                                <c:if test="${status.index % 5 == 0}">
+                                    <li class="slideitem">
+                                    <div class="slide_flex">
+                                </c:if>
+
+                                <div class="book">
+                                    <a href="../product/productdetail/${book.book_number}">
+                                        <img src="../storage/images/${book.img}" alt="${book.book_number}">
+                                    </a>
+                                    <p>${book.book_title}</p>
+                                    <span><fmt:formatNumber value="${book.sale_price}" pattern="#,###"/>원</span>
+                                </div>
+
+                                <c:if test="${status.index % 5 == 4 || status.last}">
                                     </div>
-                                    
-                                    <c:if test="${status.index % 3 == 2 || status.last}">
-                                            </div>
-                                        </li>
-                                    </c:if>
-                                </c:forEach>
-                            </ul>
-                        </div>
-                        <div class="slide_control">
-                            <label for="slide1"></label>
-                            <label for="slide2"></label>
-                            <label for="slide3"></label>
-                        </div>
+                                    </li>
+                                </c:if>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                    <div class="slide_control">
+                        <label for="slide1"></label>
+                        <label for="slide2"></label>
+                        <label for="slide3"></label>
                     </div>
                 </div>
+            </div>
+
 
                 <div class="today-book">
                     <h2>오늘의 추천도서</h2>
@@ -208,21 +202,21 @@
                         <input type="radio" name="slide2" id="slide2-3">
                         <div class="slidewrap">
                             <ul class="slidelist">
-                                <c:forEach items="${todayBooks}" var="book" varStatus="status">
-                                    <c:if test="${status.index % 3 == 0}">
+                                <c:forEach items="${today_book}" var="book" varStatus="status">
+                                    <c:if test="${status.index % 5 == 0}">
                                         <li class="slideitem">
                                             <div class="slide_flex">
                                     </c:if>
                                     
                                     <div class="book">
-                                        <a href="productdetail/${book.book_code}">
+                                        <a href="../product/productdetail/${book.book_number}">
                                             <img src="../storage/images/${book.img}" alt="${book.book_title}">
                                         </a>
                                         <p>${book.book_title}</p>
                                         <span><fmt:formatNumber value="${book.sale_price}" pattern="#,###"/>원</span>
                                     </div>
                                     
-                                    <c:if test="${status.index % 3 == 2 || status.last}">
+                                    <c:if test="${status.index % 5 == 4 || status.last}">
                                             </div>
                                         </li>
                                     </c:if>
@@ -257,12 +251,19 @@
                     <h1>LITERAL</h1>
                     <p>LITERAL is <br>a used novel bookstore.</p>
                 </div>
-	                <div class="footer-info">
+	           <div class="footer-info">
 	                <p> 대표 : LITERAL</p>
 	                <p> 주소 : 서울 강남구 역삼동 823 </p>
 	                <p> 사업자등록번호 : 172-87-02395 </p>
 	                <p> TEL : 02-1234-1234 </p>
 	                <p> 이메일 : gangnam@gmail.com </p>
+            	</div>
+            	<div class="footer-info">
+	                <p> 1조 </p>
+	                <p> 조장 : 박애경 </p>
+	                <p> 기술 지원 : 최문정, 정소연 </p>
+	                <p> 디자이너 : 송윤지 </p>
+	                <p> 멀티플레이어 : 송효정 </p>
             	</div>
             </div>
             <div class="footer-bottom">

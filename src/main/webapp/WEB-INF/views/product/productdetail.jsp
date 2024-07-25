@@ -115,18 +115,29 @@
 			           		</c:if>
 		            	</div>
 		            <div>
-		                <p> 등록된 책 
-       						<a href="${pageContext.request.contextPath}/product/productlist?book_code=${product.book_code}"> 더보기 </a>    
-		                </p>
-		                <form name="actionForm" id="actionForm" action="${pageContext.request.contextPath}/cart/insert" method="post" enctype="multipart/form-data">
-		                <input type="hidden" name="book_number" value="${product.book_number}">
-		                <input type="hidden" name="availability" value="${product.availability}">
+		                <div class="wish-section">
+			                <p> 등록된 책 
+	       						<a href="${pageContext.request.contextPath}/product/productlist?book_code=${product.book_code}"> 더보기 </a>    
+			                </p>
+			                <form id="wishForm" action="${pageContext.request.contextPath}/product/wish" method="post">
+							    <input type="hidden" name="book_number" value="${product.book_number}">
+							    <input type="hidden" name="email" value="${sessionScope.member.email}">
+							    <input type="checkbox" name="wish" id="wish" 
+							        value="true" ${product.isWish ? 'checked' : ''} 
+							        onclick="toggleWish('${product.book_number}', '${sessionScope.member.email}');" class="wish-checkbox">
+							    <label for="wish" class="wish-label">찜하기</label>
+							</form>
+		            	</div>
 		                
-                       <input type="hidden" name="book_title" value="${product.book_title}">
-                       <input type="hidden" name="sale_price" value="${product.sale_price}">
-                       <input type="hidden" name="original_price" value="${product.original_price}">
-                       <input type="hidden" name="img" value="${product.img}">
-                                   
+		                <form name="actionForm" id="actionForm" action="${pageContext.request.contextPath}/cart/insert" method="post" enctype="multipart/form-data">
+			               <input type="hidden" name="book_number" value="${product.book_number}">
+			               <input type="hidden" name="availability" value="${product.availability}">
+			                
+	                       <input type="hidden" name="book_title" value="${product.book_title}">
+	                       <input type="hidden" name="sale_price" value="${product.sale_price}">
+	                       <input type="hidden" name="original_price" value="${product.original_price}">
+	                       <input type="hidden" name="img" value="${product.img}">
+	                                   
 		                
 			                <table class="price-box-tb table">
 			                    <tbody>

@@ -33,6 +33,7 @@ import kr.co.literal.member.MemberDAO;
 import kr.co.literal.member.MemberDTO;
 import kr.co.literal.product.ProductDAO;
 import kr.co.literal.product.ProductDTO;
+import kr.co.literal.product.WishlistDTO;
 
 
 @Controller
@@ -93,7 +94,7 @@ public class MypageCont {
                 System.out.println("인서트 실패, 이메일 전송 안함");
             }
 	        
-	        return "redirect:/inquiry_list?email=" + inquiryDto.getEmail();
+	        return "redirect:/mypage/inquiry_list?email=" + inquiryDto.getEmail();
 	        
 	    } else {
 	        return "redirect:/login"; // 세션에 이메일이 없는 경우 로그인 페이지로 리다이렉트
@@ -176,5 +177,35 @@ public class MypageCont {
     }
     
 	
+  //찜하기	
+
+  	@GetMapping("/wishlist")
+      public ModelAndView viewWishlist(HttpSession session) {
+      	String s_id = (String) session.getAttribute("email");
+  		System.out.println("Session email: " + s_id);
+  		
+  		ModelAndView mav = new ModelAndView();
+  		if (s_id != null) {
+  	        mav.setViewName("mypage/wishlist");
+  	        mav.addObject("wishlist", mypageDao.wishlist(s_id));
+  	    } else {
+  	    	mav.setViewName("redirect:/member/login");
+  	    }
+  		return mav;
+      }
+  	
+  	
+  	@PostMapping("/wishlist_delete")
+	public String wishlist_delete(HttpServletRequest req, HttpSession session) {
+		int wishlist_code = Integer.parseInt(req.getParameter("wishlist_code"));
+		
+		WishlistDTO wishlistDto = new WishlistDTO();
+		wishlistDto.setWishlist_code(wishlist_code);
+		wishlistDto.setEmail((String) session.getAttribute("email"));
+		mypageDao.wishlist_delete(wishlistDto);
 	
+		
+		return "redirect:/mypage/wishlist?email=" + wishlistDto.getEmail();		
+	}
+  	
 }//class end

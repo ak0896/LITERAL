@@ -4,7 +4,10 @@ import kr.co.literal.readingroom.dto.SeatDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class SeatDAO {
@@ -35,5 +38,22 @@ public class SeatDAO {
 		 return sqlSession.selectList(NAMESPACE + ".selectSeatByCode", seat_code); 
 	}
 	
+	
+	//애경 추가
+	 public int getTotalSeatsCount() {
+	        return sqlSession.selectOne(NAMESPACE + ".getTotalSeatsCount");
+	    }
+
+	 public List<SeatDTO> getAvailableSeats(String branchCode, String reservationDate, String timeCode) {
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("branchCode", branchCode);
+	        params.put("reservationDate", reservationDate);
+	        params.put("timeCode", timeCode);
+	        return sqlSession.selectList(NAMESPACE + ".getAvailableSeats", params);
+	    }
+	 
+	 public int getTotalSeatsByBranch(String branchCode) {
+		    return sqlSession.selectOne(NAMESPACE + ".getTotalSeatsByBranch", branchCode);
+		}
 	
 }

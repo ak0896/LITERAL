@@ -53,13 +53,13 @@ public class AdminCont {
 		@Autowired
 		private ProductDAO productDao;
 	
-		
+	/*	
 		// 관리자 메인 페이지
 	    @GetMapping("")
 	    public String showAdminForm() {
 	        return "admin/ad_main"; 
 	    }
-
+*/
 	    // 회원 목록 조회
 	    @GetMapping("/memberList")
 	    public String showMemberList(Model model) {

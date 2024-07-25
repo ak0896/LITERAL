@@ -1,7 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../header_admin.jsp"%>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
+
+<!-- 출력하는지 확인용 -->
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.List" %>
+<%
+Map<String, List<String>> seatLayouts = (Map<String, List<String>>)request.getAttribute("seatLayouts");
+Map<String, String> seatStatuses = (Map<String, String>)request.getAttribute("seatStatuses");
+System.out.println("JSP - seatLayouts: " + seatLayouts);
+System.out.println("JSP - seatStatuses: " + seatStatuses);
+%>
+
+
 
 <!-- ad_main.jsp -->
 
@@ -35,10 +52,10 @@
 							<h3>총 좌석 수</h3>
 							<p>${totalSeats}</p>
 						</div>
-						<div class="summary-item">
+						<%-- <div class="summary-item">
 							<h3>현재 사용 중인 좌석</h3>
 							<p>${occupiedSeats}</p>
-						</div>
+						</div> --%>
 					</div>
 				</section>
 
@@ -66,23 +83,22 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="reservation" items="${reservations}">
-								<c:set var="branchCode"
-									value="${fn:substring(reservation.seat_code, 0, 3)}" />
-								<c:choose>
-									<c:when test="${branchCode == 'L01'}">
-										<c:set var="branchName" value="강남점" />
-									</c:when>
-									<c:when test="${branchCode == 'L02'}">
-										<c:set var="branchName" value="연희점" />
-									</c:when>
-									<c:when test="${branchCode == 'L03'}">
-										<c:set var="branchName" value="종로점" />
-									</c:when>
-									<c:otherwise>
-										<c:set var="branchName" value="알 수 없음" />
-									</c:otherwise>
-								</c:choose>
+							 <c:forEach var="reservation" items="${reservations}">
+	                            <c:set var="branchCode" value="${fn:substring(reservation.seat_code, 0, 3)}" />
+	                            <c:choose>
+	                                <c:when test="${branchCode == 'L01'}">
+	                                    <c:set var="branchName" value="강남점" />
+	                                </c:when>
+	                                <c:when test="${branchCode == 'L02'}">
+	                                    <c:set var="branchName" value="연희점" />
+	                                </c:when>
+	                                <c:when test="${branchCode == 'L03'}">
+	                                    <c:set var="branchName" value="종로점" />
+	                                </c:when>
+	                                <c:otherwise>
+	                                    <c:set var="branchName" value="알 수 없음" />
+	                                </c:otherwise>
+	                            </c:choose>
 								<tr>
 									<td>${reservation.reservation_code}</td>
 									<td>${branchName}</td>
@@ -97,143 +113,154 @@
 						</tbody>
 					</table>
 				</section>
-			<div class="charts-container">
-	            <c:choose>
-	                <c:when test="${branchCode == 'L01'}">
-	                    <c:set var="branchName1" value="강남점" />
-	                    <c:set var="branch1OccupiedSeats" value="${branch1OccupiedSeats}" />
-	                    <c:set var="branch1TotalSeats" value="${branch1TotalSeats}" />
-	                </c:when>
-	                <c:when test="${branchCode == 'L02'}">
-	                    <c:set var="branchName2" value="연희점" />
-	                    <c:set var="branch2OccupiedSeats" value="${branch2OccupiedSeats}" />
-	                    <c:set var="branch2TotalSeats" value="${branch2TotalSeats}" />
-	                </c:when>
-	                <c:when test="${branchCode == 'L03'}">
-	                    <c:set var="branchName3" value="종로점" />
-	                    <c:set var="branch3OccupiedSeats" value="${branch3OccupiedSeats}" />
-	                    <c:set var="branch3TotalSeats" value="${branch3TotalSeats}" />
-	                </c:when>
-	            </c:choose>
-	
-	            <div class="chart-wrapper">
-	                <canvas id="chart1"></canvas>
-	            </div>
-	            <div class="chart-wrapper">
-	                <canvas id="chart2"></canvas>
-	            </div>
-	            <div class="chart-wrapper">
-	                <canvas id="chart3"></canvas>
-	            </div>
-           	</div><!-- <div class="charts-container"> end -->
+				
+			<div class="branch-seats">
+		    <h2>지점별 좌석 현황</h2>
+			<div class="branch-layouts">
+			    <%
+				    pageContext.setAttribute("branchCodes", new String[]{"L01", "L02", "L03"});
+				%>
+				<c:forEach var="branchCode" items="${branchCodes}">
+			        <div class="branch-layout">
+			            <h3>
+			                <c:choose>
+			                    <c:when test="${branchCode == 'L01'}">강남점</c:when>
+			                    <c:when test="${branchCode == 'L02'}">연희점</c:when>
+			                    <c:when test="${branchCode == 'L03'}">종로점</c:when>
+			                </c:choose>
+			            </h3>
+			            <div class="seat-layout">
+			                <c:forEach var="seat" items="${seatLayouts[branchCode]}">
+			                    <c:choose>
+			                        <c:when test="${seat == 'hidden'}">
+			                            <div class="seat hidden"></div>
+			                        </c:when>
+			                      <c:otherwise>
+						                 <div class="seat ${seatStatuses[seat]}" data-seat-code="${seat}">
+										    ${fn:substringAfter(seat, '-')}
+										</div>
+						            </c:otherwise>
+			                    </c:choose>
+			                </c:forEach>
+			            </div>
+			        </div>
+			    </c:forEach>
+			</div><!--<div class="branch-layouts"> end  -->
+		   </div> <!--<div class="branch-seats"> end  -->      
+            
 		</div><!--  <div class="container"> end -->
 	</div><!--<div class="adminPage">  end-->
 </div><!-- contents_inner end -->
 <!-- 본문 끝 -->
 
 
+
 <script>
-
-/* function updateOccupiedSeats() {
-    fetch('/api/admin/occupied-seats')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('occupiedSeats').textContent = data.occupiedSeats;
-        });
-}
-
-setInterval(updateOccupiedSeats, 60000); // 1분마다 업데이트
-
-
-        // 좌석 점유율 차트
-    document.addEventListener('DOMContentLoaded', function() {
-    // 강남점 차트
-    new Chart(document.getElementById('chart1').getContext('2d'), {
-        type: 'pie',
-        data: {
-            labels: ['사용 중인 좌석', '빈 좌석'],
-            datasets: [{
-                data: [${L01OccupiedSeats}, ${L01TotalSeats - L01OccupiedSeats}],
-                backgroundColor: ['#FF6384', '#36A2EB'],
-                hoverBackgroundColor: ['#FF6384', '#36A2EB']
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: '강남점 좌석 점유율'
+document.addEventListener('DOMContentLoaded', function() {
+    function updateSeatStatus() {
+        fetch('${pageContext.request.contextPath}/api/seatStatus')
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
                 }
-            }
-        }
-    });
+                return response.json();
+            })
+            .then(data => {
+                console.log('Full server response:', JSON.stringify(data, null, 2));
+                for (let branchCode in data) {
+                    let branchData = data[branchCode];
+                    for (let seatCode in branchData) {
+                        let fullSeatCode = `${branchCode}-${seatCode}`;
+                        let seatElement = document.querySelector(`.seat[data-seat-code="${fullSeatCode}"]`);
+                        if (seatElement) {
+                            let seatInfo = branchData[seatCode];
+                            let newStatus = seatInfo.status;
 
-    // 연희점 차트
-    new Chart(document.getElementById('chart2').getContext('2d'), {
-        type: 'pie',
-        data: {
-            labels: ['사용 중인 좌석', '빈 좌석'],
-            datasets: [{
-                data: [${L02OccupiedSeats}, ${L02TotalSeats - L02OccupiedSeats}],
-                backgroundColor: ['#FF6384', '#36A2EB'],
-                hoverBackgroundColor: ['#FF6384', '#36A2EB']
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: '연희점 좌석 점유율'
+                            // 모든 상태 클래스를 제거하고 새로운 상태를 추가
+                            seatElement.classList.remove('available', 'occupied', 'reserved');
+                            seatElement.classList.add(newStatus);
+
+                            console.log(`Updated seat ${fullSeatCode} to ${newStatus}`);
+
+                            // 상태 변경 애니메이션 추가
+                            seatElement.classList.add('status-changed');
+                            setTimeout(() => {
+                                seatElement.classList.remove('status-changed');
+                            }, 500);
+                        }
+                    }
                 }
-            }
-        }
-    });
+            })
+            .catch(error => {
+                //console.error('Error:', error);
+                //alert('좌석 상태를 업데이트하는 중 오류가 발생했습니다: ' + (error.error || error.message || '알 수 없는 오류'));
+            });
+    }
 
-    // 종로점 차트
-    new Chart(document.getElementById('chart3').getContext('2d'), {
-        type: 'pie',
-        data: {
-            labels: ['사용 중인 좌석', '빈 좌석'],
-            datasets: [{
-                data: [${L03OccupiedSeats}, ${L03TotalSeats - L03OccupiedSeats}],
-                backgroundColor: ['#FF6384', '#36A2EB'],
-                hoverBackgroundColor: ['#FF6384', '#36A2EB']
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: '종로점 좌석 점유율'
-                }
-            }
-        }
-    });
+    // 초기 업데이트
+    updateSeatStatus();
 
-    // 디버깅을 위한 로그
-    console.log("강남점 데이터:", ${L01OccupiedSeats}, ${L01TotalSeats});
-    console.log("연희점 데이터:", ${L02OccupiedSeats}, ${L02TotalSeats});
-    console.log("종로점 데이터:", ${L03OccupiedSeats}, ${L03TotalSeats});
-}); */
-    </script>       
+    // 1초 후 한 번 더 업데이트
+    setTimeout(updateSeatStatus, 1000);
+
+    // 30초마다 업데이트
+    setInterval(updateSeatStatus, 30000);
+});
+
+/* var seatLayouts = JSON.parse('${seatLayoutsJson}');
+var seatStatuses = JSON.parse('${seatStatusesJson}');
+console.log('Client-side seatLayouts:', seatLayouts);
+console.log('Client-side seatStatuses:', seatStatuses); */
+
+</script>
 
     
 <style>
+.seat {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.seat.available { 
+    background-color: #4CAF50; 
+    color: white;
+}
+
+.seat.occupied { 
+    background-color: #FF5733;
+    color: white;
+}
+
+.seat.reserved { 
+    background-color: #FFC300; 
+    color: black;
+}
+.seat.hidden { 
+    visibility: hidden;
+}
+
+.seat.status-changed {
+    animation: pulse 0.5s;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+.seat-layout {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 10px;
+}
 
 /* 관리자 페이지 기본 스타일 */
 .adminPage {
@@ -336,24 +363,18 @@ setInterval(updateOccupiedSeats, 60000); // 1분마다 업데이트
     color: #a94442;
 }
 
-.occupancy-chart {
-    margin-top: 30px;
+
+.branch-layouts {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.occupancy-chart h2 {
-    font-size: 20px;
+.branch-layout {
+    width: 30%;
     margin-bottom: 20px;
 }
 
-.charts-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-}
-.chart-wrapper {
-    width: 30%;
-    height: 300px;
-}
 </style>
 
 

@@ -8,30 +8,28 @@
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 
-<h1>Buy Ticket</h1>
-
-<form id="buyTicketForm" action="${pageContext.request.contextPath}/buyTicket" method="post">
-    <label for="ticketType">이용권 종류:</label>
-    <select name="ticketType" id="ticketType" required>
-        <option value="D1">2시간 이용권</option>
-        <option value="D2">4시간 이용권</option>
-        <option value="D3">6시간 이용권</option>
-        <option value="D4">종일권(10시간)</option>
-    </select>
-    <br>
-    <label for="ticketAmount">결제 금액:</label>
-    <input type="text" name="ticketAmount" id="ticketAmount" value="4000" readonly>
-    <br>
-    <label for="paymentMethod">결제 방법:</label>
-    <select name="paymentMethod" id="paymentMethod" required>
-        <option value="신용카드">신용카드</option>
-        <option value="계좌이체">계좌이체</option>
-        <option value="카카오페이">카카오페이</option>
-        <option value="토스페이">토스페이</option>
-    </select>
-    <br>
-    <button type="button" class="btn-primary" onclick="requestPay()">결제</button>
-</form>
+<div class="buy-ticket">
+       <h1>Buy Ticket</h1>
+       <form id="buyTicketForm" action="${pageContext.request.contextPath}/buyTicket" method="post">
+           <label for="ticketType">이용권 종류:</label>
+           <select name="ticketType" id="ticketType" required>
+               <option value="D1">2시간 이용권</option>
+               <option value="D2">4시간 이용권</option>
+               <option value="D3">6시간 이용권</option>
+               <option value="D4">종일권(10시간)</option>
+           </select>
+           <label for="ticketAmount">결제 금액:</label>
+           <input type="text" name="ticketAmount" id="ticketAmount" value="4000" readonly>
+           <label for="paymentMethod">결제 방법:</label>
+           <select name="paymentMethod" id="paymentMethod" required>
+               <option value="신용카드">신용카드</option>
+               <option value="계좌이체">계좌이체</option>
+               <option value="카카오페이">카카오페이</option>
+               <option value="토스페이">토스페이</option>
+           </select>
+           <button type="button" class="btn-primary" onclick="requestPay()">결제</button>
+       </form>
+</div>
 
 <script>
 var IMP = window.IMP;
@@ -97,5 +95,48 @@ function requestPay() {
     });
 }
 </script>
+<style>
+	 .buy-ticket {
+	 		margin:50px auto;
+            background-color: #fff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .buy-ticket h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .buy-ticket label {
+            display: block;
+            color: #666;
+            font-size: 16px;
+            margin: 10px 0 5px;
+        }
+        .buy-ticket input, .buy-ticket select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+</style>
 
 <%@ include file="../footer.jsp"%>

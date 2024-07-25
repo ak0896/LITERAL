@@ -20,6 +20,7 @@
         </ul>
     </div> <!-- <div class="sidebar"> end -->
  <!--사이드 메뉴 끝  -->
+ 
  <!-- 본문 시작 -->
 	<div class="main-content">
 		<div class="row">
@@ -31,25 +32,50 @@
   		</div> <!-- row end -->
 	  
 	  	<!-- 상품 -->
-		<div class="product-area">
-				<c:forEach items="${list}" var="row" varStatus="vs">
-					 <div class="product-box">
-	                    <div class="img-area">
-	                        <a href="productdetail/${row.book_number}">
-	                            <img src="/storage/images/${row.img}" alt="상품 이미지">
-	                        </a>
-	                    </div>
-	                    <div class="product-info">
-	                        <p>상품명: <a href="productdetail/${row.book_number}">${row.book_title}</a></p>
-	                        <p class="price">
-							    <span class="sale-price"><fmt:formatNumber value="${row.sale_price}" pattern="#,###"/> 원</span>
-							    <span class="original-price"><fmt:formatNumber value="${row.original_price}" pattern="#,###"/> 원</span>
-							</p>
-	                        <p class="views">조회수: ${row.book_view}</p>
-	                    </div>
-	                </div>
-				</c:forEach>
-		 </div><!-- product-area end --> 	
+	  	<div class="product-area">
+	    	<c:forEach items="${list}" var="row" varStatus="vs">
+		        <c:choose>
+		            <c:when test="${row.availability eq 0}">
+		                <div class="product-box">
+		                    <div class="img-area">
+		                        <a href="productdetail/${row.book_number}">
+		                            <img src="/storage/images/${row.img}" alt="상품 이미지">
+		                        </a>
+		                    </div>
+		                    <div class="product-info">
+		                        <p>상품명: <a href="productdetail/${row.book_number}">${row.book_title}</a></p>
+		                        <p class="price">
+								    <span class="sale-price"><fmt:formatNumber value="${row.sale_price}" pattern="#,###"/> 원</span>
+								    <span class="original-price"><fmt:formatNumber value="${row.original_price}" pattern="#,###"/> 원</span>
+								</p>
+		                        <p class="views">조회수: ${row.book_view}</p>
+		                    </div>
+		                </div>
+		            </c:when>
+		            <c:when test="${row.availability eq 0}">
+		                <div class="product-box">
+		                    <div class="img-area">
+		                        <a href="productdetail/${row.book_number}">
+		                            <img src="/storage/images/${row.img}" alt="상품 이미지">
+		                        </a>
+		                    </div>
+		                    <div class="product-info">
+		                        <p>상품명: <a href="productdetail/${row.book_number}">${row.book_title}</a></p>
+		                        <p class="price">
+								    <span class="sale-price"><fmt:formatNumber value="${row.sale_price}" pattern="#,###"/> 원</span>
+								    <span class="original-price"><fmt:formatNumber value="${row.original_price}" pattern="#,###"/> 원</span>
+								</p>
+		                        <p class="views">조회수: ${row.book_view}</p>
+		                        <p class="solo-out">sold_out</p>
+		                    </div>
+		                </div>
+		            </c:when>
+		            <c:otherwise>
+		                <!-- availability가 2일 경우 아무것도 표시하지 않음 -->
+		            </c:otherwise>
+		        </c:choose>
+	    	</c:forEach>
+		</div>	
   	
 	</div> <!-- <div class="main-content"> end -->
 <!-- 본문 끝 -->

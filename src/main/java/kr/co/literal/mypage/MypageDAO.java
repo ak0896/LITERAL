@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.literal.product.ProductDTO;
+import kr.co.literal.product.WishlistDTO;
 
 @Repository
 public class MypageDAO {
@@ -50,6 +51,14 @@ public class MypageDAO {
         params.put("email", email);
         sqlSession.delete("mypage.removeWishlist", params);
     }
+    
+    public List<WishlistDTO> wishlist(String email) {
+        return sqlSession.selectList("mypage.wishlist", email);
+    }
+        
+    public int wishlist_delete(WishlistDTO wishlistDto) {
+		return sqlSession.delete("mypage.wishlist_delete",wishlistDto);
+	}
 	
     
 }//class end

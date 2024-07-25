@@ -148,7 +148,6 @@
 	    SELECT book_number, book_code, book_title, original_price, sale_price, img, img_size
 	    FROM product
 	    WHERE book_code = #{book_code}
-	    ORDER BY sale_price ASC
 	</select>
 	
 	
@@ -190,8 +189,9 @@
 	<select id="selectBookById" parameterType="String" resultType="kr.co.literal.product.ProductDTO">
     	SELECT book_code, book_title, book_view, original_price, sale_price, img
     	FROM product
-    	WHERE book_code = #{book_code}
-	</select>
+    	WHERE book_code = #{book_code} limit 1
+
+   	</select>
 	
 	
  </mapper>

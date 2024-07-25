@@ -33,4 +33,9 @@ public class UseTimeDAO {
     public void deleteUseTime(String time_code) {
         sqlSession.delete(NAMESPACE + ".deleteUseTime", time_code);
     }
+    
+    //애경 추가
+    public List<UseTimeDTO> getAvailableTimes() {
+        return sqlSession.selectList(NAMESPACE + ".getAvailableTimes");
+    }
 }

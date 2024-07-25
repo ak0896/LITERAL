@@ -125,6 +125,11 @@
         DELETE FROM use_time WHERE time_code = #{time_code}
     </delete>
     
+     <!-- 애경 수정 0724 -->
+    <select id="getAvailableTimes" resultType="kr.co.literal.readingroom.dto.UseTimeDTO">
+        SELECT * FROM use_time
+        ORDER BY time_code
+    </select>
     
     
     
@@ -157,6 +162,35 @@
     <delete id="deleteSeat" parameterType="String">
         DELETE FROM seat WHERE seat_code = #{seat_code}
     </delete>
+    
+    
+    
+    
+    <!-- 0724 애경 수정 -->
+	<select id="getSeatsByBranch" parameterType="string" resultType="kr.co.literal.readingroom.dto.SeatDTO">
+        SELECT * FROM seat WHERE branch_code = #{branchCode}
+    </select>
+    
+    <select id="getTotalSeatsCount" resultType="int">
+        SELECT COUNT(*) FROM seat
+    </select>
+
+    <select id="getAvailableSeats" parameterType="string" resultType="kr.co.literal.readingroom.dto.SeatDTO">
+        SELECT * FROM seat
+        WHERE branch_code = #{branchCode}
+        AND seat_code NOT IN (
+            SELECT seat_code FROM reservation
+            WHERE branch_code = #{branchCode}
+            AND reservation_date = #{reservationDate}
+            AND time_code = #{timeCode}
+        )
+    </select>
+
+	<select id="getTotalSeatsByBranch" parameterType="string" resultType="int">
+		    SELECT COUNT(*) FROM seat WHERE branch_code = #{branchCode}
+	</select>
+    
+    
 
 
 
@@ -242,8 +276,9 @@
         VALUES (#{reservation_code}, #{room_code}, #{mycoupon_number}, #{reservation_total}, #{seat_code}, #{reservation_payment}, #{time_code}, #{end_time}, #{reservation_date}, #{using_seat}, #{re_name}, #{re_phone})
     </insert>
 
+	<!-- 0724 애경 수정 -->
     <!-- Read -->
-    <select id="selectAllReservations" resultType="kr.co.literal.readingroom.dto.ReservationDTO">
+    <select id="getAllReservations" resultType="kr.co.literal.readingroom.dto.ReservationDTO">
         SELECT * FROM reservation
     </select>
 
@@ -364,6 +399,38 @@
         SELECT * FROM non_member WHERE non_name = #{non_name} AND non_phone = #{non_phone}
     </select>
     
+    
+    
+    
+    
+    <!-- 0721 애경 추가 -->
+	<select id="getReservationsByBranch" parameterType="string" resultType="kr.co.literal.readingroom.dto.ReservationDTO">
+        SELECT * FROM reservation WHERE seat_code LIKE CONCAT(#{branchCode}, '%')
+    </select>
+    
+    
+    <select id="getCurrentlyOccupiedSeatsCount" resultType="kr.co.literal.readingroom.dto.ReservationDTO">
+        <![CDATA[
+        SELECT COUNT(*) FROM reservation
+        WHERE reservation_date = CURDATE()
+        AND end_time > CURTIME()
+        ]]>
+    </select>
+
+    <select id="getReservationById" parameterType="string" resultType="kr.co.literal.readingroom.dto.ReservationDTO">
+        SELECT * FROM reservation
+        WHERE reservation_code = #{id}
+    </select>
+ 
+   <select id="getCurrentlyOccupiedSeatsByBranch" parameterType="string" resultType="int">
+		<![CDATA[
+		SELECT COUNT(*) FROM reservation
+		WHERE reservation_date = CURDATE()
+		AND start_time <= CURTIME()
+		AND end_time > CURTIME()
+		AND SUBSTRING(seat_code, 1, 3) = #{branchCode}
+		]]>
+	</select>
     
   
     

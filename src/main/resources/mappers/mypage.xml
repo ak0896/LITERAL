@@ -6,16 +6,24 @@
 <mapper namespace="mypage">
 
 	<!-- wishlist -->
-	<insert id="addWishlist" parameterType="map">
-        INSERT INTO wishlist (email, book_number) 
-        VALUES (#{email}, #{bookNumber})
-    </insert>
-
-    <delete id="removeWishlist" parameterType="map">
-        DELETE FROM wishlist WHERE email = #{email} AND book_number = #{bookNumber}
-    </delete>
+    <select id="wishlist" parameterType="String" resultType="kr.co.literal.product.WishlistDTO">
+        SELECT w.wishlist_code,p.book_number,p.book_title,p.img,p.sale_price
+        FROM 
+            wishlist w
+        JOIN 
+            product p
+        ON 
+            w.book_number = p.book_number
+        WHERE 
+            w.email = #{email}
+    </select>
     
-    
+    <delete id="wishlist_delete" parameterType="kr.co.literal.product.WishlistDTO">
+	    DELETE FROM wishlist
+	    WHERE wishlist_code = #{wishlist_code} AND email = #{email}
+	</delete>
+	
+	
 	<!-- 1:1문의 -->
 	<select id="inquiry_list" resultType="kr.co.literal.mypage.InquiryDTO" parameterType="String">
 		SELECT inquiry_code, email, inquiry_content,inquiry_answer,inquiry_date

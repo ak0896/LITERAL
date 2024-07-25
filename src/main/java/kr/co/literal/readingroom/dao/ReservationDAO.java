@@ -1,6 +1,8 @@
 package kr.co.literal.readingroom.dao;
 
 import kr.co.literal.readingroom.dto.ReservationDTO;
+import kr.co.literal.readingroom.dto.SeatDTO;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -75,6 +77,20 @@ public class ReservationDAO {
         return sqlSession.selectList(NAMESPACE + ".getReservationsBySeatCode", seatCode);
     }
     
+    
+    //애경추가
+    public List<ReservationDTO> getReservationsByBranch(String branchCode) {
+        return sqlSession.selectList(NAMESPACE + ".getReservationsByBranch", branchCode);
+    }
+    
+    public List<SeatDTO> getSeatsByBranch(String branchCode) {
+        return sqlSession.selectList(NAMESPACE + ".getSeatsByBranch", branchCode);
+    }
+
+
+    public ReservationDTO getReservationById(String id) {
+        return sqlSession.selectOne(NAMESPACE + ".getReservationById", id);
+    }
     
 
 
