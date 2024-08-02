@@ -39,6 +39,8 @@
 <br>
 ![image](https://github.com/user-attachments/assets/039927b8-f04c-4ebe-8882-63fe0eedd783)
 <br>
+### ・ 시현영상
+[Watch Video](https://github.com/user-attachments/assets/86a66f72-fd56-419a-a11b-12a1b668f1d0)
 
 
 
